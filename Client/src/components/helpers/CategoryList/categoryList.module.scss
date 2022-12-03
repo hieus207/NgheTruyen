@@ -1,0 +1,14 @@
+.cateList{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.cateElement{
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 20%;
+}

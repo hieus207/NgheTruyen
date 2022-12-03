@@ -1,0 +1,12 @@
+.nav_link{
+    color: red;
+}
+
+.navbar{
+    display: flex;
+    min-height: 60px;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-evenly;
+    background-color: #8B7E74;
+}
