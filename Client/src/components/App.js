@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import Header from './Header';
 import Footer from './Footer';
 import { Route,Routes } from 'react-router-dom';
+import Story from './pages/Story';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path='/search' element={<Search/>}/>
             <Route path='/teller' element={<Teller/>}/>
             <Route path='/dashboard' element={<Dashboard/>}/>
+            <Route path='/story' element={<Story/>}/>
         </Routes>
         <Footer/>
 

@@ -1,0 +1,122 @@
+[
+    {
+      "id": 0,
+      "name": "Vô Thường",
+      "chap": 26,
+      "img": "https://truyenaudio.org/upload/pro/Vo-Thuong-Audio-Tien-Hiep.jpg?quality=100&mode=crop&anchor=topleft&width=450&height=675",
+      "author": "Nhĩ Căn",
+      "authorId": 0,
+      "teller": "Trần Vân",
+      "tellerId": 0,
+      "category": "Tiên hiệp",
+      "view": 1200
+    },
+    {
+      "id": 1,
+      "name": "Thế Giới Tiên Hiệp",
+      "chap": 56,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/the-gioi-tien-hiep-pt--400.jpg?v=4",
+      "author": "Vô Tội",
+      "authorId": 1,
+      "teller": "Phan Thuyên",
+      "tellerId": 1,
+      "category": "Tiên hiệp",
+      "view": 1500
+    },
+    {
+      "id": 2,
+      "name": "Công Tử Điên Khùng",
+      "chap": 63,
+      "img": "https://truyenaudio.org/upload/pro/Cong-Tu-Dien-Khung.jpg?quality=100&mode=crop&anchor=topleft&width=300&height=450",
+      "author": "Lão Ngũ",
+      "authorId": 2,
+      "teller": "Phan Thuyên",
+      "tellerId": 1,
+      "category": "Tiên hiệp",
+      "view": 2100
+    },
+    {
+      "id": 3,
+      "name": "Tinh Thần Biến",
+      "chap": 106,
+      "img": "https://truyenaudio.org/upload/pro/Tinh-Than-Bien.jpg?quality=100&mode=crop&anchor=topleft&width=300&height=450",
+      "author": "Vô Tội",
+      "authorId": 1,
+      "teller": "MC Tuấn Anh",
+      "tellerId": 2,
+      "category": "Tiên hiệp",
+      "view": 2200
+    },
+    {
+      "id": 4,
+      "name": "Tiên Luyện Chi Lộ",
+      "chap": 243,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/tien-luyen-chi-lo-pt--400.jpg?v=4",
+      "author": "Khoái Xan Điến",
+      "authorId": 3,
+      "teller": "Phan Thuyên",
+      "tellerId": 1,
+      "category": "Tiên hiệp",
+      "view": 1500
+    },
+    {
+      "id": 5,
+      "name": "Quang Âm Chi Ngoại",
+      "chap": 65,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/quang-am-chi-ngoai--400.jpg?v=4",
+      "author": "Nhĩ Căn",
+      "authorId": 0,
+      "teller": "MC Minh Thiện",
+      "tellerId": 3,
+      "category": "Tiên hiệp",
+      "view": 1520
+    },
+    {
+      "id": 6,
+      "name": "Dị Thế Đạo Môn",
+      "chap": 65,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/di-the-dao-mon--400.jpg?v=4",
+      "author": "Thanh Phong Tiểu Đạo Đồng",
+      "authorId": 4,
+      "teller": "MC Bá Tiến",
+      "tellerId": 4,
+      "category": "Tiên hiệp",
+      "view": 1520
+    },
+    {
+      "id": 7,
+      "name": "Công Tử Biệt Tú",
+      "chap": 65,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/cong-tu-biet-tu--400.jpg?v=4",
+      "author": "Vinh Tiểu Vinh",
+      "authorId": 5,
+      "teller": "MC Hoàng Vinh",
+      "tellerId": 5,
+      "category": "Tiên hiệp",
+      "view": 1520
+    },
+    {
+      "id": 8,
+      "name": "Thiên Cơ Điện",
+      "chap": 65,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/thien-co-dien-tuan-anh--400.jpg?v=4",
+      "author": "Duyên Phận",
+      "authorId": 6,
+      "teller": "MC Tuấn Anh",
+      "tellerId": 2,
+      "category": "Tiên hiệp",
+      "view": 1520
+    },
+    {
+      "id": 9,
+      "name": "Tru Tiên",
+      "chap": 65,
+      "img": "https://radiotruyen.info/upload/cover/thumbnail_wm/tru-tien-tieu-dinh--400.jpg?v=4",
+      "author": "Tiêu Đỉnh",
+      "authorId": 6,
+      "teller": "MC Lát",
+      "tellerId": 6,
+      "category": "Tiên hiệp",
+      "view": 1520
+    }
+]

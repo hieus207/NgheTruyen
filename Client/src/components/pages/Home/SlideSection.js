@@ -1,34 +1,43 @@
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+import clsx from "clsx";
+import { Autoplay } from "swiper";
+import { TiVolumeUp } from "react-icons/ti";
 
-export default function SlideSection(){
-    return(
-        <div >
-            <Carousel responsive={responsive}>
-                <div>Item 1</div>
-                <div>Item 2</div>
-                <div>Item 3</div>
-                <div>Item 4</div>
-            </Carousel>
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import StoryCard from "../../helpers/StoryCard";
+import fakeStories from "../../../mocks/story.json";
+
+export default function SlideSection() {
+  return (
+    <div className={clsx("section")}>
+      <div className={clsx("section_name")}>
+        <div className={clsx("section_name_left")}>
+          Truyện đề cử&nbsp; <TiVolumeUp size={"1.2em"} />
         </div>
-    )
+        <div>Xem Thêm</div>
+      </div>
+      <div className={clsx("section_content")}>
+        <Swiper
+          slidesPerView={6}
+          loop={true}
+          spaceBetween={0}
+          loopFillGroupWithBlank={true}
+          autoplay={{
+            delay: 1500,
+            disableOnInteraction: false,
+          }}
+          modules={[Autoplay]}
+          className={clsx("section")}>
+            {fakeStories.map((elm) => (
+              <SwiperSlide key={elm.id}>
+                <StoryCard data={elm} small />
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
+    </div>
+  );
 }

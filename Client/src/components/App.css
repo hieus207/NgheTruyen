@@ -8,6 +8,11 @@
   pointer-events: none;
 }
 
+.container {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -69,7 +74,29 @@ button {
   border-radius: 20%;
 }
 
+/* ------------------- SECTION ------------------------------*/
+.section{
+  margin-top: 30px;
+}
 
+.section_name{
+  font-size: 1.2em;
+  border: 3px solid #C7BCA1;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section_name_left{
+  display: flex;
+  align-items: center;
+  
+}
+
+
+
+/* ------------------- END SECTION -------------------------- */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

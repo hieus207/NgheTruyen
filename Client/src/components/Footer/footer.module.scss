@@ -1,0 +1,17 @@
+.nav_link{
+    color: red;
+}
+
+.container{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.navbar{
+    display: flex;
+    min-height: 200px;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-evenly;
+    background-color: #8B7E74;
+}
