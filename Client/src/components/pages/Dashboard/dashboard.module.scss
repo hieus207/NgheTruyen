@@ -1,0 +1,25 @@
+.wrapper {
+    border: 1px solid black;
+    min-height: 500px;
+}
+
+.metadata {
+    text-align: left;
+}
+
+.storyWrapper {
+    // min-width: 350px;
+    width: 350px;
+}
+
+.dtWrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.listStory {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 350px);
+    grid-gap: 1rem;
+    justify-content: space-between;
+}

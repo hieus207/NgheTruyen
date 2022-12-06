@@ -5,6 +5,7 @@ import Modal from "../helpers/Modal";
 import clsx from "clsx"
 import Link from "../helpers/Link";
 import Button from "../helpers/Button";
+import LoginForm from "../helpers/LoginForm";
 
 export default function Header(){
     const {isShowing, toggle} = useModal();
@@ -23,10 +24,9 @@ export default function Header(){
                     <Button onClick={toggle}>Login</Button>
                 </div>
             </nav>
-            <Modal
-                isShowing={isShowing}
-                hide={toggle}
-            />
+            <Modal isShowing={isShowing} hide={toggle}>
+                <LoginForm/>
+            </Modal>
         </header>
 
     )

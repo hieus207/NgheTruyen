@@ -1,0 +1,49 @@
+.wrapper {
+    margin-bottom: 35px;
+}
+
+.subWrapper {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+    display: flex;
+    align-items:stretch;
+}
+
+.body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.avt {
+    height: 100px;
+    width: auto;
+}
+
+.leftComment {
+    display: flex;
+    align-items: center;
+}
+
+.rightComment {
+    margin-left: 20px;
+    text-align: left;
+}
+
+.name {
+    font-size: 13;
+    color: rgb(150, 97, 37);
+    font-weight: 500;
+}
+
+.date {
+    font-size: 13;
+    font-style: italic;
+    color: rgb(87, 87, 87);
+}
+
+.content {
+    margin-top: 5px;
+    font-size: 16;
+}

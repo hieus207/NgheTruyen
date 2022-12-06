@@ -1,11 +1,27 @@
 .wrapper {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.body {
     display: flex;
+    justify-content: space-between;
 }
 
 .left_content {
+    border: 1px solid black;
     text-align: left;
+    padding: 20px;
 }
 
 .right_content {
-    
+    border: 1px solid black;
+    width: 60%;
+    padding: 20px;
 }
+
+.commentsSection {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+

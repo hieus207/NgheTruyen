@@ -1,0 +1,26 @@
+.playerWrapper {
+    background-color: #aa978c;
+}
+
+.controls{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.chapterItem {
+    padding: 10px;
+    background-color: #745e5e;
+    border-bottom: 2px solid black;
+    cursor: pointer;
+}
+
+.activeItem {
+    background-color: #986645;
+}
+
+.timeAudio{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}

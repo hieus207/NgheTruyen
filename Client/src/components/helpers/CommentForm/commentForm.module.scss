@@ -1,0 +1,25 @@
+.createComment {
+    display: flex;
+    // justify-content: center;
+}
+
+.leftCreateComment {
+    height: 100px;
+    width: auto;
+}
+
+.rightCreateComment {
+    height: 145px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;    
+}
+
+.postButton {
+    position: relative;
+    float: right;    
+}
+
+.textArea {
+    resize: none;
+}

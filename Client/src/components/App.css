@@ -8,11 +8,73 @@
   pointer-events: none;
 }
 
+button {
+  font-size: .9rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 3px;
+  padding: .3rem 1rem;
+}
+
 .container {
   margin-left: 10%;
   margin-right: 10%;
 }
 
+.round_img{
+  border-radius: 20%;
+}
+
+.left {
+  float: left;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.m-left-5{
+  margin-left: .5rem;
+}
+
+.m-left-20 {
+  margin-left: 20px;
+}
+.m-10 {
+  margin: 10px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+
+.d-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.j-center {
+  justify-content: center;
+}
+
+.j-between {
+  justify-content: space-between;
+}
+
+.f-row {
+  flex-direction: row;
+}
+
+.f-column {
+  flex-direction: column;
+}
+/* MODAL */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -61,18 +123,12 @@
   border: none;
 }
 
-button {
-  font-size: .9rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 3px;
-  padding: .3rem 1rem;
-  margin-left: .5rem;
+.modal-content {
+  display: flex;
+  justify-content: center;
 }
 
-.round_img{
-  border-radius: 20%;
-}
+/* END MODAL */
 
 /* ------------------- SECTION ------------------------------*/
 .section{
@@ -93,8 +149,6 @@ button {
   align-items: center;
   
 }
-
-
 
 /* ------------------- END SECTION -------------------------- */
 @media (prefers-reduced-motion: no-preference) {

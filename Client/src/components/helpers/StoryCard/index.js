@@ -9,7 +9,7 @@ export default function StoryCard({data,small=false}){
         })}>
             <img src={data.img} alt={"img for "+data.name}/>
             <div className={clsx(styles.card_name)}>
-                <Link to={"/"}>{data.name}</Link>
+                <Link to={"/story"}>{data.name}</Link>
             </div>
             <div>
                 {data.teller}

@@ -1,39 +1,59 @@
 import { useState, useEffect } from 'react';
 
-const useAudio = url => {
+const useAudio = (url, callbackEnd) => {
  
-  const [player,setPlayer] = useState({playing: false, source: new Audio(url), url: url})
+  const [player,setPlayer] = useState({id:0, playing: false, source: new Audio(url), url: url})
+  const [loadedMetaData, setLoadedMetaDa] = useState(false)
 
   useEffect(()=>{
-    console.log(player)
     if(player.playing)
       player.source.play();
-    else
+    else{
       player.source.pause();
-  },[player])
+    }
 
-  useEffect(() => {
+    player.source.onloadedmetadata = ()=>{
+      setLoadedMetaDa(true)
+    }
 
     player.source.addEventListener('ended', () => {
+      callbackEnd()
       setPlayer({...player, playing: false})
     })
     return () => {
         player.source.removeEventListener('ended', () => {
+          callbackEnd()
           setPlayer({...player, playing: false})
         })
     }
-  }, [player])
+  },[player])
 
-  const toggle = ()=>{
-    setPlayer({...player, playing: !player.playing})
-  }
+  const controller = {
+    setCurrentTimeAudio(currentTime){
+      player.source.currentTime = currentTime
+    },
+    getCurrentTimeAudio(){
+      return player.source.currentTime
+    },
+    getDurationAudio(){
+      return player.source.duration
+    },
+    getTimePlayedPercent(){
+      return player.source.currentTime*100/player.source.duration
+    }
+    ,
+    toggle(){
+      setPlayer({...player, playing: !player.playing})
+    },
+    changeAudio(audio){
 
-  const changeAudio = (url) =>{
       player.source.pause();
-      setPlayer({playing: true, source: new Audio(url), url: url})
+      setLoadedMetaDa(false);
+      setPlayer({playing: true, source: new Audio(audio.url), url: audio.url, id: audio.id})
+    }
   }
 
-  return [player, toggle, changeAudio]
+  return [player, controller, loadedMetaData]
 }
 
 export default useAudio
