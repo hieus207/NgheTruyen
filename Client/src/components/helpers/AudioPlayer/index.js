@@ -42,7 +42,11 @@ const AudioPlayer = ({ urls, manager = false, onDelete = null, onUpdate = null }
         setCurrentVal((controller.getCurrentTimeAudio() * 100/controller.getDurationAudio()))
       }
     },1000)
-    return (()=>clearInterval(loop))
+    return (
+      ()=>{
+        clearInterval(loop)
+      }
+      )
   
   },[player])
 

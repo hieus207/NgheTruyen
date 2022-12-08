@@ -3,9 +3,11 @@ import { useState } from 'react'
 import AudioPlayer from '../../helpers/AudioPlayer'
 import styles from "./story.module.scss"
 import { storyAudioSlice } from './storyAudioSlice'
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import Comment from '../../helpers/Comment'
 import CommentForm from '../../helpers/CommentForm'
+import { storySlice } from '../../../redux/reducers/storySlice'
+import { storiesState } from '../../../redux/selectors'
 
 export default function Story(){
     const [url,setUrl] = useState('')
@@ -69,8 +71,12 @@ export default function Story(){
             subComments: []
         }
     ]
-
+    
     const dispatch = useDispatch()
+    
+    dispatch(storySlice.actions.getStoriesRequest())
+    const stories = useSelector(storiesState)
+    console.log(stories)
     const handlePlayAudio = ()=>{
         dispatch(storyAudioSlice.actions.urlAudioChange(url))
     }

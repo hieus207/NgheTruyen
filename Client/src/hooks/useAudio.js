@@ -6,6 +6,7 @@ const useAudio = (url, callbackEnd) => {
   const [loadedMetaData, setLoadedMetaDa] = useState(false)
 
   useEffect(()=>{
+    console.log("Vao use Effect")
     if(player.playing)
       player.source.play();
     else{
@@ -25,6 +26,8 @@ const useAudio = (url, callbackEnd) => {
           callbackEnd()
           setPlayer({...player, playing: false})
         })
+        // Destroyplayer
+        player.source.pause();
     }
   },[player])
 
@@ -46,7 +49,6 @@ const useAudio = (url, callbackEnd) => {
       setPlayer({...player, playing: !player.playing})
     },
     changeAudio(audio){
-
       player.source.pause();
       setLoadedMetaDa(false);
       setPlayer({playing: true, source: new Audio(audio.url), url: audio.url, id: audio.id})
