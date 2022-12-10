@@ -1,30 +1,30 @@
 import {createSlice} from "@reduxjs/toolkit"
 
-export const storySlice = createSlice({
-    name: 'story',
+export const authorSlice = createSlice({
+    name: 'author',
     initialState: {
         isLoading: false,
         data: []
     },
     reducers: {
-        getStoriesRequest: (state, action)=>{
+        getAuthorsRequest: (state, action)=>{
             state.isLoading = true
         },
-        getStoriesSuccess: (state, action)=>{
+        getAuthorsSuccess: (state, action)=>{
             state.isLoading = false
             state.data = action.payload
         },
-        getStoriesFailure: (state, action)=>{
+        getAuthorsFailure: (state, action)=>{
             state.isLoading = false
         },
-        createStoryRequest: (state, action)=>{
+        createAuthorRequest: (state, action)=>{
             state.isLoading = true
         },
-        createStorySuccess: (state, action)=>{
+        createAuthorSuccess: (state, action)=>{
             state.isLoading = false
             state.data = state.data.concat(action.payload)
         },
-        createStoryFailure: (state, action)=>{
+        createAuthorFailure: (state, action)=>{
             state.isLoading = false
         }
     }

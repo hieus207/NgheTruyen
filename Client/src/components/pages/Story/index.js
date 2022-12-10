@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AudioPlayer from '../../helpers/AudioPlayer'
 import styles from "./story.module.scss"
 import { storyAudioSlice } from './storyAudioSlice'
@@ -74,9 +74,14 @@ export default function Story(){
     
     const dispatch = useDispatch()
     
-    dispatch(storySlice.actions.getStoriesRequest())
+    
     const stories = useSelector(storiesState)
     console.log(stories)
+
+    useEffect(()=>{
+        dispatch(storySlice.actions.getStoriesRequest())
+    },[dispatch])
+    
     const handlePlayAudio = ()=>{
         dispatch(storyAudioSlice.actions.urlAudioChange(url))
     }

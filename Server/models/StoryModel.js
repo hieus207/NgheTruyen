@@ -40,7 +40,8 @@ const schema = new mongoose.Schema({
         },
         view: {
             type: Number,
-            required: true
+            required: true,
+            default: 1000
         },
         description: {
             type: String,

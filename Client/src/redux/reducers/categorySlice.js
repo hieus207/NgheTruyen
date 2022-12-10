@@ -1,30 +1,30 @@
 import {createSlice} from "@reduxjs/toolkit"
 
-export const storySlice = createSlice({
-    name: 'story',
+export const categorySlice = createSlice({
+    name: 'category',
     initialState: {
         isLoading: false,
         data: []
     },
     reducers: {
-        getStoriesRequest: (state, action)=>{
+        getCategoriesRequest: (state, action)=>{
             state.isLoading = true
         },
-        getStoriesSuccess: (state, action)=>{
+        getCategoriesSuccess: (state, action)=>{
             state.isLoading = false
             state.data = action.payload
         },
-        getStoriesFailure: (state, action)=>{
+        getCategoriesFailure: (state, action)=>{
             state.isLoading = false
         },
-        createStoryRequest: (state, action)=>{
+        createCategoryRequest: (state, action)=>{
             state.isLoading = true
         },
-        createStorySuccess: (state, action)=>{
+        createCategorySuccess: (state, action)=>{
             state.isLoading = false
             state.data = state.data.concat(action.payload)
         },
-        createStoryFailure: (state, action)=>{
+        createCategoryFailure: (state, action)=>{
             state.isLoading = false
         }
     }
