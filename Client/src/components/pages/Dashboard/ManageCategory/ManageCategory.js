@@ -1,12 +1,12 @@
 import clsx from 'clsx'
 import { useEffect } from 'react'
-import useModal from '../../../hooks/useModal'
-import { categoriesState } from '../../../redux/selectors'
-import Modal from '../../helpers/Modal'
-import styles from "./dashboard.module.scss"
+import useModal from '../../../../hooks/useModal'
+import { categoriesState } from '../../../../redux/selectors'
+import Modal from '../../../helpers/Modal'
+import styles from "../dashboard.module.scss"
 import { useDispatch, useSelector } from 'react-redux'
-import { categorySlice } from '../../../redux/reducers/categorySlice'
-import CreateCategoryForm from '../../helpers/CreateCategoryForm'
+import { categorySlice } from '../../../../redux/reducers/categorySlice'
+import EditCategoryForm from '../../../helpers/EditCategoryForm'
 import CategoryItem from './CategoryItem'
 
 export default function ManageCategory(){
@@ -34,7 +34,7 @@ export default function ManageCategory(){
             </div>
 
             <Modal isShowing={isShowing} hide={toggle}>
-                <CreateCategoryForm/>
+                <EditCategoryForm/>
             </Modal>
         </div>
     )

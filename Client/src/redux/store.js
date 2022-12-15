@@ -6,6 +6,7 @@ import { storySlice } from "./reducers/storySlice";
 import { tellerSlice } from "./reducers/tellerSlice";
 import { authorSlice } from "./reducers/authorSlice";
 import { categorySlice } from "./reducers/categorySlice";
+import { commentSlice } from "./reducers/commentSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,7 +16,8 @@ const store = configureStore({
         story: storySlice.reducer,
         teller: tellerSlice.reducer,
         author: authorSlice.reducer,
-        category: categorySlice.reducer
+        category: categorySlice.reducer,
+        comment: commentSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck:false}).concat(sagaMiddleware)
 })

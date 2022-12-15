@@ -6,6 +6,7 @@ import clsx from "clsx"
 import Link from "../helpers/Link";
 import Button from "../helpers/Button";
 import LoginForm from "../helpers/LoginForm";
+import SearchForm from "../helpers/SearchForm";
 
 export default function Header(){
     const {isShowing, toggle} = useModal();
@@ -18,6 +19,7 @@ export default function Header(){
                     <Link to="/">Home</Link>
                     <Link to="/search">Search</Link>
                     <Link to="/teller">Teller</Link>
+                    <SearchForm/>
                     <Link to="/dashboard">Dashboard</Link>
                 </div>
                 <div className={clsx(styles.right_navbar)}>

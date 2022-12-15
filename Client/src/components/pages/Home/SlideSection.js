@@ -8,9 +8,8 @@ import { TiVolumeUp } from "react-icons/ti";
 import "swiper/css";
 import "swiper/css/pagination";
 import StoryCard from "../../helpers/StoryCard";
-import fakeStories from "../../../mocks/story.json";
 
-export default function SlideSection() {
+export default function SlideSection({data}) {
   return (
     <div className={clsx("section")}>
       <div className={clsx("section_name")}>
@@ -31,7 +30,7 @@ export default function SlideSection() {
           }}
           modules={[Autoplay]}
           className={clsx("section")}>
-            {fakeStories.map((elm) => (
+            {data.map((elm) => (
               <SwiperSlide key={elm.id}>
                 <StoryCard data={elm} small />
               </SwiperSlide>

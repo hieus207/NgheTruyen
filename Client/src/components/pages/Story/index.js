@@ -7,10 +7,13 @@ import {useDispatch, useSelector} from "react-redux"
 import Comment from '../../helpers/Comment'
 import CommentForm from '../../helpers/CommentForm'
 import { storySlice } from '../../../redux/reducers/storySlice'
-import { storiesState } from '../../../redux/selectors'
+import { commentsState, storiesState } from '../../../redux/selectors'
+import { useParams } from 'react-router-dom'
+import { commentSlice } from '../../../redux/reducers/commentSlice'
 
 export default function Story(){
-    const [url,setUrl] = useState('')
+
+
     const fakeStory= {
         id: 1,
         name: "Thế Giới Tiên Hiệp",
@@ -72,45 +75,43 @@ export default function Story(){
         }
     ]
     
+    
     const dispatch = useDispatch()
     
-    
-    const stories = useSelector(storiesState)
-    console.log(stories)
+    const { storyId } = useParams();
+
+    const story = useSelector(storiesState)
+    const comments = useSelector(commentsState)
 
     useEffect(()=>{
-        dispatch(storySlice.actions.getStoriesRequest())
-    },[dispatch])
-    
-    const handlePlayAudio = ()=>{
-        dispatch(storyAudioSlice.actions.urlAudioChange(url))
-    }
+        dispatch(storySlice.actions.getStoryRequest(storyId))
+        dispatch(commentSlice.actions.getCommentsStoryRequest(storyId))
+        
+    },[dispatch,storyId])
 
     return(
         <div className={clsx("container",styles.wrapper)}>
             <div className={clsx(styles.body)}>
                 <div className={clsx(styles.left_content)}>
-                    <img src={fakeStory.img} alt={"img for " + fakeStory.name}/>
-                    <div>{fakeStory.name}</div>
-                    <div>Tác giả: {fakeStory.author}</div>
-                    <div>Giọng đọc: {fakeStory.teller}</div>
-                    <div>Thể loại: {fakeStory.category}</div>
+                    <img src={story.img} alt={"img for " + story.name}/>
+                    <div>{story.name}</div>
+                    <div>Tác giả: {story.author}</div>
+                    <div>Giọng đọc: {story.teller}</div>
+                    <div>Thể loại: {story.category}</div>
                 </div>
                 <div className={clsx(styles.right_content)}>
+                    {story.chapter&&
                     <AudioPlayer
-                        urls={[
-                        'https://audio-previews.elements.envatousercontent.com/files/148785970/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22RZFWLXE-bell-hop-bell.mp3%22',
-                        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-                        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-                        ]}
+                        urls={story.chapter}
                     />
-                    <div>{fakeStory.description}</div>
+                    }
+                    <div>{story.description}</div>
                 </div>
             </div>
             <div className={clsx(styles.commentsSection)}>
                 Comments
-                <CommentForm/>
-                {fakeComments.map(comment=>{
+                <CommentForm id={storyId}/>
+                {comments.length > 0 && comments.map(comment=>{
                     return (
                         <Comment key={comment.username} data={comment} />
                     )

@@ -42,6 +42,11 @@ button {
 .m-left-20 {
   margin-left: 20px;
 }
+
+.m-auto {
+  margin: auto;
+}
+
 .m-10 {
   margin: 10px;
 }

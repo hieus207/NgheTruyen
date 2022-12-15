@@ -19,7 +19,6 @@ const AudioPlayer = ({ urls, manager = false, onDelete = null, onUpdate = null }
     setCurrentVal(0)
     let indexChap = _urls.findIndex(_url => _url.id == player.id)
     if(indexChap < _urls.length-1){
-      console.log("goi change AUdio từ audio end")
       controller.changeAudio(_urls[indexChap+1])
     }else{
       controller.setCurrentTimeAudio(0)
@@ -31,7 +30,6 @@ const AudioPlayer = ({ urls, manager = false, onDelete = null, onUpdate = null }
   const handleAudioChange = (e) => {
     if(player.id !== e.target.attributes._id.value){
       setCurrentVal(0)
-      console.log("goi handlechange AUdio")
       controller.changeAudio({url: e.target.attributes.url.value, id: e.target.attributes._id.value})
     }
   }
@@ -47,7 +45,7 @@ const AudioPlayer = ({ urls, manager = false, onDelete = null, onUpdate = null }
         clearInterval(loop)
       }
       )
-  
+    
   },[player])
 
   const setTimePercentAudio = (currentTimePercent) => {

@@ -4,9 +4,20 @@ export const authorSlice = createSlice({
     name: 'author',
     initialState: {
         isLoading: false,
-        data: []
+        data: [],
+        story: []
     },
     reducers: {
+        getAuthorStoriesRequest: (state, action)=>{
+            state.isLoading = true
+        },
+        getAuthorStoriesSuccess: (state, action)=>{
+            state.isLoading = false
+            state.story = action.payload
+        },
+        getAuthorStoriesFailure: (state, action)=>{
+            state.isLoading = false
+        },
         getAuthorsRequest: (state, action)=>{
             state.isLoading = true
         },
@@ -26,7 +37,25 @@ export const authorSlice = createSlice({
         },
         createAuthorFailure: (state, action)=>{
             state.isLoading = false
-        }
+        },
+        updateAuthorRequest: (state, action)=>{
+            state.isLoading = true
+        },
+        updateAuthorSuccess: (state, action)=>{
+            state.isLoading = false
+        },
+        updateAuthorFailure: (state, action)=>{
+            state.isLoading = false
+        },
+        deleteAuthorRequest: (state, action)=>{
+            state.isLoading = true
+        },
+        deleteAuthorSuccess: (state, action)=>{
+            state.isLoading = false
+        },
+        deleteAuthorFailure: (state, action)=>{
+            state.isLoading = false
+        },
     }
 
 })

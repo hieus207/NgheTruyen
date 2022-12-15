@@ -17,7 +17,7 @@ export default function Comment({data}){
                 
                 <div className={clsx(styles.rightComment)}>
                     <div className={clsx(styles.name)}>
-                        {data.name} - @{data.username}
+                        {data.senderName}
                     </div>
                     <div className={clsx(styles.date)}>
                         {data.createdAt}
@@ -33,11 +33,11 @@ export default function Comment({data}){
             {
                 isReply &&
                 <div className={clsx(styles.subWrapper)}>
-                    <CommentForm/>
+                    <CommentForm id={data._id} isSubComment/>
                 </div>
             }
             
-            {data.subComments.map((scmt,index) => {
+            {data.subComments && data.subComments.map((scmt,index) => {
                 return(
                     <div key={"scmt"+index} className={clsx(styles.subWrapper)}>
                         <div className={clsx(styles.leftComment)}>
@@ -46,7 +46,7 @@ export default function Comment({data}){
                         
                         <div className={clsx(styles.rightComment)}>
                             <div className={clsx(styles.name)}>
-                                {scmt.name} - @{scmt.username}
+                                {scmt.senderName}
                             </div>
                             <div className={clsx(styles.date)}>
                                 {scmt.createdAt}

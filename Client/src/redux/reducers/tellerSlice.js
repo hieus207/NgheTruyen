@@ -4,9 +4,20 @@ export const tellerSlice = createSlice({
     name: 'teller',
     initialState: {
         isLoading: false,
-        data: []
+        data: [],
+        story: []
     },
     reducers: {
+        getTellersStoriesRequest: (state, action)=>{
+            state.isLoading = true
+        },
+        getTellersStoriesSuccess: (state, action)=>{
+            state.isLoading = false
+            state.story = action.payload
+        },
+        getTellersStoriesFailure: (state, action)=>{
+            state.isLoading = false
+        },
         getTellersRequest: (state, action)=>{
             state.isLoading = true
         },
@@ -26,9 +37,25 @@ export const tellerSlice = createSlice({
         },
         createTellerFailure: (state, action)=>{
             state.isLoading = false
+        },
+        updateTellerRequest: (state, action)=>{
+            state.isLoading = true
+        },
+        updateTellerSuccess: (state, action)=>{
+            state.isLoading = false
+        },
+        updateTellerFailure: (state, action)=>{
+            state.isLoading = false
+        },
+        deleteTellerRequest: (state, action)=>{
+            state.isLoading = true
+        },
+        deleteTellerSuccess: (state, action)=>{
+            state.isLoading = false
+        },
+        deleteTellerFailure: (state, action)=>{
+            state.isLoading = false
         }
-
-
     }
 
 })

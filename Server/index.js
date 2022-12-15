@@ -5,6 +5,7 @@ import story from './routers/story.js'
 import category from './routers/category.js'
 import teller from './routers/teller.js'
 import author from './routers/author.js'
+import comment from './routers/comment.js'
 import mongoose from 'mongoose'
 import fileUpload from 'express-fileupload'
 import path from 'path';
@@ -29,6 +30,7 @@ app.use('/stories', story)
 app.use('/tellers', teller)
 app.use('/authors', author)
 app.use('/categories', category)
+app.use('/comments', comment)
 
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/audio', express.static(__dirname + '/audio'));

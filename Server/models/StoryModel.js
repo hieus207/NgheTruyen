@@ -18,23 +18,15 @@ const schema = new mongoose.Schema({
             type: String,
             required: true
         },
-        author: {
-            type: String,
-            required: true
-        },
         authorId: {
-            type: Number,
-            required: true
-        },
-        teller: {
             type: String,
             required: true
         },
         tellerId: {
-            type: Number,
+            type: String,
             required: true
         },
-        category: {
+        categoryId: {
             type: String,
             required: true
         },
@@ -48,5 +40,5 @@ const schema = new mongoose.Schema({
             required: true
         }
 },{timestamps: true})
-
+schema.index({name: 'text'})
 export const StoryModel = mongoose.model('Story',schema);
