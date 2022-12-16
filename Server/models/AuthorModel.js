@@ -7,7 +7,9 @@ const schema = new mongoose.Schema({
         },
         username: {
             type: String,
-            required: true
+            required: true,
+            unique: true,
+            dropDups: true
         },
         birthDay: {
             type: String,

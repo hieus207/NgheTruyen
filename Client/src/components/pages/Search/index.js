@@ -2,26 +2,24 @@ import clsx from 'clsx'
 import DefaultSection from '../../helpers/DefaultSection'
 import fakeStories from "../../../mocks/story.json"
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {useDispatch, useSelector} from "react-redux"
-
+import useParams from "../../../hooks/useParams"
 import { storiesState } from '../../../redux/selectors';
 import { storySlice } from '../../../redux/reducers/storySlice';
 
 export default function Search(){
-    const [searchParams, setSearchParams] = useSearchParams();
+    const params = useParams("name","page")
     const dispatch = useDispatch()
+    const result = useSelector(storiesState)
 
     useEffect(()=>{
-        // console.log(searchParams.get("name"))
-        dispatch(storySlice.actions.getStoriesRequest(searchParams.get("name")))
-    },[dispatch,searchParams.get("name")])
-
-    const result = useSelector(storiesState)
+        dispatch(storySlice.actions.getStoriesRequest({name: params.name, page: params.page}))
+    },[dispatch, params.name, params.page])
 
     return(
         <div className={clsx("container")}>
-            <DefaultSection name={"Search"} data={result} querry={false}/>
+            <DefaultSection name={"Search"} data={result.data} querry={false} currentPage={params.page} lastestPage={result.lastestPage}/>
         </div>
     )
 }

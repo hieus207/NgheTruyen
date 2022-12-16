@@ -14,8 +14,16 @@ export const getTellerStories = async (req,res) => {
 
 export const getTellers = async (req,res) => {
     try {
-        const tellers = await TellerModel.find();
-        res.status(200).json(tellers)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+
+        const tellers = await TellerModel.find({});
+        console.log(TellerModel.length)
+        const _tellers = tellers.slice((page-1)*process.env.TELLERS_PER_PAGE, page*process.env.TELLERS_PER_PAGE)
+        const lastestPage = tellers.length % process.env.TELLERS_PER_PAGE == 0 ? tellers.length / process.env.TELLERS_PER_PAGE : Math.floor(tellers.length / process.env.TELLERS_PER_PAGE) + 1
+        res.status(200).json({data: _tellers, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }

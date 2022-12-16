@@ -7,17 +7,18 @@ import { tellerSlice } from "./reducers/tellerSlice";
 import { authorSlice } from "./reducers/authorSlice";
 import { categorySlice } from "./reducers/categorySlice";
 import { commentSlice } from "./reducers/commentSlice";
+import { userSlice } from "./reducers/userSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
     reducer:{
-        audio: storyAudioSlice.reducer,
         story: storySlice.reducer,
         teller: tellerSlice.reducer,
         author: authorSlice.reducer,
         category: categorySlice.reducer,
-        comment: commentSlice.reducer
+        comment: commentSlice.reducer,
+        user: userSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck:false}).concat(sagaMiddleware)
 })

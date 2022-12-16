@@ -94,7 +94,7 @@ function* fetchTellerStoriesSaga(action){
 
 function* fetchTellersSaga(action){
     try {
-        const tellers = yield call(api.fetchTellers)
+        const tellers = yield call(api.fetchTellers, action.payload)
         yield put(tellerSlice.actions.getTellersSuccess(tellers.data))
     } catch (error) {
         yield put(tellerSlice.actions.getTellersFailure(error))

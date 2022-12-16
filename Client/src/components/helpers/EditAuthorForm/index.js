@@ -42,13 +42,12 @@ export default function EditAuthorForm({isEdit=false, _data=null}){
             formData.delete("img")
             formData.append("img",img)
         }
-        console.log("VAO SUA AUTHOR")
         dispatch(authorSlice.actions.updateAuthorRequest(formData))
     }
 
     return(
         <div className="d-flex j-center f-column">
-            <TextField sx={{ width: 300 }} label={"Tên người đọc"} margin="normal" value={data.name} onChange={setData("name")}/>
+            <TextField sx={{ width: 300 }} label={"Tên tác giả"} margin="normal" value={data.name} onChange={setData("name")}/>
             <TextField sx={{ width: 300 }} label={"Biệt danh (username)"} margin="normal" value={data.username} onChange={setData("username")}/>
             <TextField sx={{ width: 300 }} label={"Ngày sinh"} margin="normal" value={data.birthDay} onChange={setData("birthDay")}/>
 

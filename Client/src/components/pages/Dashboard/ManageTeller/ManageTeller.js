@@ -8,16 +8,17 @@ import styles from "../dashboard.module.scss"
 import TellerItem from "./TellerItem"
 import { useDispatch, useSelector } from 'react-redux'
 import { tellerSlice } from '../../../../redux/reducers/tellerSlice'
+import useParams from '../../../../hooks/useParams'
+import PaginationBar from '../../../helpers/PaginationBar'
 export default function ManageTeller(){
     const {isShowing,toggle} = useModal()
-
     const dispatch = useDispatch()
     const tellers = useSelector(tellersState)
-
+    const params = useParams("page")
+    console.log(params)
     useEffect(()=>{
-        dispatch(tellerSlice.actions.getTellersRequest())
-        console.log(tellers)
-    },[dispatch])
+        dispatch(tellerSlice.actions.getTellersRequest({page: params.page}))
+    },[dispatch, params.page])
 
     return(
         <div className={clsx("container",styles.wrapper)}>
@@ -27,8 +28,9 @@ export default function ManageTeller(){
             {/* <Link to={'/dashboard/teller/create'}> Thêm truyện</Link> */}
             <div className={clsx(styles.listWrapper)}>
                 <div className={clsx(styles.listStory)}>
-                    {tellers.map(teller => <TellerItem data={teller}/>)}
+                    {tellers && tellers.data && tellers.data.map(teller => <TellerItem data={teller}/>)}
                 </div>
+                <PaginationBar currentPage = {params.page} lastestPage = {tellers.lastestPage}/>
             </div>
 
             <Modal isShowing={isShowing} hide={toggle}>

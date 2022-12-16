@@ -1,0 +1,26 @@
+.linkPage {
+    padding: 0 5px 0 5px;
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 5px;
+    &:hover {
+        background-color: rgb(231, 210, 90);
+        cursor: pointer;
+    }
+}
+
+.active {
+    padding: 0 5px 0 5px;
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: rgb(40, 189, 226);
+    text-align: center;
+    cursor: not-allowed
+}
+
+.wrapper {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}

@@ -1,14 +1,13 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import story from './routers/story.js'
-import category from './routers/category.js'
-import teller from './routers/teller.js'
-import author from './routers/author.js'
-import comment from './routers/comment.js'
+import routers from "./routers/index.js"
 import mongoose from 'mongoose'
 import fileUpload from 'express-fileupload'
 import path from 'path';
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const app = express()
 const PORT = process.env.port || 5000
@@ -26,11 +25,8 @@ app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 app.use(fileUpload());
 
 app.use(cors());
-app.use('/stories', story)
-app.use('/tellers', teller)
-app.use('/authors', author)
-app.use('/categories', category)
-app.use('/comments', comment)
+app.use(routers)
+
 
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/audio', express.static(__dirname + '/audio'));

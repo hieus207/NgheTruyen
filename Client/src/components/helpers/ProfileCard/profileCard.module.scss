@@ -1,0 +1,17 @@
+.subMenu {
+    position: absolute;
+    top: 50px;
+    display: none;
+    width: 60px;
+    z-index: 1;
+    &:hover {
+        background-color: burlywood;
+        display: block;
+    }
+
+    
+}
+
+.avatar:hover ~ .subMenu {
+    display: block;
+}

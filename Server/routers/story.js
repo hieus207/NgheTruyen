@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {getStories, createStory, updateStory, getStory, deleteStory, getStoriesRandom, getStoriesMostView, getStoriesRecent} from '../controllers/story.js'
+
 const router = express.Router();
 
 router.get('/', getStories)

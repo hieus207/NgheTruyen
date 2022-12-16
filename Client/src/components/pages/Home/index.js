@@ -12,7 +12,6 @@ import { categorySlice } from '../../../redux/reducers/categorySlice'
 export default function Home(){
 
     const dispatch = useDispatch()
-    const stories = useSelector(storiesState)
     const storiesRandom = useSelector(storiesRandomState)
     const storiesMostView = useSelector(storiesMostViewState)
     const storiesRecent = useSelector(storiesRecentState)
@@ -25,7 +24,7 @@ export default function Home(){
     },[dispatch])
 
     const storiesSlide = storiesMostView.slice(0,3).concat(storiesRecent.slice(0,3).concat(storiesRandom.slice(0,3)))
-    console.log(storiesSlide)
+
     
     return(
         <div className={clsx(styles.container)}>

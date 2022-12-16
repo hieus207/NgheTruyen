@@ -20,9 +20,16 @@ export const getStory = async (req,res) => {
 
 export const getStories = async (req,res) => {
     try {
-        const stories = await StoryModel.find(req.query.name===undefined?{}:{$text: {$search:req.query.name}});
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
         
-        let rs = await Promise.all(stories.map(async (story) => {
+        const stories = await StoryModel.find(req.query.name===undefined?{}:{$text: {$search:req.query.name}})
+        const _stories = stories.slice((page-1)*process.env.STORIES_PER_PAGE, page*process.env.STORIES_PER_PAGE)
+        const lastestPage = stories.length % process.env.STORIES_PER_PAGE == 0 ? stories.length / process.env.STORIES_PER_PAGE : Math.floor(stories.length / process.env.STORIES_PER_PAGE) + 1
+        // const _stories = stories.skip((page-1)*process.env.STORIES_PER_PAGE).limit(process.env.STORIES_PER_PAGE);
+        let rs = await Promise.all(_stories.map(async (story) => {
             let author = await AuthorModel.findById(story.authorId)     
             let teller = await TellerModel.findById(story.tellerId)
             let category = await CategoryModel.findById(story.categoryId)
@@ -33,7 +40,8 @@ export const getStories = async (req,res) => {
                 category: category.name
             }
         }))
-        res.status(200).json(rs)
+
+        res.status(200).json({data: rs, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }

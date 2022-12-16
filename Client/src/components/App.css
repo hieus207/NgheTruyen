@@ -79,6 +79,7 @@ button {
 .f-column {
   flex-direction: column;
 }
+
 /* MODAL */
 .modal-overlay {
   position: fixed;
@@ -138,6 +139,7 @@ button {
 /* ------------------- SECTION ------------------------------*/
 .section{
   margin-top: 30px;
+  position: relative;
 }
 
 .section_name{
