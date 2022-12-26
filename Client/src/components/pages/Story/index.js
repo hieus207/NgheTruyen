@@ -10,6 +10,7 @@ import { storySlice } from '../../../redux/reducers/storySlice'
 import { commentsState, storiesState } from '../../../redux/selectors'
 import { useParams } from 'react-router-dom'
 import { commentSlice } from '../../../redux/reducers/commentSlice'
+import Link from '../../helpers/Link'
 
 export default function Story(){  
     
@@ -32,9 +33,10 @@ export default function Story(){
                 <div className={clsx(styles.left_content)}>
                     <img src={story.img} alt={"img for " + story.name}/>
                     <div>{story.name}</div>
-                    <div>Tác giả: {story.author}</div>
-                    <div>Giọng đọc: {story.teller}</div>
-                    <div>Thể loại: {story.category}</div>
+                    <div>Tác giả: <Link to={"/author/"+story.authorId}>{story.author}</Link></div>
+                    <div>Giọng đọc: <Link to={"/teller/"+story.tellerId}>{story.teller}</Link></div>
+                    
+                    <div>Thể loại: <Link to={"/category/"+story.categoryId}>{story.category}</Link></div>
                 </div>
                 <div className={clsx(styles.right_content)}>
                     {story.chapter&&

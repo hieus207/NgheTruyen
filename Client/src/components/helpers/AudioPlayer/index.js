@@ -28,7 +28,7 @@ const AudioPlayer = ({ urls, manager = false, onDelete = null, onUpdate = null }
   const [player, controller, loadedMetaData] = useAudio(_urls[0].url, audioEnd)
 
   const handleAudioChange = (e) => {
-    if(player.id !== e.target.attributes._id.value){
+    if(e.target.attributes._id && (player.id !== e.target.attributes._id.value)){
       setCurrentVal(0)
       controller.changeAudio({url: e.target.attributes.url.value, id: e.target.attributes._id.value})
     }
@@ -99,8 +99,8 @@ const AudioPlayer = ({ urls, manager = false, onDelete = null, onUpdate = null }
                  {"tập "+ (index+1)}
                 {manager&&
                   <span>
-                  <button onClick={onUpdate}>Sửa</button>
-                  <button onClick={onDelete}>Xoá</button>
+                  <button onClick={()=>onUpdate(index)}>Sửa</button>
+                  <button onClick={()=>onDelete(index)}>Xoá</button>
                   </span>
 
                 }

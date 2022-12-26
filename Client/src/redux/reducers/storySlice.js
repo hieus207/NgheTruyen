@@ -88,6 +88,33 @@ export const storySlice = createSlice({
         deleteStoryFailure: (state, action)=>{
             state.isLoading = false
         },
+        addChapterRequest: (state, action) => {
+            state.isLoading = true
+        },
+        addChapterSuccess: (state, action) => {
+            state.isLoading = false
+        },
+        addChapterFailure: (state, action) => {
+            state.isLoading = false
+        },
+        editChapterRequest: (state, action) => {
+            state.isLoading = true
+        },
+        editChapterSuccess: (state, action) => {
+            state.isLoading = false
+        },
+        editChapterFailure: (state, action) => {
+            state.isLoading = false
+        },
+        deleteChapterRequest: (state, action) => {
+            state.isLoading = true
+        },
+        deleteChapterSuccess: (state, action) => {
+            state.isLoading = false
+        },
+        deleteChapterFailure: (state, action) => {
+            state.isLoading = false
+        },
     }
 
 })

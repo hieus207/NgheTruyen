@@ -32,9 +32,9 @@ export default function CreateStory(){
     const categories = useSelector(categoriesState)
 
     useEffect(()=>{
-        dispatch(authorSlice.actions.getAuthorsRequest())
-        dispatch(tellerSlice.actions.getTellersRequest())
-        dispatch(categorySlice.actions.getCategoriesRequest())
+        dispatch(authorSlice.actions.getAuthorsRequest({all:true}))
+        dispatch(tellerSlice.actions.getTellersRequest({all:true}))
+        dispatch(categorySlice.actions.getCategoriesRequest({all:true}))
 
     },[dispatch])
     

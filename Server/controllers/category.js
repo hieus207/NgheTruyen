@@ -6,8 +6,15 @@ const __dirname = path.resolve();
 
 export const getCategoryStories = async (req,res) => {
     try {
-        const stories = await StoryModel.find({categoryId:req.params.id});
-        res.status(200).json(stories)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        const stories = await StoryModel.find({categoryId: req.params.id}).skip((page-1)*process.env.CATEGORY_STORIES_PER_PAGE).limit(process.env.CATEGORY_STORIES_PER_PAGE)
+        const docCount = await StoryModel.countDocuments({categoryId: req.params.id}).exec();
+        const lastestPage = docCount % process.env.CATEGORY_STORIES_PER_PAGE == 0 ? docCount / process.env.CATEGORY_STORIES_PER_PAGE : Math.floor(docCount / process.env.CATEGORY_STORIES_PER_PAGE) + 1
+
+        res.status(200).json({data: stories, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -15,8 +22,20 @@ export const getCategoryStories = async (req,res) => {
 
 export const getCategories = async (req,res) => {
     try {
-        const categories = await CategoryModel.find();
-        res.status(200).json(categories)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        if(req.query.all){
+            const categories = await CategoryModel.find({})
+            return  res.status(200).json(categories)
+        }
+
+        const categories = await CategoryModel.find().skip((page-1)*process.env.CATEGORIES_PER_PAGE).limit(process.env.CATEGORIES_PER_PAGE)
+        const docCount = await CategoryModel.countDocuments({}).exec();
+        const lastestPage = docCount % process.env.CATEGORIES_PER_PAGE == 0 ? docCount / process.env.CATEGORIES_PER_PAGE : Math.floor(docCount / process.env.CATEGORIES_PER_PAGE) + 1
+
+        res.status(200).json({data: categories, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }

@@ -15,7 +15,7 @@ export default function DefaultSection({name, data, querry = true, currentPage =
             <div className={clsx("section_content")}>
                 <StoryList data={data}/>
             </div>
-            {lastestPage && <PaginationBar currentPage={currentPage} lastestPage={lastestPage}/>}
+            {currentPage && lastestPage && <PaginationBar currentPage={currentPage} lastestPage={lastestPage}/>}
         </div>
     )
 }

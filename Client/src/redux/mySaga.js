@@ -36,7 +36,7 @@ function* fetchStoriesRandomSaga(action){
 
 function* fetchStoriesMostViewSaga(action){
     try {
-        const stories = yield call(api.fetchStoriesMostView)
+        const stories = yield call(api.fetchStoriesMostView, action.payload)
         yield put(storySlice.actions.getStoriesMostViewSuccess(stories.data))
     } catch (error) {
         yield put(storySlice.actions.getStoriesMostViewFailure(error))
@@ -45,7 +45,7 @@ function* fetchStoriesMostViewSaga(action){
 
 function* fetchStoriesRecentSaga(action){
     try {
-        const stories = yield call(api.fetchStoriesRecent)
+        const stories = yield call(api.fetchStoriesRecent, action.payload)
         yield put(storySlice.actions.getStoriesRecentSuccess(stories.data))
     } catch (error) {
         yield put(storySlice.actions.getStoriesRecentFailure(error))
@@ -81,6 +81,34 @@ function* deleteStorySaga(action){
     }
 }
 
+function* addChapterSaga(action){
+    try {
+        const story = yield call(api.postAddChapter, action.payload)
+ 
+        yield put(storySlice.actions.addChapterSuccess(story.data))
+    } catch (error) {
+        yield put(storySlice.actions.addChapterFailure(error))
+    }
+}
+
+function* editChapterSaga(action){
+    try {
+        const story = yield call(api.putEditChapter, action.payload)
+ 
+        yield put(storySlice.actions.editChapterSuccess(story.data))
+    } catch (error) {
+        yield put(storySlice.actions.editChapterFailure(error))
+    }
+}
+
+function* deleteChapterSaga(action){
+    try {
+        const story = yield call(api.deleteChapter, action.payload)
+        yield put(storySlice.actions.deleteChapterSuccess())
+    } catch (error) {
+        yield put(storySlice.actions.deleteChapterFailure(error))
+    }
+}
 
 // CRUD TELLER ==============
 function* fetchTellerStoriesSaga(action){
@@ -141,7 +169,7 @@ function* fetchAuthorStoriesSaga(action){
 
 function* fetchAuthorsSaga(action){
     try {
-        const authors = yield call(api.fetchAuthors)
+        const authors = yield call(api.fetchAuthors, action.payload)
         yield put(authorSlice.actions.getAuthorsSuccess(authors.data))
     } catch (error) {
         yield put(authorSlice.actions.getAuthorsFailure(error))
@@ -189,7 +217,7 @@ function* fetchCategoryStoriesSaga(action){
 
 function* fetchCategoriesSaga(action){
     try {
-        const categories = yield call(api.fetchCategories)
+        const categories = yield call(api.fetchCategories, action.payload)
         yield put(categorySlice.actions.getCategoriesSuccess(categories.data))
     } catch (error) {
         yield put(categorySlice.actions.getCategoriesFailure(error))
@@ -262,6 +290,9 @@ function* mySaga() {
     yield takeLatest(storySlice.actions.createStoryRequest, createStorySaga)
     yield takeLatest(storySlice.actions.updateStoryRequest, updateStorySaga)
     yield takeLatest(storySlice.actions.deleteStorySuccess, deleteStorySaga)
+    yield takeLatest(storySlice.actions.addChapterRequest, addChapterSaga)
+    yield takeLatest(storySlice.actions.editChapterRequest, editChapterSaga)
+    yield takeLatest(storySlice.actions.deleteChapterRequest, deleteChapterSaga)
     
     yield takeLatest(tellerSlice.actions.getTellersStoriesRequest, fetchTellerStoriesSaga)
     yield takeLatest(tellerSlice.actions.getTellersRequest, fetchTellersSaga)

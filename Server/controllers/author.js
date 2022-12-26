@@ -6,8 +6,15 @@ const __dirname = path.resolve();
 
 export const getAuthorStories = async (req,res) => {
     try {
-        const stories = await StoryModel.find({authorId:req.params.id});
-        res.status(200).json(stories)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        const stories = await StoryModel.find({authorId: req.params.id}).skip((page-1)*process.env.AUTHOR_STORIES_PER_PAGE).limit(process.env.AUTHOR_STORIES_PER_PAGE)
+        const docCount = await StoryModel.countDocuments({authorId: req.params.id}).exec();
+        const lastestPage = docCount % process.env.AUTHOR_STORIES_PER_PAGE == 0 ? docCount / process.env.AUTHOR_STORIES_PER_PAGE : Math.floor(docCount / process.env.AUTHOR_STORIES_PER_PAGE) + 1
+
+        res.status(200).json({data: stories, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -15,8 +22,21 @@ export const getAuthorStories = async (req,res) => {
 
 export const getAuthors = async (req,res) => {
     try {
-        const authors = await AuthorModel.find();
-        res.status(200).json(authors)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        if(req.query.all){
+            const authors = await AuthorModel.find({})
+            return  res.status(200).json(authors)
+        }
+
+        const authors = await AuthorModel.find().skip((page-1)*process.env.AUTHORS_PER_PAGE).limit(process.env.AUTHORS_PER_PAGE)
+        const docCount = await AuthorModel.countDocuments({}).exec();
+        const lastestPage = docCount % process.env.AUTHORS_PER_PAGE == 0 ? docCount / process.env.AUTHORS_PER_PAGE : Math.floor(docCount / process.env.AUTHORS_PER_PAGE) + 1
+
+        res.status(200).json({data: authors, lastestPage})
+        
     } catch (err) {
         res.status(500).json({error: err})
     }

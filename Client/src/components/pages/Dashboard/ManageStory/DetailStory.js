@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import styles from "../dashboard.module.scss"
 import Image from "../../../helpers/Image"
 import AudioPlayer from '../../../helpers/AudioPlayer'
+import ConfirmDelete from '../../../helpers/ConfirmDelete'
+import EditChapterForm from '../../../helpers/EditChapterForm'
 import useModal from "../../../../hooks/useModal"
 import Modal from "../../../helpers/Modal"
 import { useEffect, useState } from 'react'
@@ -12,8 +14,14 @@ import { storiesState } from '../../../../redux/selectors'
 export default function DetailStory(){
     const {isShowing, toggle} = useModal();
     const { storyId } = useParams();
+    const [isShowing2, setIsShowing2] = useState(false)
+    const [chapterIndex, setChapterIndex] = useState(-1)
 
-    console.log(storyId)
+
+    function toggle2(){
+        setIsShowing2(!isShowing2)
+    }
+ 
     const dispatch = useDispatch()
 
     const story = useSelector(storiesState)
@@ -24,18 +32,26 @@ export default function DetailStory(){
     console.log(story.chapter)
     const [contentModel,setContentModel] = useState(<></>) 
 
-    const handleUpdate = ()=>{
-        setContentModel(<>Update</>)
+    const onDeleteChapter = ()=>{
+        console.log("BODY")
+        console.log({id:storyId, chapterIndex:chapterIndex});
+        dispatch(storySlice.actions.deleteChapterRequest({id:storyId, chapterIndex:chapterIndex}))
+    }
+
+    const handleUpdate = (index)=>{
+        console.log("```````````````")
+        console.log(index)
+        setContentModel(<EditChapterForm isEdit _data={story} _chapterIndex={index}/>)
         toggle()
     }
 
-    const handleDelete = ()=>{
-        setContentModel(<>Delete</>)
-        toggle()
+    const handleDelete = (index)=>{
+        toggle2()     
+        setChapterIndex(index)   
     }
 
     const handleAddChapter = () => {
-        setContentModel(<>Add chapter</>)
+        setContentModel(<EditChapterForm _data={story}/>)
         toggle()
     }
 
@@ -57,6 +73,9 @@ export default function DetailStory(){
                     
                     
                     <Modal isShowing={isShowing} hide={toggle}>{contentModel}</Modal>
+                    <Modal isShowing={isShowing2} hide={toggle2}>
+                        <ConfirmDelete onCancel={toggle2} onConfirm={onDeleteChapter}/>
+                    </Modal>
                     <button onClick={handleAddChapter}>Thêm tập</button>
                 </div>
             </div>

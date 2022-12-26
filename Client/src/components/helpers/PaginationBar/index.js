@@ -25,7 +25,6 @@ const PaginationBar = ({currentPage, lastestPage}) => {
             else{
                 params += "?page="+pageNumber
             }
-    
         }
         return location.pathname+params
     }

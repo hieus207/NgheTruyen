@@ -8,7 +8,7 @@ import { storySlice } from '../../../../redux/reducers/storySlice'
 export default function StoryItem({data,dispatch}){
 
     const handleDelete = () => {
-        dispatch(storySlice.actions.deleteStorySuccess(data._id))
+        dispatch(storySlice.actions.deleteStoryRequest(data._id))
     }
     return(
         <div className={clsx(styles.storyWrapper)}>

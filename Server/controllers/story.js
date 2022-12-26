@@ -25,11 +25,13 @@ export const getStories = async (req,res) => {
             page = parseInt(req.query.page)
         }
         
-        const stories = await StoryModel.find(req.query.name===undefined?{}:{$text: {$search:req.query.name}})
-        const _stories = stories.slice((page-1)*process.env.STORIES_PER_PAGE, page*process.env.STORIES_PER_PAGE)
-        const lastestPage = stories.length % process.env.STORIES_PER_PAGE == 0 ? stories.length / process.env.STORIES_PER_PAGE : Math.floor(stories.length / process.env.STORIES_PER_PAGE) + 1
-        // const _stories = stories.skip((page-1)*process.env.STORIES_PER_PAGE).limit(process.env.STORIES_PER_PAGE);
-        let rs = await Promise.all(_stories.map(async (story) => {
+        const stories = await StoryModel.find(req.query.name===undefined?{}:{$text: {$search:req.query.name}}).skip((page-1)*process.env.STORIES_PER_PAGE).limit(process.env.STORIES_PER_PAGE);
+        const docCount = await StoryModel.countDocuments(req.query.name===undefined?{}:{$text: {$search:req.query.name}}).exec();
+ 
+
+        const lastestPage = docCount % process.env.STORIES_PER_PAGE == 0 ? docCount / process.env.STORIES_PER_PAGE : Math.floor(docCount / process.env.STORIES_PER_PAGE) + 1
+
+        let rs = await Promise.all(stories.map(async (story) => {
             let author = await AuthorModel.findById(story.authorId)     
             let teller = await TellerModel.findById(story.tellerId)
             let category = await CategoryModel.findById(story.categoryId)
@@ -49,7 +51,8 @@ export const getStories = async (req,res) => {
 
 export const getStoriesRandom = async (req,res) => {
     try {
-        const stories = await StoryModel.aggregate([{ $sample: { size: 20 } }])
+        const stories = await StoryModel.aggregate([{ $sample: { size: parseInt(process.env.STORIES_PER_PAGE) } }])
+
         res.status(200).json(stories)
     } catch (err) {
         res.status(500).json({error: err})
@@ -58,8 +61,20 @@ export const getStoriesRandom = async (req,res) => {
 
 export const getStoriesMostView = async (req,res) => {
     try {
-        const stories = await StoryModel.find().sort({"view":-1}).limit(3);
-        res.status(200).json(stories)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        let limit = process.env.STORIES_PER_PAGE
+        if(parseInt(req.query.limit)){
+            limit = parseInt(req.query.limit)
+        }
+        const stories = await StoryModel.find().sort({"view":-1}).skip((page-1)*limit).limit(limit);
+        const docCount = await StoryModel.countDocuments().exec();
+
+        const lastestPage = docCount % limit == 0 ? docCount / limit : Math.floor(docCount / limit) + 1
+
+        res.status(200).json({data: stories, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -67,8 +82,19 @@ export const getStoriesMostView = async (req,res) => {
 
 export const getStoriesRecent = async (req,res) => {
     try {
-        const stories = await StoryModel.find().sort({"createdAt":-1}).limit(3);
-        res.status(200).json(stories)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        let limit = process.env.STORIES_PER_PAGE
+        if(parseInt(req.query.limit)){
+            limit = parseInt(req.query.limit)
+        }
+        const stories = await StoryModel.find().sort({"createdAt":-1}).skip((page-1)*limit).limit(limit);
+        const docCount = await StoryModel.countDocuments().exec();
+
+        const lastestPage = docCount % limit == 0 ? docCount / limit : Math.floor(docCount / limit) + 1
+        res.status(200).json({data: stories, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -159,5 +185,80 @@ export const deleteStory = async (req, res) => {
         res.status(200).json()
     } catch (error) {
         res.status(500).json({error})
+    }
+}
+
+export const addChapter = async (req, res) => {
+    try {
+        let chapter;
+        let uploadAudioPath;
+        let audioPath = []
+
+        if (!req.files || Object.keys(req.files).length === 0) {
+            // console.log("K co file")
+        }
+        else{           
+            if(req.files.chapter){
+                chapter = [].concat(req.files.chapter);
+                chapter.forEach(chap => {
+                    uploadAudioPath = __dirname + '/audio/' + chap.name;
+                    chap.mv(uploadAudioPath)
+                    audioPath.push("http://localhost:5000/audio/"+chap.name);
+                })
+            }
+        }
+        const story = await StoryModel.findById(req.body._id)
+        req.body.chapter = [...story.chapter,...audioPath]
+        req.body.chap = chapter.length + audioPath.length
+
+        const new_story = await StoryModel.findOneAndUpdate({_id: req.body._id}, req.body, {new: true})
+        res.status(200).json(new_story)
+    } catch (error) {
+        res.status(500).json({error})
+    }
+}
+
+export const editChapter = async (req, res) => {
+    try {
+        let chapter;
+        let uploadAudioPath;
+        let audioPath = []
+
+        if (!req.files || Object.keys(req.files).length === 0) {
+            // console.log("K co file")
+        }
+        else{           
+            if(req.files.chapter){
+                chapter = [].concat(req.files.chapter);
+                chapter.forEach(chap => {
+                    uploadAudioPath = __dirname + '/audio/' + chap.name;
+                    chap.mv(uploadAudioPath)
+                    
+                    audioPath.push("http://localhost:5000/audio/"+chap.name);
+                })
+            }
+        }
+        const story = await StoryModel.findById(req.body._id)
+        story.chapter[req.body.chapterIndex] = audioPath[0]
+
+        await story.save()
+        res.status(200).json(story)
+    } catch (error) {
+        res.status(500).json({error})
+    }
+}
+
+export const deleteChapter = async (req, res) => {
+    try {
+        const story = await StoryModel.findById(req.params.id);
+        if(story.chap==1){
+            return res.status(500).json({error: 'Minium chapter reached'})
+        }
+        story.chapter.splice(req.params.chapterIndex,req.params.chapterIndex+1)
+        story.chap--
+        await story.save()
+        res.status(200).json(story)
+    } catch (error) {
+        return res.status(500).json({error})
     }
 }

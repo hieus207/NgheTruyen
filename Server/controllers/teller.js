@@ -5,8 +5,15 @@ import path from 'path';
 const __dirname = path.resolve();
 export const getTellerStories = async (req,res) => {
     try {
-        const stories = await StoryModel.find({tellerId: req.params.id});
-        res.status(200).json(stories)
+        let page = 1
+        if(parseInt(req.query.page)){
+            page = parseInt(req.query.page)
+        }
+        const stories = await StoryModel.find({tellerId: req.params.id}).skip((page-1)*process.env.TELLER_STORIES_PER_PAGE).limit(process.env.TELLER_STORIES_PER_PAGE)
+        const docCount = await StoryModel.countDocuments({tellerId: req.params.id}).exec();
+        const lastestPage = docCount % process.env.TELLER_STORIES_PER_PAGE == 0 ? docCount / process.env.TELLER_STORIES_PER_PAGE : Math.floor(docCount / process.env.TELLER_STORIES_PER_PAGE) + 1
+
+        res.status(200).json({data: stories, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -19,11 +26,14 @@ export const getTellers = async (req,res) => {
             page = parseInt(req.query.page)
         }
 
-        const tellers = await TellerModel.find({});
-        console.log(TellerModel.length)
-        const _tellers = tellers.slice((page-1)*process.env.TELLERS_PER_PAGE, page*process.env.TELLERS_PER_PAGE)
-        const lastestPage = tellers.length % process.env.TELLERS_PER_PAGE == 0 ? tellers.length / process.env.TELLERS_PER_PAGE : Math.floor(tellers.length / process.env.TELLERS_PER_PAGE) + 1
-        res.status(200).json({data: _tellers, lastestPage})
+        if(req.query.all){
+            const tellers = await TellerModel.find({})
+            return  res.status(200).json(tellers)
+        }
+        const tellers = await TellerModel.find({}).skip((page-1)*process.env.TELLERS_PER_PAGE).limit(process.env.TELLERS_PER_PAGE)
+        const docCount = await TellerModel.countDocuments({}).exec();
+        const lastestPage = docCount % process.env.TELLERS_PER_PAGE == 0 ? docCount / process.env.TELLERS_PER_PAGE : Math.floor(docCount / process.env.TELLERS_PER_PAGE) + 1
+        res.status(200).json({data: tellers, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }

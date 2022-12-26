@@ -15,7 +15,7 @@ export default function ManageTeller(){
     const dispatch = useDispatch()
     const tellers = useSelector(tellersState)
     const params = useParams("page")
-    console.log(params)
+
     useEffect(()=>{
         dispatch(tellerSlice.actions.getTellersRequest({page: params.page}))
     },[dispatch, params.page])
@@ -24,8 +24,7 @@ export default function ManageTeller(){
         <div className={clsx("container",styles.wrapper)}>
             Manage Teller
             <button onClick={toggle}>Create Teller</button>
-            
-            {/* <Link to={'/dashboard/teller/create'}> Thêm truyện</Link> */}
+
             <div className={clsx(styles.listWrapper)}>
                 <div className={clsx(styles.listStory)}>
                     {tellers && tellers.data && tellers.data.map(teller => <TellerItem data={teller}/>)}

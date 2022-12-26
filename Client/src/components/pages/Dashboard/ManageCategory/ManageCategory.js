@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { categorySlice } from '../../../../redux/reducers/categorySlice'
 import EditCategoryForm from '../../../helpers/EditCategoryForm'
 import CategoryItem from './CategoryItem'
+import useParams from '../../../../hooks/useParams'
+import PaginationBar from '../../../helpers/PaginationBar'
 
 export default function ManageCategory(){
 
@@ -15,11 +17,12 @@ export default function ManageCategory(){
 
     const dispatch = useDispatch()
     const categories = useSelector(categoriesState)
+    const params = useParams("page")
 
     useEffect(()=>{
-        dispatch(categorySlice.actions.getCategoriesRequest())
+        dispatch(categorySlice.actions.getCategoriesRequest({page: params.page}))
 
-    },[dispatch])
+    },[dispatch,params.page])
 
     return(
         <div className={clsx("container",styles.wrapper)}>
@@ -29,8 +32,9 @@ export default function ManageCategory(){
             {/* <Link to={'/dashboard/teller/create'}> Thêm truyện</Link> */}
             <div className={clsx(styles.listWrapper)}>
                 <div className={clsx(styles.listStory)}>
-                    {categories.map(category => <CategoryItem data={category}/>)}
+                    {categories && categories.data && categories.data.map(category => <CategoryItem data={category}/>)}
                 </div>
+                <PaginationBar currentPage = {params.page} lastestPage = {categories.lastestPage}/>
             </div>
 
             <Modal isShowing={isShowing} hide={toggle}>

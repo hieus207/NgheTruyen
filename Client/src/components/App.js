@@ -16,8 +16,12 @@ import ManageCategory from './pages/Dashboard/ManageCategory/ManageCategory';
 import UpdateStory from './pages/Dashboard/ManageStory/UpdateStory';
 import Author from './pages/Author';
 import Category from './pages/Category';
+import MostView from './pages/MostView';
+import Recent from './pages/Recent';
+
 
 function App() {
+  
   return (
     <div className="App">
         <Header/>
@@ -35,7 +39,8 @@ function App() {
             <Route path='/dashboard/story/:storyId/edit' element={<UpdateStory/>}/>
             <Route path='/dashboard/category' element={<ManageCategory/>}/>
             <Route path='/story/:storyId' element={<Story/>}/>
-            
+            <Route path='/mostview' element={<MostView/>}/>
+            <Route path='/recent' element={<Recent/>}/>
         </Routes>
         <Footer/>
 
