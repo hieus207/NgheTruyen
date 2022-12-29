@@ -20,6 +20,7 @@ export default function TellerItem({data}){
 
     const handleDelete = ()=>{
         dispatch(tellerSlice.actions.deleteTellerRequest(data._id))
+        toggle2()
     }
     
     return(
@@ -36,7 +37,7 @@ export default function TellerItem({data}){
                 </div>
             </div>
             <Modal isShowing={isShowing} hide={toggle}>
-                <EditTellerForm isEdit _data={data}/>
+                <EditTellerForm isEdit _data={data} onSubmit={toggle}/>
             </Modal>
             <Modal isShowing={isShowing2} hide={toggle2}>
                 <ConfirmDelete onConfirm={handleDelete} onCancel={toggle2}/>

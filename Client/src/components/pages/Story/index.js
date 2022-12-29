@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux"
 import Comment from '../../helpers/Comment'
 import CommentForm from '../../helpers/CommentForm'
 import { storySlice } from '../../../redux/reducers/storySlice'
-import { commentsState, storiesState } from '../../../redux/selectors'
+import { commentsState, commentSuccessState, storiesState } from '../../../redux/selectors'
 import { useParams } from 'react-router-dom'
 import { commentSlice } from '../../../redux/reducers/commentSlice'
 import Link from '../../helpers/Link'
@@ -20,12 +20,28 @@ export default function Story(){
 
     const story = useSelector(storiesState)
     const comments = useSelector(commentsState)
+    const [refresh,setRefresh] = useState(false)
+    const isSuccess = useSelector(commentSuccessState)
+    const RefreshData = ()=>{
+        setRefresh(!refresh)
+    }
 
     useEffect(()=>{
-        dispatch(storySlice.actions.getStoryRequest(storyId))
-        dispatch(commentSlice.actions.getCommentsStoryRequest(storyId))
-        
+        dispatch(storySlice.actions.getStoryRequest(storyId))        
     },[dispatch,storyId])
+
+    useEffect(()=>{
+        dispatch(commentSlice.actions.getCommentsStoryRequest(storyId))
+    },[dispatch, refresh])
+
+    useEffect(()=>{
+        if(isSuccess.createComment==1||isSuccess.createSubComment==1){
+            dispatch(commentSlice.actions.resetIsSuccess())
+            RefreshData()
+        }
+        // if ==2 return error
+    },[isSuccess.createComment, isSuccess.createSubComment])
+
 
     return(
         <div className={clsx("container",styles.wrapper)}>

@@ -33,7 +33,7 @@ export default function Comment({data}){
             {
                 isReply &&
                 <div className={clsx(styles.subWrapper)}>
-                    <CommentForm id={data._id} isSubComment/>
+                    <CommentForm id={data._id} isSubComment onSubmitSub={handleReply}/>
                 </div>
             }
             

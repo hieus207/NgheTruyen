@@ -10,37 +10,48 @@ import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { storySlice } from '../../../../redux/reducers/storySlice'
-import { storiesState } from '../../../../redux/selectors'
+import { storiesState, storiesSuccessState } from '../../../../redux/selectors'
 export default function DetailStory(){
     const {isShowing, toggle} = useModal();
     const { storyId } = useParams();
     const [isShowing2, setIsShowing2] = useState(false)
     const [chapterIndex, setChapterIndex] = useState(-1)
+    const [refresh,setRefresh] = useState(false)
+    const [contentModel,setContentModel] = useState(<></>) 
+    const dispatch = useDispatch()
 
+    const story = useSelector(storiesState)
+    const isSuccesss = useSelector(storiesSuccessState)
+
+    function RefreshData(){
+        setRefresh(!refresh)
+    }
 
     function toggle2(){
         setIsShowing2(!isShowing2)
     }
- 
-    const dispatch = useDispatch()
 
-    const story = useSelector(storiesState)
     useEffect(()=>{
         dispatch(storySlice.actions.getStoryRequest(storyId))
-        
-    },[dispatch])
-    console.log(story.chapter)
-    const [contentModel,setContentModel] = useState(<></>) 
+    },[dispatch,refresh])
+
+    useEffect(()=>{
+        // if(isSuccess.deleteChapter + isSuccesss.addChapter + isSuccesss.editChapter>0)
+        if(isSuccesss.deleteChapter==1||isSuccesss.addChapter==1||isSuccesss.editChapter==1){
+            RefreshData()
+            dispatch(storySlice.actions.resetIsSuccess())
+            if(isSuccesss.deleteChapter==0)
+                toggle()
+        }
+    },[isSuccesss.deleteChapter,isSuccesss.addChapter,isSuccesss.editChapter])
+
 
     const onDeleteChapter = ()=>{
-        console.log("BODY")
-        console.log({id:storyId, chapterIndex:chapterIndex});
         dispatch(storySlice.actions.deleteChapterRequest({id:storyId, chapterIndex:chapterIndex}))
+        toggle2()
     }
 
     const handleUpdate = (index)=>{
-        console.log("```````````````")
-        console.log(index)
         setContentModel(<EditChapterForm isEdit _data={story} _chapterIndex={index}/>)
         toggle()
     }
@@ -66,12 +77,9 @@ export default function DetailStory(){
                     <div>Tác giả: {story.author}</div>
                     <div>Giọng đọc: {story.teller}</div>
                     {story.chapter&&
-                    
                     <AudioPlayer urls={story.chapter} manager onUpdate={handleUpdate} onDelete={handleDelete}/>
                     }
-                    
-                    
-                    
+                                        
                     <Modal isShowing={isShowing} hide={toggle}>{contentModel}</Modal>
                     <Modal isShowing={isShowing2} hide={toggle2}>
                         <ConfirmDelete onCancel={toggle2} onConfirm={onDeleteChapter}/>

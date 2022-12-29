@@ -9,8 +9,9 @@ import { TextField, Box, TextareaAutosize } from '@mui/material'
 
 import Autocomplete from '@mui/material/Autocomplete';
 import { authorSlice } from '../../../../redux/reducers/authorSlice'
-import { authorsState, categoriesState, tellersState } from '../../../../redux/selectors'
+import { authorsState, categoriesState, storiesSuccessState, tellersState } from '../../../../redux/selectors'
 import useInputObject from '../../../../hooks/useInputObject'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function CreateStory(){
@@ -23,13 +24,15 @@ export default function CreateStory(){
     })
 
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
+    
     const [image, setImage] = useState()
     const [chapter, setChapter] = useState()
 
     const authors = useSelector(authorsState)
     const tellers = useSelector(tellersState)
     const categories = useSelector(categoriesState)
+    const isSuccess = useSelector(storiesSuccessState)
 
     useEffect(()=>{
         dispatch(authorSlice.actions.getAuthorsRequest({all:true}))
@@ -37,7 +40,13 @@ export default function CreateStory(){
         dispatch(categorySlice.actions.getCategoriesRequest({all:true}))
 
     },[dispatch])
-    
+
+    useEffect(()=>{
+        if(isSuccess.createStory==1){
+            dispatch(storySlice.actions.resetIsSuccess())
+            navigate("/dashboard");
+        }
+    },[isSuccess.createStory])
 
     const handleSubmit = () => {
         let formData = new FormData();

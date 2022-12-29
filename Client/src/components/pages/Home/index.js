@@ -32,9 +32,9 @@ export default function Home(){
             <h1>Nghe Đọc Truyện</h1>
             {categories.data && <CategorySection data={categories.data}/>}
             {storiesMostView.data && storiesRecent.data && storiesRandom && <SlideSection data={exportSlideStory(storiesMostView.data, storiesRecent.data, storiesRandom)}/>}
-            {storiesRecent && storiesRecent.data && <DefaultSection name={"Truyện mới cập nhật"} data={storiesRecent.data}/>}
-            {storiesMostView && storiesMostView.data && <DefaultSection name={"Truyện nhiều lượt nghe"} data={storiesMostView.data}/>}
-            <DefaultSection name={"Truyện ngẫu nhiên"} data={storiesRandom}/>
+            {storiesRecent && storiesRecent.data && <DefaultSection name={"Truyện mới cập nhật"} data={storiesRecent.data} path={"/recent"}/>}
+            {storiesMostView && storiesMostView.data && <DefaultSection name={"Truyện nhiều lượt nghe"} data={storiesMostView.data} path={"/mostview"}/>}
+            <DefaultSection name={"Truyện ngẫu nhiên"} data={storiesRandom} querry={false}/>
         </div>
     )
 }

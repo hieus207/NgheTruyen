@@ -209,12 +209,11 @@ export const addChapter = async (req, res) => {
         }
         const story = await StoryModel.findById(req.body._id)
         req.body.chapter = [...story.chapter,...audioPath]
-        req.body.chap = chapter.length + audioPath.length
-
+        req.body.chap = story.chapter.length + audioPath.length
         const new_story = await StoryModel.findOneAndUpdate({_id: req.body._id}, req.body, {new: true})
-        res.status(200).json(new_story)
+        return res.status(200).json(new_story)
     } catch (error) {
-        res.status(500).json({error})
+        return res.status(500).json({error})
     }
 }
 
@@ -254,8 +253,10 @@ export const deleteChapter = async (req, res) => {
         if(story.chap==1){
             return res.status(500).json({error: 'Minium chapter reached'})
         }
-        story.chapter.splice(req.params.chapterIndex,req.params.chapterIndex+1)
+ 
+        story.chapter.splice(req.params.chapterIndex,1)
         story.chap--
+
         await story.save()
         res.status(200).json(story)
     } catch (error) {

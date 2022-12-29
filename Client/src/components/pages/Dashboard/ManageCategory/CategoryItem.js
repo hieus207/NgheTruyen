@@ -21,6 +21,7 @@ export default function CategoryItem({data}){
 
     const handleDelete = ()=>{
         dispatch(categorySlice.actions.deleteCategoryRequest(data._id))
+        toggle2()
     }
 
     return(
@@ -35,7 +36,7 @@ export default function CategoryItem({data}){
                 </div>
             </div>
             <Modal isShowing={isShowing} hide={toggle}>
-                <EditCategoryForm isEdit _data={data}/>
+                <EditCategoryForm isEdit _data={data} onSubmit={toggle}/>
             </Modal>
             <Modal isShowing={isShowing2} hide={toggle2}>
                 <ConfirmDelete onConfirm={handleDelete} onCancel={toggle2}/>

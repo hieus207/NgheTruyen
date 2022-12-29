@@ -4,7 +4,7 @@ import useInputObject from "../../../hooks/useInputObject"
 import { useDispatch } from "react-redux"
 import { commentSlice } from "../../../redux/reducers/commentSlice"
 
-export default function CommentForm({id, isSubComment = false}) {
+export default function CommentForm({id, isSubComment = false, onSubmitSub}) {
   const [data, setData, setDataObj] = useInputObject({
     [isSubComment? "commentId" : "storyId"] : id,
     senderName: "",
@@ -13,10 +13,16 @@ export default function CommentForm({id, isSubComment = false}) {
 
   const dispatch = useDispatch()
   const handlePost = () => {
-      if(!isSubComment)
+      if(!isSubComment){
+        setDataObj({...data,content:""})
         dispatch(commentSlice.actions.createCommentRequest(data))    
-      else
+      }
+      else{
+        setDataObj({...data,content:""})
         dispatch(commentSlice.actions.createSubCommentRequest(data))
+        onSubmitSub()
+      }
+        
   }
 
   return (

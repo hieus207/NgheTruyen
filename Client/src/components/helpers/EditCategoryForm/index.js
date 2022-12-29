@@ -8,7 +8,7 @@ import { TextField } from "@mui/material"
 import useInputObject from "../../../hooks/useInputObject"
 
 
-export default function EditCategoryForm({isEdit=false, _data=null}){
+export default function EditCategoryForm({isEdit=false, _data=null, onSubmit}){
     const [data, setData, setDataObj] = useInputObject(_data||{
         name: ""
     })
@@ -27,6 +27,7 @@ export default function EditCategoryForm({isEdit=false, _data=null}){
             // console.log(key)
         }
         dispatch(categorySlice.actions.createCategoryRequest(formData))
+        onSubmit()
     }
 
     const handleUpdate = ()=>{
@@ -42,6 +43,7 @@ export default function EditCategoryForm({isEdit=false, _data=null}){
             formData.append("img",img)
         }
         dispatch(categorySlice.actions.updateCategoryRequest(formData))
+        onSubmit()
     }
 
     return(

@@ -20,6 +20,7 @@ export default function AuthorItem({data}){
 
     const handleDelete = ()=>{
         dispatch(authorSlice.actions.deleteAuthorRequest(data._id))
+        toggle2()
     }
     return(
         <div className={clsx(styles.storyWrapper)}>
@@ -35,7 +36,7 @@ export default function AuthorItem({data}){
                 </div>
             </div>
             <Modal isShowing={isShowing} hide={toggle}>
-                <EditAuthorForm isEdit _data={data}/>
+                <EditAuthorForm isEdit _data={data} onSubmit={toggle}/>
             </Modal>
             <Modal isShowing={isShowing2} hide={toggle2}>
                 <ConfirmDelete onConfirm={handleDelete} onCancel={toggle2}/>

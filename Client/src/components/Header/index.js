@@ -26,8 +26,10 @@ export default function Header(){
             // REMEMBER LOGIN
             if(user && user.exp && user.exp > (Date.now()/1000).toFixed()){
                 dispatch(userSlice.actions.loggedIn(user))
+
             }
         }else{
+            if(isShowing) toggle()
             if(user){
                 setAccessToken(user.accessToken)
             }
@@ -58,11 +60,9 @@ export default function Header(){
             <nav className={clsx(styles.navbar)}>
                 <div className={clsx(styles.left_navbar)}>Logo</div>
                 <div className={clsx(styles.main_navbar)}>
-                    <Link to="/">Home</Link>
-                    <Link to="/search">Search</Link>
-                    <Link to="/teller">Teller</Link>
+                    <Link to="/">Trang chủ</Link>
+                    <Link to="/">Thể Loại</Link>
                     <SearchForm/>
-                    <Link to="/dashboard">Dashboard</Link>
                 </div>
                 {
                     !_user.isLoggedIn?

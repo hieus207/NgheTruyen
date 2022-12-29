@@ -5,6 +5,7 @@ import Image from "../Image"
 import { logout } from "../../../api"
 import { useDispatch } from "react-redux"
 import { userSlice } from "../../../redux/reducers/userSlice"
+import Link from "../Link"
 // import React from 'react'
 const ProfileCard = ({ data }) => {
     
@@ -20,7 +21,7 @@ const ProfileCard = ({ data }) => {
     <div className="d-flex f-column">
         <Image src={data.avatar} alt="avatar" thumbAvatar className={clsx(styles.avatar)}/>
         <div className={clsx(styles.subMenu)}>
-            <div>{data.username}</div>
+            <Link to="/dashboard">Dashboard</Link>
             <button onClick={handleLogout}>Logout</button>
         </div>
     </div>

@@ -7,7 +7,7 @@ import { TextField } from "@mui/material"
 import useInputObject from "../../../hooks/useInputObject"
 
 
-export default function EditAuthorForm({isEdit=false, _data=null}){
+export default function EditAuthorForm({isEdit=false, _data=null, onSubmit}){
     const [data, setData, setDataObj] = useInputObject(_data||{
         name: "",
         username: "",
@@ -28,6 +28,7 @@ export default function EditAuthorForm({isEdit=false, _data=null}){
             // console.log(key)
         }
         dispatch(authorSlice.actions.createAuthorRequest(formData))
+        onSubmit()
     }
 
     const handleUpdate = ()=>{
@@ -43,6 +44,7 @@ export default function EditAuthorForm({isEdit=false, _data=null}){
             formData.append("img",img)
         }
         dispatch(authorSlice.actions.updateAuthorRequest(formData))
+        onSubmit()
     }
 
     return(

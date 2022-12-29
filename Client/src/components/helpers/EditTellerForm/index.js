@@ -7,7 +7,7 @@ import { tellerSlice } from "../../../redux/reducers/tellerSlice"
 import { TextField } from "@mui/material"
 import useInputObject from "../../../hooks/useInputObject"
 
-export default function EditTellerForm({isEdit=false, _data=null}){
+export default function EditTellerForm({isEdit=false, _data = null , onSubmit}){
     const [data, setData, setDataObj] = useInputObject(_data||{
         name: "",
         username: "",
@@ -31,6 +31,7 @@ export default function EditTellerForm({isEdit=false, _data=null}){
         }
 
         dispatch(tellerSlice.actions.createTellerRequest(formData))
+        onSubmit()
     }
 
     const handleUpdate = ()=>{
@@ -47,16 +48,15 @@ export default function EditTellerForm({isEdit=false, _data=null}){
         }
 
         dispatch(tellerSlice.actions.updateTellerRequest(formData))
+        console.log("GOI ONSUBMIT");
+        onSubmit()
     }
 
     return(
         <div className="d-flex j-center f-column">
-            {/* <Input value={data.name} onChangeObject={setData} placeholder="Tên người đọc" field="name"/> */}
             <TextField sx={{ width: 300 }} label={"Tên người đọc"} margin="normal" value={data.name} onChange={setData("name")}/>
             <TextField sx={{ width: 300 }} label={"Biệt danh (username)"} margin="normal" value={data.username} onChange={setData("username")}/>
             <TextField sx={{ width: 300 }} label={"Ngày sinh"} margin="normal" value={data.birthDay} onChange={setData("birthDay")}/>
-            {/* <Input value={data.username} onChangeObject={setData} placeholder="username" field="username"/> */}
-            {/* <Input value={data.birthDay} onChangeObject={setData} placeholder="Ngày sinh" field="birthDay"/> */}
             <input type="file" placeholder="Ảnh đại diện"  id="files" onChange={e=>setImg(e.target.files[0]||{name:"Select Avatar"})} hidden/>
             <label htmlFor="files">{img.name}</label>
             {isEdit?

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useModal from '../../../../hooks/useModal'
-import { authorsState } from '../../../../redux/selectors'
+import { authorsState, authorSuccessState } from '../../../../redux/selectors'
 import Modal from '../../../helpers/Modal'
 import styles from "../dashboard.module.scss"
 import AuthorItem from "./AuthorItem"
@@ -16,13 +16,24 @@ export default function ManageAuthor(){
 
     const dispatch = useDispatch()
     const authors = useSelector(authorsState)
+    const isSuccess = useSelector(authorSuccessState)
     const params = useParams("page")
+    const [refresh,setRefresh] = useState(false)
+    const RefreshData = ()=>{
+        setRefresh(!refresh)
+    }
 
     useEffect(()=>{
         dispatch(authorSlice.actions.getAuthorsRequest({page: params.page}))
-    },[dispatch,params.page])
+    },[dispatch,params.page,refresh])
   
-
+    useEffect(()=>{
+        if(isSuccess.createAuthor==1||isSuccess.updateAuthor==1||isSuccess.deleteAuthor==1){
+            dispatch(authorSlice.actions.resetIsSuccess())
+            RefreshData()
+        }
+        // if ==2 return error
+    },[isSuccess.createAuthor, isSuccess.updateAuthor, isSuccess.deleteAuthor])
 
     return(
         <div className={clsx("container",styles.wrapper)}>
@@ -38,7 +49,7 @@ export default function ManageAuthor(){
             </div>
 
             <Modal isShowing={isShowing} hide={toggle}>
-                <EditAuthorForm/>
+                <EditAuthorForm onSubmit={toggle}/>
             </Modal>
         </div>
     )

@@ -1,60 +1,70 @@
 import {createSlice} from "@reduxjs/toolkit"
 
+const initialState = {
+    isSuccess: {
+        getTellersStories: 0,
+        getTellers: 0,
+        createTeller: 0,
+        updateTeller: 0,
+        deleteTeller: 0
+    },
+    data: [],
+    story: []
+}
+
 export const tellerSlice = createSlice({
     name: 'teller',
-    initialState: {
-        isLoading: false,
-        data: [],
-        story: []
-    },
+    initialState: initialState,
     reducers: {
         getTellersStoriesRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.getTellersStories = 0
         },
         getTellersStoriesSuccess: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.getTellersStories = 1
             state.story = action.payload
         },
         getTellersStoriesFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.getTellersStories = 2
         },
         getTellersRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.getTellers = 0
         },
         getTellersSuccess: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.getTellers = 1
             state.data = action.payload
         },
         getTellersFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.getTellers = 2
         },
         createTellerRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.createTeller = 0
         },
         createTellerSuccess: (state, action)=>{
-            state.isLoading = false
-            state.data = state.data.concat(action.payload)
+            state.isSuccess.createTeller = 1
         },
         createTellerFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.createTeller = 2
         },
         updateTellerRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.updateTeller = 0
         },
         updateTellerSuccess: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.updateTeller = 1
         },
         updateTellerFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.updateTeller = 2
         },
         deleteTellerRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.deleteTeller = 0
         },
         deleteTellerSuccess: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.deleteTeller = 1
         },
         deleteTellerFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.deleteTeller = 2
+        },
+        resetIsSuccess: (state) =>{
+            state.isSuccess = initialState.isSuccess
         }
     }
 

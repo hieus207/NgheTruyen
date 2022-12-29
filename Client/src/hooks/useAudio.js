@@ -6,7 +6,6 @@ const useAudio = (url, callbackEnd) => {
   const [loadedMetaData, setLoadedMetaDa] = useState(false)
 
   useEffect(()=>{
-    console.log("Vao use Effect")
     if(player.playing)
       player.source.play();
     else{

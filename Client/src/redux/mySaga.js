@@ -58,6 +58,7 @@ function* createStorySaga(action){
  
         yield put(storySlice.actions.createStorySuccess(story.data))
     } catch (error) {
+        console.log(error)
         yield put(storySlice.actions.createStoryFailure(error))
     }
 }
@@ -75,7 +76,7 @@ function* updateStorySaga(action){
 function* deleteStorySaga(action){
     try {
         const story = yield call(api.deleteStory, action.payload)
-        yield put(storySlice.actions.deleteStoryRequest())
+        yield put(storySlice.actions.deleteStorySuccess())
     } catch (error) {
         yield put(storySlice.actions.deleteStoryFailure(error))
     }
@@ -289,7 +290,7 @@ function* mySaga() {
     yield takeLatest(storySlice.actions.getStoriesRecentRequest, fetchStoriesRecentSaga)
     yield takeLatest(storySlice.actions.createStoryRequest, createStorySaga)
     yield takeLatest(storySlice.actions.updateStoryRequest, updateStorySaga)
-    yield takeLatest(storySlice.actions.deleteStorySuccess, deleteStorySaga)
+    yield takeLatest(storySlice.actions.deleteStoryRequest, deleteStorySaga)
     yield takeLatest(storySlice.actions.addChapterRequest, addChapterSaga)
     yield takeLatest(storySlice.actions.editChapterRequest, editChapterSaga)
     yield takeLatest(storySlice.actions.deleteChapterRequest, deleteChapterSaga)

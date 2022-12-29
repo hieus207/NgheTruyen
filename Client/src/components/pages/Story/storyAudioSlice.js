@@ -6,6 +6,7 @@ export const storyAudioSlice = createSlice({
         url: '',
         playing: false,
         source: ''
+        
     },
     reducers: {
         urlAudioChange: (state,action)=>{

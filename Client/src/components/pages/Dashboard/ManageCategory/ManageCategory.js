@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useModal from '../../../../hooks/useModal'
-import { categoriesState } from '../../../../redux/selectors'
+import { categoriesState, categorySuccessState } from '../../../../redux/selectors'
 import Modal from '../../../helpers/Modal'
 import styles from "../dashboard.module.scss"
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,11 +18,23 @@ export default function ManageCategory(){
     const dispatch = useDispatch()
     const categories = useSelector(categoriesState)
     const params = useParams("page")
-
+    const isSuccess = useSelector(categorySuccessState)
+    const [refresh,setRefresh] = useState(false)
+    const RefreshData = ()=>{
+        setRefresh(!refresh)
+    }
     useEffect(()=>{
         dispatch(categorySlice.actions.getCategoriesRequest({page: params.page}))
 
-    },[dispatch,params.page])
+    },[dispatch,params.page, refresh])
+
+    useEffect(()=>{
+        if(isSuccess.createCategory==1||isSuccess.updateCategory==1||isSuccess.deleteCategory==1){
+            dispatch(categorySlice.actions.resetIsSuccess())
+            RefreshData()
+        }
+        // if ==2 return error
+    },[isSuccess.createCategory, isSuccess.updateCategory, isSuccess.deleteCategory])
 
     return(
         <div className={clsx("container",styles.wrapper)}>
@@ -38,7 +50,7 @@ export default function ManageCategory(){
             </div>
 
             <Modal isShowing={isShowing} hide={toggle}>
-                <EditCategoryForm/>
+                <EditCategoryForm onSubmit={toggle}/>
             </Modal>
         </div>
     )

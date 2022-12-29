@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useModal from '../../../../hooks/useModal'
-import { tellersState } from '../../../../redux/selectors'
+import { tellersState, tellerSuccessState } from '../../../../redux/selectors'
 import EditTellerForm from '../../../helpers/EditTellerForm'
 import Modal from '../../../helpers/Modal'
 import styles from "../dashboard.module.scss"
@@ -12,13 +12,28 @@ import useParams from '../../../../hooks/useParams'
 import PaginationBar from '../../../helpers/PaginationBar'
 export default function ManageTeller(){
     const {isShowing,toggle} = useModal()
-    const dispatch = useDispatch()
     const tellers = useSelector(tellersState)
+    const isSuccess = useSelector(tellerSuccessState)
     const params = useParams("page")
+    const [refresh,setRefresh] = useState(false)
+
+    const dispatch = useDispatch()
+    const RefreshData = ()=>{
+        setRefresh(!refresh)
+    }
 
     useEffect(()=>{
+        console.log("GOI VAO DAY")
         dispatch(tellerSlice.actions.getTellersRequest({page: params.page}))
-    },[dispatch, params.page])
+    },[dispatch, params.page, refresh])
+
+    useEffect(()=>{
+        if(isSuccess.createTeller==1||isSuccess.updateTeller==1||isSuccess.deleteTeller==1){
+            dispatch(tellerSlice.actions.resetIsSuccess())
+            RefreshData()
+        }
+        // if ==2 return error
+    },[isSuccess.createTeller, isSuccess.updateTeller, isSuccess.deleteTeller])
 
     return(
         <div className={clsx("container",styles.wrapper)}>
@@ -33,7 +48,7 @@ export default function ManageTeller(){
             </div>
 
             <Modal isShowing={isShowing} hide={toggle}>
-                <EditTellerForm/>
+                <EditTellerForm onSubmit={toggle}/>
             </Modal>
         </div>
     )

@@ -16,7 +16,6 @@ export default function SlideSection({data}) {
         <div className={clsx("section_name_left")}>
           Truyện đề cử&nbsp; <TiVolumeUp size={"1.2em"} />
         </div>
-        <div>Xem Thêm</div>
       </div>
       <div className={clsx("section_content")}>
         <Swiper

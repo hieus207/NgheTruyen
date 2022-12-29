@@ -9,9 +9,9 @@ import { TextField, Box, TextareaAutosize } from '@mui/material'
 
 import Autocomplete from '@mui/material/Autocomplete';
 import { authorSlice } from '../../../../redux/reducers/authorSlice'
-import { authorsState, categoriesState, storiesState, tellersState } from '../../../../redux/selectors'
+import { authorsState, categoriesState, storiesState, storiesSuccessState, tellersState } from '../../../../redux/selectors'
 import useInputObject from '../../../../hooks/useInputObject'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 export default function UpdateStory(){
@@ -19,33 +19,34 @@ export default function UpdateStory(){
     const { storyId } = useParams();
   
     const dispatch = useDispatch()
-    
-
+    const navigate = useNavigate()
     const [image, setImage] = useState()
-    const [chapter, setChapter] = useState()
-
     const authors = useSelector(authorsState)
     const tellers = useSelector(tellersState)
     const categories = useSelector(categoriesState)
+    
 
     const story = useSelector(storiesState)
+    const isSuccess = useSelector(storiesSuccessState)
 
     useEffect(()=>{
         dispatch(storySlice.actions.getStoryRequest(storyId))
-        dispatch(authorSlice.actions.getAuthorsRequest())
-        dispatch(tellerSlice.actions.getTellersRequest())
-        dispatch(categorySlice.actions.getCategoriesRequest())
+        dispatch(authorSlice.actions.getAuthorsRequest({all:true}))
+        dispatch(tellerSlice.actions.getTellersRequest({all:true}))
+        dispatch(categorySlice.actions.getCategoriesRequest({all:true}))
 
     },[dispatch])
+
+
     const [data, setData, setDataObj] = useInputObject(story)
+
     useEffect(()=>{
         setDataObj(story)
     },[story])
 
-    useEffect(()=>{
-        // setDataObj(story)
-        console.log({data})
-    },[data])
+    // useEffect(()=>{
+    //     console.log(isSuccess)
+    // },[isSuccess])
     
     const handleSubmit = () => {
         let formData = new FormData();
@@ -65,6 +66,15 @@ export default function UpdateStory(){
         dispatch(storySlice.actions.updateStoryRequest(formData))
     }
   
+    useEffect(()=>{
+        if(isSuccess.updateStory==1){
+            dispatch(storySlice.actions.resetIsSuccess())
+            navigate("/dashboard");
+
+        }
+    },[isSuccess.updateStory])
+
+
     return(
         <div className={clsx("container",styles.wrapper)}>
             Sửa truyện
@@ -147,10 +157,7 @@ export default function UpdateStory(){
                 <div>
                 <button onClick={handleSubmit}>Sửa</button>
                 </div>
-                
             </div>
-            
-
         </div>
     )
 }

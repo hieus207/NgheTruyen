@@ -4,8 +4,8 @@ import StoryItem from './StoryItem'
 import Link from '../../../helpers/Link'
 import { useDispatch, useSelector } from 'react-redux'
 import { storySlice } from '../../../../redux/reducers/storySlice'
-import { useEffect, useState } from 'react'
-import { storiesState } from '../../../../redux/selectors'
+import { useCallback, useEffect, useState } from 'react'
+import { storiesState, storiesSuccessState } from '../../../../redux/selectors'
 import PaginationBar from '../../../helpers/PaginationBar'
 import { useSearchParams } from 'react-router-dom'
 export default function ManageStory(){
@@ -15,8 +15,20 @@ export default function ManageStory(){
     const dispatch = useDispatch()
     const stories = useSelector(storiesState)
     const _stories = stories.data
-    
-    
+    const [refresh,setRefresh] = useState(false)
+    const isSuccess = useSelector(storiesSuccessState)
+    const RefreshData = ()=>{
+        setRefresh(!refresh)
+    }
+
+    useEffect(()=>{
+        if(isSuccess.deleteStory==1){
+            dispatch(storySlice.actions.resetIsSuccess())
+            RefreshData()
+        }
+        // if ==2 return error
+    },[isSuccess.deleteStory])
+
     useEffect(()=>{
         if(searchParams.get("page")){
             setPage(searchParams.get("page"))
@@ -25,7 +37,7 @@ export default function ManageStory(){
 
     useEffect(()=>{
         dispatch(storySlice.actions.getStoriesRequest({ page }))
-    },[dispatch,page])
+    },[dispatch, page, refresh])
     return(
         <div className={clsx("container",styles.wrapper)}>
             Manage

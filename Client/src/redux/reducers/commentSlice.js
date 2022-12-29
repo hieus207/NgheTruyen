@@ -1,42 +1,48 @@
 import {createSlice} from "@reduxjs/toolkit"
 
+const initialState = {
+    isSuccess: {
+        getCommentsStory: 0,
+        createComment: 0,
+        createSubComment: 0
+    },
+    data: []
+}
 export const commentSlice = createSlice({
     name: 'comment',
-    initialState: {
-        isLoading: false,
-        data: []
-    },
+    initialState: initialState,
     reducers: {
         getCommentsStoryRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.getCommentsStory = 0
         },
         getCommentsStorySuccess: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.getCommentsStory = 1
             state.data = action.payload
         },
         getCommentsStoryFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.getCommentsStory = 2
         },
         createCommentRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.createComment = 0
         },
         createCommentSuccess: (state, action)=>{
-            state.isLoading = false
-            state.data = state.data.concat(action.payload)
+            state.isSuccess.createComment = 1
         },
         createCommentFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.createComment = 2
         },
         createSubCommentRequest: (state, action)=>{
-            state.isLoading = true
+            state.isSuccess.createSubComment = 0
         },
         createSubCommentSuccess: (state, action)=>{
-            state.isLoading = false
-            state.data = state.data.concat(action.payload)
+            state.isSuccess.createSubComment = 1
         },
         createSubCommentFailure: (state, action)=>{
-            state.isLoading = false
+            state.isSuccess.createSubComment = 2
         },
+        resetIsSuccess: (state) =>{
+            state.isSuccess = initialState.isSuccess
+        }
     }
 
 })

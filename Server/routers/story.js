@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {getStories, createStory, updateStory, getStory, deleteStory, getStoriesRandom, getStoriesMostView, getStoriesRecent, addChapter, editChapter, deleteChapter} from '../controllers/story.js'
+import {getStories, createStory, updateStory, deleteStory, getStory, getStoriesRandom, getStoriesMostView, getStoriesRecent, addChapter, editChapter, deleteChapter} from '../controllers/story.js'
 
 const router = express.Router();
 

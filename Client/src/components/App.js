@@ -5,7 +5,7 @@ import Teller from './pages/Teller'
 
 import Header from './Header';
 import Footer from './Footer';
-import { Route,Routes } from 'react-router-dom';
+import { Outlet, Route,Routes } from 'react-router-dom';
 import Story from './pages/Story';
 import ManageStory from './pages/Dashboard/ManageStory/ManageStory';
 import DetailStory from './pages/Dashboard/ManageStory/DetailStory';
@@ -18,7 +18,7 @@ import Author from './pages/Author';
 import Category from './pages/Category';
 import MostView from './pages/MostView';
 import Recent from './pages/Recent';
-
+import DashboardHeader from './pages/Dashboard/DashBoardHeader';
 
 function App() {
   
@@ -31,16 +31,19 @@ function App() {
             <Route path='/teller/:tellerId' element={<Teller/>}/>
             <Route path='/author/:authorId' element={<Author/>}/>
             <Route path='/category/:categoryId' element={<Category/>}/>
-            <Route path='/dashboard' element={<ManageStory/>}/>
-            <Route path='/dashboard/teller' element={<ManageTeller/>}/>
-            <Route path='/dashboard/author' element={<ManageAuthor/>}/>
-            <Route path='/dashboard/story/:storyId' element={<DetailStory/>}/>
-            <Route path='/dashboard/story/create' element={<CreateStory/>}/>
-            <Route path='/dashboard/story/:storyId/edit' element={<UpdateStory/>}/>
-            <Route path='/dashboard/category' element={<ManageCategory/>}/>
             <Route path='/story/:storyId' element={<Story/>}/>
             <Route path='/mostview' element={<MostView/>}/>
             <Route path='/recent' element={<Recent/>}/>
+
+            <Route element={<DashboardHeader />}>
+              <Route path='/dashboard' element={<ManageStory/>}/>
+              <Route path='/dashboard/teller' element={<ManageTeller/>}/>
+              <Route path='/dashboard/author' element={<ManageAuthor/>}/>
+              <Route path='/dashboard/story/:storyId' element={<DetailStory/>}/>
+              <Route path='/dashboard/story/create' element={<CreateStory/>}/>
+              <Route path='/dashboard/story/:storyId/edit' element={<UpdateStory/>}/>
+              <Route path='/dashboard/category' element={<ManageCategory/>}/>
+            </Route>
         </Routes>
         <Footer/>
 
