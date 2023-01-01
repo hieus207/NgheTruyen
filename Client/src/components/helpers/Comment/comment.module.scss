@@ -1,10 +1,10 @@
 .wrapper {
-    margin-bottom: 35px;
+    padding-bottom: 35px;
 }
 
 .subWrapper {
     margin-top: 15px;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     margin-left: 50px;
     display: flex;
     align-items:stretch;
@@ -12,7 +12,7 @@
 
 .body {
     margin-top: 10px;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     display: flex;
 }
 
@@ -27,6 +27,7 @@
 }
 
 .rightComment {
+    width: 85%;
     margin-left: 20px;
     text-align: left;
 }
@@ -46,4 +47,5 @@
 .content {
     margin-top: 5px;
     font-size: 16;
+    overflow-wrap: break-word;
 }

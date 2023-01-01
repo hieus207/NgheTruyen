@@ -12,14 +12,15 @@ export default function Category(){
     const { categoryId } = useParam();
     const dispatch = useDispatch()
     const stories = useSelector(categoryStoriesState)
-    const params = useParams("page")
+    const params = useParams("page","name")
     useEffect(()=>{
         dispatch(categorySlice.actions.getCategoryStoriesRequest({id:categoryId, page: params.page}))
     },[dispatch, categoryId, params.page])
 
     return(
-        <div className={clsx("container")}>
-            {stories && stories.data && <DefaultSection name={"Category"} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
+        <div className={clsx("")}>
+            {stories && stories.data && <DefaultSection name={`Thể loại ${params.name?params.name:""}`} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
+            {stories && stories.data && stories.data.length==0 && <>Không có kết quả</>}
         </div>
     )
 }

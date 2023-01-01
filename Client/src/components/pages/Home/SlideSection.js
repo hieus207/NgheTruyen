@@ -11,7 +11,7 @@ import StoryCard from "../../helpers/StoryCard";
 
 export default function SlideSection({data}) {
   return (
-    <div className={clsx("section")}>
+    <div className={clsx("section p-10")}>
       <div className={clsx("section_name")}>
         <div className={clsx("section_name_left")}>
           Truyện đề cử&nbsp; <TiVolumeUp size={"1.2em"} />

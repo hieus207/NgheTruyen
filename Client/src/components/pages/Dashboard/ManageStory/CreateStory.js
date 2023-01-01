@@ -12,6 +12,7 @@ import { authorSlice } from '../../../../redux/reducers/authorSlice'
 import { authorsState, categoriesState, storiesSuccessState, tellersState } from '../../../../redux/selectors'
 import useInputObject from '../../../../hooks/useInputObject'
 import { useNavigate } from 'react-router-dom'
+import { MAX_LENGTH_STORY_NAME, MIN_LENGTH_STORY_DESC, MIN_LENGTH_STORY_NAME } from '../../../../constants'
 
 
 export default function CreateStory(){
@@ -26,13 +27,15 @@ export default function CreateStory(){
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
-    const [image, setImage] = useState()
-    const [chapter, setChapter] = useState()
+    const [image, setImage] = useState({name:"Chọn Ảnh Bìa"})
+    const [chapter, setChapter] = useState({name:"Chọn danh sách truyện"})
+
 
     const authors = useSelector(authorsState)
     const tellers = useSelector(tellersState)
     const categories = useSelector(categoriesState)
     const isSuccess = useSelector(storiesSuccessState)
+    const [error,SetError] = useState("")
 
     useEffect(()=>{
         dispatch(authorSlice.actions.getAuthorsRequest({all:true}))
@@ -48,7 +51,8 @@ export default function CreateStory(){
         }
     },[isSuccess.createStory])
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         let formData = new FormData();
         if(image)
             formData.append("img", image)
@@ -62,16 +66,21 @@ export default function CreateStory(){
         console.log(data)
         dispatch(storySlice.actions.createStoryRequest(formData))
     }
-  
+
+    useEffect(()=>{
+        if(data.description.length>=MIN_LENGTH_STORY_DESC)
+          SetError("")
+      },[data.description])
+
     return(
-        <div className={clsx("container",styles.wrapper)}>
+        <form className={clsx(styles.wrapper)} onSubmit={handleSubmit}>
             Thêm truyện
             <div className="d-flex j-center f-column">
                 <div>
-                    <TextField sx={{ width: 300 }} label={"Tên truyện"} margin="normal" value={data.name} onChange={setData("name")}/>
+                    <TextField sx={{ width: 300 }} label={"Tên truyện"} margin="normal" value={data.name} onChange={setData("name")} inputProps={{minLength: MIN_LENGTH_STORY_NAME, maxLength: MAX_LENGTH_STORY_NAME }} required/>
                 </div>
                 <div>
-                    <TextareaAutosize style={{ width: 292 }} minRows={10} maxRows={15} placeholder={"Tóm tắt nội dung"} margin="normal" value={data.description} onChange={setData("description")}/>
+                    <TextField sx={{ width: 300 }} minRows={5} maxRows={10} label="Nội dung" onInvalid={()=>SetError("Tối thiểu " + MIN_LENGTH_STORY_DESC + " ký tự")} FormHelperTextProps={{className: clsx(styles.helperText)}} helperText={error}  onChange={setData("description")} value={data.description} inputProps={{ minLength: MIN_LENGTH_STORY_DESC}} multiline required/>
                 </div>
                 <div>
                     <Autocomplete
@@ -81,7 +90,7 @@ export default function CreateStory(){
                         getOptionLabel={(option)=>option.name}
                         sx={{ width: 300 }}
                         className={"m-auto"}
-                        renderInput={(params) =><TextField {...params} label={"Tác giả"} margin="normal"/>}   
+                        renderInput={(params) =><TextField {...params} label={"Tác giả"} margin="normal" required/>}   
                         renderOption={(props, option) => (
                             <Box component="li" {...props} key={option._id}>
                               {option.name}
@@ -89,6 +98,7 @@ export default function CreateStory(){
                         )}
                         onChange={(event, value) => setDataObj({...data, authorId: value!==null ? value._id:""})}      
                         isOptionEqualToValue={(option, value) => option.value === value.value} 
+                        
                     />
                 </div>
                 <div>
@@ -99,7 +109,7 @@ export default function CreateStory(){
                         getOptionLabel={(option)=>option.name}
                         sx={{ width: 300 }}
                         className={"m-auto"}
-                        renderInput={(params) =><TextField {...params} label={"Người đọc"} margin="normal"/>}   
+                        renderInput={(params) =><TextField {...params} label={"Người đọc"} margin="normal" required/>}   
                         renderOption={(props, option) => (
                             <Box component="li" {...props} key={option._id}>
                               {option.name}
@@ -118,7 +128,7 @@ export default function CreateStory(){
                         getOptionLabel={(option)=>option.name}
                         sx={{ width: 300 }}
                         className={"m-auto"}
-                        renderInput={(params) =><TextField {...params} label={"Thể loại"} margin="normal"/>}   
+                        renderInput={(params) =><TextField {...params} label={"Thể loại"} margin="normal" required/>}   
                         renderOption={(props, option) => (
                             <Box component="li" {...props} key={option._id}>
                               {option.name}
@@ -129,21 +139,20 @@ export default function CreateStory(){
                     />
                 </div>
                 <div>
-                    <span>Ảnh bìa:</span>
-                    <input onChange={e=>setImage(e.target.files[0])} type={"file"}/>
-                    
+                    <input type="file" id="image" onChange={e=>setImage(e.target.files[0]||{name:"Select Avatar"})} hidden accept='image/*'/>
+                    <label htmlFor="image">{image.name}</label>
                 </div>
                 <div>
-                    <span>Tập truyện:</span>
-                    <input onChange={e=>setChapter(e.target.files)} multiple type={"file"}/>                    
+                    <input type="file" id="chapters" onChange={e=>setChapter(e.target.files)} multiple hidden accept='audio/*'/>
+                    <label htmlFor="chapters">{chapter.length > 0 ? chapter.length + " File" : chapter.name}</label>
                 </div>
                 <div>
-                <button onClick={handleSubmit}>Create</button>
+                <button>Tạo</button>
                 </div>
                 
             </div>
             
 
-        </div>
+        </form>
     )
 }

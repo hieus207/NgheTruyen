@@ -36,10 +36,10 @@ export default function ManageTeller(){
     },[isSuccess.createTeller, isSuccess.updateTeller, isSuccess.deleteTeller])
 
     return(
-        <div className={clsx("container",styles.wrapper)}>
-            Manage Teller
-            <button onClick={toggle}>Create Teller</button>
-
+        <div className={clsx(styles.wrapper)}>
+            <div className='m-10'>
+            <button onClick={toggle} className="edit_btn">Thêm Người Đọc</button>
+            </div>
             <div className={clsx(styles.listWrapper)}>
                 <div className={clsx(styles.listStory)}>
                     {tellers && tellers.data && tellers.data.map(teller => <TellerItem data={teller}/>)}

@@ -8,7 +8,10 @@ const initialState = {
         updateCategory: 0,
         deleteCategory: 0
     },
-    data: [],
+    data: {
+        local:[],
+        all:[]
+    },
     story: []
 }
 
@@ -31,7 +34,7 @@ export const categorySlice = createSlice({
         },
         getCategoriesSuccess: (state, action)=>{
             state.isSuccess.getCategories = 1
-            state.data = action.payload
+            state.data.local = action.payload
         },
         getCategoriesFailure: (state, action)=>{
             state.isSuccess.getCategories = 2
@@ -65,6 +68,10 @@ export const categorySlice = createSlice({
         },
         resetIsSuccess: (state) =>{
             state.isSuccess = initialState.isSuccess
+        },
+        storeLocalToAll: (state) =>{
+            if(state.data.all.length < state.data.local.length) //Giải pháp tình thế!
+            state.data.all = state.data.local
         }
     }
 

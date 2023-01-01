@@ -12,7 +12,7 @@ export default function Author(){
     const { authorId } = useParam();
     const dispatch = useDispatch()
     const stories = useSelector(authorStoriesState)
-    const params = useParams("page")
+    const params = useParams("page","name")
 
 
     useEffect(()=>{
@@ -20,8 +20,10 @@ export default function Author(){
     },[dispatch,authorId, params.page])
 
     return(
-        <div className={clsx("container")}>
-            {stories && stories.data && <DefaultSection name={"Author"} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
+        <div>
+            {stories && stories.data && <DefaultSection name={`Tác giả  ${params.name?params.name:""}`} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
+            {stories && stories.data && stories.data.length==0 && <>Không có kết quả</>}
+
         </div>
     )
 }

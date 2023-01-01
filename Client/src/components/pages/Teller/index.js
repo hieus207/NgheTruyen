@@ -12,14 +12,16 @@ export default function Teller(){
     const { tellerId } = useParam();
     const dispatch = useDispatch()
     const stories = useSelector(tellerStoriesState)
-    const params = useParams("page")
+    const params = useParams("page","name")
     useEffect(()=>{
         dispatch(tellerSlice.actions.getTellersStoriesRequest({id: tellerId, page: params.page}))
     },[dispatch, tellerId, params.page])
 
     return(
-        <div className={clsx("container")}>
-            {stories && stories.data && <DefaultSection name={"Teller"} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
+        <div className={clsx("")}>
+            {stories && stories.data && <DefaultSection name={`Người đọc  ${params.name?params.name:""}`} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
+            {stories && stories.data && stories.data.length==0 && <>Không có kết quả</>}
+
         </div>
     )
 }

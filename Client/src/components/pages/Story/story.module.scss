@@ -1,6 +1,7 @@
 .wrapper {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
+    padding: 10px;
 }
 
 .body {
@@ -12,6 +13,14 @@
     border: 1px solid black;
     text-align: left;
     padding: 20px;
+    width: 50%;
+    
+    img{
+       
+        aspect-ratio: 3/4;
+        width: 100%;
+        min-width: 200px;
+    }
 }
 
 .right_content {
@@ -20,8 +29,11 @@
     padding: 20px;
 }
 
+.desc {
+    overflow-wrap: break-word;
+}
 .commentsSection {
     margin-top: 50px;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 

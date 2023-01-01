@@ -31,9 +31,11 @@ export default function TellerItem({data}){
                     <div>{data.name}</div>
                     <div>{data.birthDay}</div>
                     <div>{data.username}</div>
-                    <button onClick={toggle}>Sửa</button>
-
-                    <button onClick={toggle2}>Xoá</button>
+                    <div>
+                    <button onClick={toggle} className="edit_btn">Sửa</button>
+                    &nbsp;
+                    <button onClick={toggle2} className="delete_btn">Xoá</button>
+                    </div>
                 </div>
             </div>
             <Modal isShowing={isShowing} hide={toggle}>

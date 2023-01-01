@@ -19,7 +19,7 @@ export default function MostView(){
     },[dispatch, params.page])
 
     return(
-        <div className={clsx("container")}>
+        <div className={clsx("")}>
             {storiesMostView && storiesMostView.data && <DefaultSection name={"Truyện nhiều lượt nghe"} data={storiesMostView.data} querry={false} currentPage={params.page} lastestPage={storiesMostView.lastestPage}/>}
         </div>
     )

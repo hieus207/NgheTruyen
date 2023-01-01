@@ -19,12 +19,14 @@ import Category from './pages/Category';
 import MostView from './pages/MostView';
 import Recent from './pages/Recent';
 import DashboardHeader from './pages/Dashboard/DashBoardHeader';
+import AppWithContainer from './AppWithContainer';
 
 function App() {
   
   return (
     <div className="App">
         <Header/>
+        <AppWithContainer>
         <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/search' element={<Search/>}/>
@@ -45,6 +47,7 @@ function App() {
               <Route path='/dashboard/category' element={<ManageCategory/>}/>
             </Route>
         </Routes>
+        </AppWithContainer>
         <Footer/>
 
     </div>

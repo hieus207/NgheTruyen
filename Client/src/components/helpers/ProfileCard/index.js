@@ -21,8 +21,9 @@ const ProfileCard = ({ data }) => {
     <div className="d-flex f-column">
         <Image src={data.avatar} alt="avatar" thumbAvatar className={clsx(styles.avatar)}/>
         <div className={clsx(styles.subMenu)}>
-            <Link to="/dashboard">Dashboard</Link>
-            <button onClick={handleLogout}>Logout</button>
+            <Link to="/dashboard">Bảng điều khiển</Link>
+            <hr/>
+            <div className="link" onClick={handleLogout}>Đăng xuất</div>
         </div>
     </div>
        

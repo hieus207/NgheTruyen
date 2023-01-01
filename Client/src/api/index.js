@@ -34,7 +34,7 @@ export const deleteAuthor = (id)=> axios.delete(`${URL}/authors/${id}`);
 
 
 export const fetchCategoryStories = ({id,page = 1})=> axios.get(`${URL}/categories/${id}`,{ params: {  page } });
-export const fetchCategories = ({page = 1, all = false})=> axios.get(`${URL}/categories`,{ params: {  page, [all?"all":{}]:all?all:{} } });
+export const fetchCategories = ({page = 1, all = false, limit})=> axios.get(`${URL}/categories`,{ params: {  page, [all?"all":{}]:all?all:{},[limit?"limit":{}]:limit?limit:{} } });
 export const postCreateCategory = (body)=> axios.post(`${URL}/categories`,body)
 export const putUpdateCategory = (body)=> axios.put(`${URL}/categories`,body)
 export const deleteCategory = (id)=> axios.delete(`${URL}/categories/${id}`);

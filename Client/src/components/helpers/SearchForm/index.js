@@ -10,9 +10,9 @@ export default function SearchForm(){
     }
     
     return(
-        <>
+        <div className="d-flex a-center">
             <input value={name} onChange={e=>setName(e.target.value)}/>
             <button onClick={handleSearch}>Search</button>
-        </>
+        </div>
     )
 }

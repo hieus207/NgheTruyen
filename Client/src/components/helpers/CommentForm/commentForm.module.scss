@@ -1,6 +1,8 @@
 .createComment {
     display: flex;
     // justify-content: center;
+    padding-bottom: 20px;
+    width: 100%;
 }
 
 .leftCreateComment {
@@ -13,18 +15,26 @@
     display: flex;
     flex-direction: column;
     margin-left: 20px;    
+    width: 100%
+    
 }
 
 .senderName {
     width: 200px;
-    margin-bottom: 5px;
+    padding-bottom: 10px;
+    font-size: 10;
 }
 
 .postButton {
     position: relative;
     float: right;    
+    bottom: 10px;
 }
 
 .textArea {
     resize: none;
+}
+
+.helperText {
+    color: red !important;
 }

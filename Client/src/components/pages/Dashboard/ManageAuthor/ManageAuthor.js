@@ -36,10 +36,10 @@ export default function ManageAuthor(){
     },[isSuccess.createAuthor, isSuccess.updateAuthor, isSuccess.deleteAuthor])
 
     return(
-        <div className={clsx("container",styles.wrapper)}>
-            Manage Author
-            <button onClick={toggle}>Create Author</button>
-            
+        <div className={clsx(styles.wrapper)}>
+            <div className='m-10'>
+            <button onClick={toggle} className="edit_btn">Thêm Tác Giả</button>
+            </div>
             {/* <Link to={'/dashboard/teller/create'}> Thêm truyện</Link> */}
             <div className={clsx(styles.listWrapper)}>
                 <div className={clsx(styles.listStory)}>

@@ -18,8 +18,8 @@ export default function Search(){
     },[dispatch, params.name, params.page])
 
     return(
-        <div className={clsx("container")}>
-            <DefaultSection name={"Search"} data={result.data} querry={false} currentPage={params.page} lastestPage={result.lastestPage}/>
+        <div className={clsx("")}>
+            <DefaultSection name={`Tìm kiếm: ${params.name?params.name:"Tất cả"}`} data={result.data} querry={false} currentPage={params.page} lastestPage={result.lastestPage}/>
         </div>
     )
 }

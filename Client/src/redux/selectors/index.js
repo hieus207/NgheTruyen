@@ -16,7 +16,8 @@ export const authorsState = (state) => state.author.data;
 export const authorSuccessState = (state) => state.author.isSuccess;
 export const authorStoriesState = (state) => state.author.story;
 
-export const categoriesState = (state) => state.category.data;
+export const categoriesState = (state) => state.category.data.local;
+export const allCategoriesState = (state) => state.category.data.all;
 export const categorySuccessState = (state) => state.category.isSuccess;
 export const categoryStoriesState = (state) => state.category.story;
 

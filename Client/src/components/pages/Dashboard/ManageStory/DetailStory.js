@@ -70,7 +70,7 @@ export default function DetailStory(){
         <>
         {
         story&&
-            <div className={clsx("container ",styles.dtWrapper)}>
+            <div className={clsx(" ",styles.dtWrapper)}>
                 <Image src={story.img} alt={'img for ' + story.name} normal/>
                 <div className={clsx(styles.rightContent)}>
                     <div><h3>{story.name}</h3></div>

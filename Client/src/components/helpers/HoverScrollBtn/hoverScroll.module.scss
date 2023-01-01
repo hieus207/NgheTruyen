@@ -20,11 +20,6 @@
     
 }
 
-.avatar{
-    height: 60px;
-    aspect-ratio: 3/4;
-}
-
-.avatar:hover ~ .subMenu {
+.btn:hover ~ .subMenu {
     display: block;
 }

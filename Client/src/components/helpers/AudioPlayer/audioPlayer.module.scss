@@ -2,9 +2,14 @@
     background-color: #aa978c;
 }
 
+.itemWrapper {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
 .controls{
     margin-top: 5px;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .chapterItem {

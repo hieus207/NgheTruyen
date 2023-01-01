@@ -12,6 +12,7 @@ import { authorSlice } from '../../../../redux/reducers/authorSlice'
 import { authorsState, categoriesState, storiesState, storiesSuccessState, tellersState } from '../../../../redux/selectors'
 import useInputObject from '../../../../hooks/useInputObject'
 import { useNavigate, useParams } from 'react-router-dom'
+import { MAX_LENGTH_STORY_NAME, MIN_LENGTH_STORY_DESC, MIN_LENGTH_STORY_NAME } from '../../../../constants'
 
 
 export default function UpdateStory(){
@@ -20,7 +21,9 @@ export default function UpdateStory(){
   
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [image, setImage] = useState()
+    const [image, setImage] = useState({name:"Chọn Ảnh Bìa"})
+    const [error,SetError] = useState("")
+
     const authors = useSelector(authorsState)
     const tellers = useSelector(tellersState)
     const categories = useSelector(categoriesState)
@@ -48,14 +51,15 @@ export default function UpdateStory(){
     //     console.log(isSuccess)
     // },[isSuccess])
     
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         let formData = new FormData();
     
         for (var key of Object.keys(data)) {
             formData.append(key,data[key])
         }
 
-        if(image){
+        if(image instanceof File){
             formData.append("img", image) 
             console.log(image)
         }
@@ -74,16 +78,21 @@ export default function UpdateStory(){
         }
     },[isSuccess.updateStory])
 
+    useEffect(()=>{
+        if(data.description&&data.description.length>=MIN_LENGTH_STORY_DESC)
+          SetError("")
 
+      },[data.description])
+      
     return(
-        <div className={clsx("container",styles.wrapper)}>
+        <form className={clsx("",styles.wrapper)} onSubmit={handleSubmit}>
             Sửa truyện
             <div className="d-flex j-center f-column">
                 <div>
-                    <TextField sx={{ width: 300 }} label={"Tên truyện"} margin="normal" value={data.name||""} onChange={setData("name")}/>
+                    <TextField sx={{ width: 300 }} label={"Tên truyện"} margin="normal" value={data.name||""} onChange={setData("name")} inputProps={{minLength: MIN_LENGTH_STORY_NAME, maxLength: MAX_LENGTH_STORY_NAME }} required/>
                 </div>
                 <div>
-                    <TextareaAutosize style={{ width: 292 }} minRows={10} maxRows={15} placeholder={"Tóm tắt nội dung"} margin="normal" value={data.description} onChange={setData("description")}/>
+                    <TextField sx={{ width: 300 }} minRows={5} maxRows={10} label="Nội dung" onInvalid={()=>SetError("Tối thiểu " + MIN_LENGTH_STORY_DESC + " ký tự")} FormHelperTextProps={{className: clsx(styles.helperText)}} helperText={error}  onChange={setData("description")} value={data.description||""} inputProps={{ minLength: MIN_LENGTH_STORY_DESC}} multiline required/>
                 </div>
                 <div>
                     {authors.length>0&&story.authorId&&
@@ -95,7 +104,7 @@ export default function UpdateStory(){
                         getOptionLabel={(option)=>option.name}
                         sx={{ width: 300 }}
                         className={"m-auto"}
-                        renderInput={(params) =><TextField {...params} label={"Tác giả"} value={authors.find(author=>author._id==story.authorId).name} margin="normal"/>}   
+                        renderInput={(params) =><TextField {...params} label={"Tác giả"} value={authors.find(author=>author._id==story.authorId).name} margin="normal" required/>}   
                         renderOption={(props, option) => (
                             <Box component="li" {...props} key={option._id}>
                               {option.name}
@@ -117,7 +126,7 @@ export default function UpdateStory(){
                         getOptionLabel={(option)=>option.name}
                         sx={{ width: 300 }}
                         className={"m-auto"}
-                        renderInput={(params) =><TextField {...params} label={"Người đọc"} value={tellers.find(teller=>teller._id==story.tellerId).name} margin="normal"/>}   
+                        renderInput={(params) =><TextField {...params} label={"Người đọc"} value={tellers.find(teller=>teller._id==story.tellerId).name} margin="normal" required/>}   
                         renderOption={(props, option) => (
                             <Box component="li" {...props} key={option._id}>
                               {option.name}
@@ -139,7 +148,7 @@ export default function UpdateStory(){
                         defaultValue={categories.find(category=>category._id==story.categoryId)}
                         sx={{ width: 300 }}
                         className={"m-auto"}
-                        renderInput={(params) =><TextField {...params} value={categories.find(category=>category._id==story.categoryId).name} label={"Thể loại"} margin="normal"/>}   
+                        renderInput={(params) =><TextField {...params} value={categories.find(category=>category._id==story.categoryId).name} label={"Thể loại"} margin="normal" required/>}   
                         renderOption={(props, option) => (
                             <Box component="li" {...props} key={option._id}>
                               {option.name}
@@ -151,13 +160,13 @@ export default function UpdateStory(){
                 }
                 </div>
                 <div>
-                    <span>Ảnh bìa:</span>
-                    <input onChange={e=>setImage(e.target.files[0])} type={"file"}/>
+                    <input type="file" id="image" onChange={e=>setImage(e.target.files[0]||{name:"Chọn Ảnh Bìa"})} hidden accept='image/*'/>
+                    <label htmlFor="image">{image.name}</label>
                 </div>
                 <div>
-                <button onClick={handleSubmit}>Sửa</button>
+                <button>Sửa</button>
                 </div>
             </div>
-        </div>
+        </form>
     )
 }

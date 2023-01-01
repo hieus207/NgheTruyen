@@ -33,14 +33,14 @@ const PaginationBar = ({currentPage, lastestPage}) => {
     <>
     <div style={{height:"50px"}}></div>
     <div className={clsx("d-flex j-center",styles.wrapper)}>
-        {currentPage-1> 1 && <Link className={clsx(styles.linkPage)} to={generLink(1)}>1</Link>}
-        {currentPage-1> 2 && <Link className={clsx(styles.linkPage)} to={generLink(2)}>2</Link>}
-        {currentPage > 4 && <Link className={clsx(styles.linkPage)}>...</Link>}
-        {currentPage-1> 0 && <Link className={clsx(styles.linkPage)} to={generLink(currentPage-1)}>{currentPage-1}</Link>}
-        <Link className={clsx(styles.active)}>{currentPage}</Link>
-        {lastestPage>currentPage+1 && <Link className={clsx(styles.linkPage)} to={generLink(currentPage+1)}>{currentPage+1}</Link>}
-        {lastestPage > currentPage+2 && <Link className={clsx(styles.linkPage)}>...</Link>}
-        {lastestPage>currentPage && <Link className={clsx(styles.linkPage)} to={generLink(lastestPage)}>{lastestPage}</Link>}
+        {currentPage-1> 1 && <Link className={clsx(styles.linkPage,'link')} to={generLink(1)}>1</Link>}
+        {currentPage-1> 2 && <Link className={clsx(styles.linkPage,'link')} to={generLink(2)}>2</Link>}
+        {currentPage > 4 && <Link className={clsx(styles.linkPage,'link')}>...</Link>}
+        {currentPage-1> 0 && <Link className={clsx(styles.linkPage,'link')} to={generLink(currentPage-1)}>{currentPage-1}</Link>}
+        <Link className={clsx(styles.active,"link")}>{currentPage}</Link>
+        {lastestPage>currentPage+1 && <Link className={clsx(styles.linkPage,'link')} to={generLink(currentPage+1)}>{currentPage+1}</Link>}
+        {lastestPage > currentPage+2 && <Link className={clsx(styles.linkPage,'link')}>...</Link>}
+        {lastestPage>currentPage && <Link className={clsx(styles.linkPage,'link')} to={generLink(lastestPage)}>{lastestPage}</Link>}
     </div>
     </>
    

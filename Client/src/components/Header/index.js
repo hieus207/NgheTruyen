@@ -10,15 +10,18 @@ import SearchForm from "../helpers/SearchForm";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {userState} from "../../redux/selectors"
+import {allCategoriesState, categoriesState, categorySuccessState, userState} from "../../redux/selectors"
 import { refreshToken } from "../../api";
 import ProfileCard from "../helpers/ProfileCard";
 import { userSlice } from "../../redux/reducers/userSlice";
+import HoverScrollBtn from "../helpers/HoverScrollBtn";
+import { categorySlice } from "../../redux/reducers/categorySlice";
 export default function Header(){
     const {isShowing, toggle} = useModal();
     const [accessToken, setAccessToken] = useState()
     const dispatch = useDispatch()
     let _user = useSelector(userState)
+
     useEffect(()=>{
         let loop
         const user = JSON.parse(localStorage.getItem("user"))
@@ -48,20 +51,35 @@ export default function Header(){
             clearInterval(loop)
         }
     },[_user.isLoggedIn])
-
+    const categories = useSelector(allCategoriesState)
+    const isSuccess = useSelector(categorySuccessState)
     useEffect(()=>{
         axios.defaults.headers.post['Authorization'] = "Bearer " + accessToken
         axios.defaults.headers.put['Authorization'] = "Bearer " + accessToken
         axios.defaults.headers.delete['Authorization'] = "Bearer " + accessToken
     },[accessToken])
 
+    useEffect(()=>{
+        dispatch(categorySlice.actions.getCategoriesRequest({all:true}))
+    },[dispatch])
+
+    useEffect(()=>{
+        if(isSuccess.getCategories==1){
+        dispatch(categorySlice.actions.storeLocalToAll())
+        }
+    },[isSuccess.getCategories])
+
     return(
         <header>
             <nav className={clsx(styles.navbar)}>
                 <div className={clsx(styles.left_navbar)}>Logo</div>
                 <div className={clsx(styles.main_navbar)}>
-                    <Link to="/">Trang chủ</Link>
-                    <Link to="/">Thể Loại</Link>
+                    <Link className={["link_padding","link"]} to="/">Trang chủ</Link>
+                    <HoverScrollBtn btnContent={"Thể Loại"} btnClassName={["link_padding","link"]}>
+                        {categories && categories.map(category=>{
+                            return <div className="p-10"><Link to={`/category/${category._id}?name=${category.name}`}>{category.name}</Link></div>
+                        })}
+                    </HoverScrollBtn>
                     <SearchForm/>
                 </div>
                 {

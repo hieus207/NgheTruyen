@@ -26,14 +26,19 @@ export const getCategories = async (req,res) => {
         if(parseInt(req.query.page)){
             page = parseInt(req.query.page)
         }
+        let limit = process.env.CATEGORIES_PER_PAGE
+        if(parseInt(req.query.limit)){
+            limit = parseInt(req.query.limit)
+        }
+        
         if(req.query.all){
             const categories = await CategoryModel.find({})
             return  res.status(200).json(categories)
         }
 
-        const categories = await CategoryModel.find().skip((page-1)*process.env.CATEGORIES_PER_PAGE).limit(process.env.CATEGORIES_PER_PAGE)
+        const categories = await CategoryModel.find().skip((page-1)*limit).limit(limit)
         const docCount = await CategoryModel.countDocuments({}).exec();
-        const lastestPage = docCount % process.env.CATEGORIES_PER_PAGE == 0 ? docCount / process.env.CATEGORIES_PER_PAGE : Math.floor(docCount / process.env.CATEGORIES_PER_PAGE) + 1
+        const lastestPage = docCount % limit == 0 ? docCount / limit : Math.floor(docCount / limit) + 1
 
         res.status(200).json({data: categories, lastestPage})
     } catch (err) {

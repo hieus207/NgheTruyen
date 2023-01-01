@@ -39,9 +39,10 @@ export default function ManageStory(){
         dispatch(storySlice.actions.getStoriesRequest({ page }))
     },[dispatch, page, refresh])
     return(
-        <div className={clsx("container",styles.wrapper)}>
-            Manage
-            <Link to={'/dashboard/story/create'}> Thêm truyện</Link>
+        <div className={clsx(styles.wrapper)}>
+            <div className='m-10'>
+                <Link to={'/dashboard/story/create'} btn> Thêm truyện</Link>
+            </div>
             <div className={clsx(styles.listWrapper)}>
                 <div className={clsx(styles.listStory)}>
                     {_stories && _stories.length>0 && _stories.map(story => <StoryItem data={story} dispatch={dispatch}/>)}

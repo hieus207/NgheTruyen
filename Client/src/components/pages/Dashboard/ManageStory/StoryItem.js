@@ -33,8 +33,12 @@ export default function StoryItem({data,dispatch}){
                     <div>{data.author}</div>
                     <div>{data.teller}</div>
                     <div>{data.chap}</div>
-                    <Link to={`/dashboard/story/${data._id}/edit`}>Sửa</Link>
-                    <button onClick={toggle}>Xoá</button>
+                    <div>
+                    <Link to={`/dashboard/story/${data._id}/edit`} btn>Sửa</Link>
+                    &nbsp;
+                    <button onClick={toggle} className={"delete_btn"}>Xoá</button>
+                    </div>
+
                 </div>
             </div>
             <Modal isShowing={isShowing} hide={toggle}>

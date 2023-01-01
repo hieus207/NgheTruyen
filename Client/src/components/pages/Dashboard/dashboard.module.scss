@@ -1,7 +1,9 @@
 .wrapper {
     position: relative;
-    border: 1px solid black;
-    min-height: 500px;
+    border-radius: 0 20px 20px 20px;
+    border: 1px solid #8B7E74;
+    padding-bottom: 50px;
+    background-color: #ffffff;
 }
 
 .metadata {
@@ -23,4 +25,38 @@
     grid-template-columns: repeat(auto-fill, 350px);
     grid-gap: 1rem;
     justify-content: space-between;
+}
+
+.helperText {
+    color: red !important;
+}
+
+.navWrapper {
+    padding: 10px;
+    background-color: #f0f2f5;
+}
+
+.navbar {
+    // background-color: gold;
+    a {
+        &:first-child{
+            border-radius: 20px 0px 0px 0px;
+        }
+        &:last-child{
+            border-radius: 0px 20px 0px 0px;
+        }
+    }
+}
+
+.navbarItem {
+    background-color: #ffffff;
+
+    border-left: 1px solid #8B7E74;
+    border-right: 1px solid #8B7E74;
+    border-top: 1px solid #8B7E74;
+    
+}
+
+.navbarActiveItem{
+    background-color: #8B7E74;
 }

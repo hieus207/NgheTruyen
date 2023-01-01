@@ -130,6 +130,13 @@ export const storySlice = createSlice({
         },
         resetIsSuccess: (state) =>{
             state.isSuccess = initialState.isSuccess
+        },
+        resetState: (state) => {
+            state.isSuccess = initialState.isSuccess
+            state.data = []
+            state.random = []
+            state.recent = []
+            state.mostview = []
         }
     }
 

@@ -51,7 +51,7 @@ export default function EditChapterForm({isEdit=false, _data=null, _chapterIndex
     return(
         <div className="d-flex j-center f-column">
             
-            <input type="file" id="files" onChange={e=>setChapters(e.target.files)} multiple hidden/>
+            <input type="file" id="files" onChange={e=>setChapters(e.target.files)} multiple hidden required  accept="audio/*"/>
             <label htmlFor="files">{chapters.length>0?chapters.length+" File":chapters.name}</label>
 
             {

@@ -16,7 +16,7 @@ export default function Recent(){
     },[dispatch, params.page])
 
     return(
-        <div className={clsx("container")}>
+        <div>
             {storiesRecent && storiesRecent.data && <DefaultSection name={"Truyện mới cập nhật"} data={storiesRecent.data} querry={false} currentPage={params.page} lastestPage={storiesRecent.lastestPage}/>}
         </div>
     )

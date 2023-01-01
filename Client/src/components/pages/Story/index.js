@@ -13,12 +13,12 @@ import { commentSlice } from '../../../redux/reducers/commentSlice'
 import Link from '../../helpers/Link'
 
 export default function Story(){  
-    
+   
     const dispatch = useDispatch()
     
     const { storyId } = useParams();
 
-    const story = useSelector(storiesState)
+    const story=useSelector(storiesState)
     const comments = useSelector(commentsState)
     const [refresh,setRefresh] = useState(false)
     const isSuccess = useSelector(commentSuccessState)
@@ -27,8 +27,11 @@ export default function Story(){
     }
 
     useEffect(()=>{
-        dispatch(storySlice.actions.getStoryRequest(storyId))        
-    },[dispatch,storyId])
+        dispatch(storySlice.actions.getStoryRequest(storyId))    
+        return ()=>{
+        dispatch(storySlice.actions.resetState())    
+        }
+    },[])
 
     useEffect(()=>{
         dispatch(commentSlice.actions.getCommentsStoryRequest(storyId))
@@ -44,23 +47,22 @@ export default function Story(){
 
 
     return(
-        <div className={clsx("container",styles.wrapper)}>
+        <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.body)}>
                 <div className={clsx(styles.left_content)}>
-                    <img src={story.img} alt={"img for " + story.name}/>
+                    <img src={story.img} alt={"img for " + story.name} />
                     <div>{story.name}</div>
-                    <div>Tác giả: <Link to={"/author/"+story.authorId}>{story.author}</Link></div>
-                    <div>Giọng đọc: <Link to={"/teller/"+story.tellerId}>{story.teller}</Link></div>
-                    
-                    <div>Thể loại: <Link to={"/category/"+story.categoryId}>{story.category}</Link></div>
+                    <div>Tác giả: <Link to={`/author/${story.authorId}?name=${story.author}`}>{story.author}</Link></div>
+                    <div>Giọng đọc: <Link to={`/teller/${story.tellerId}?name=${story.teller}`}>{story.teller}</Link></div>
+                    <div>Thể loại: <Link to={`/category/${story.categoryId}?name=${story.category}`}>{story.category}</Link></div>
                 </div>
                 <div className={clsx(styles.right_content)}>
-                    {story.chapter&&
+                    {story&&story.chapter&&
                     <AudioPlayer
                         urls={story.chapter}
                     />
                     }
-                    <div>{story.description}</div>
+                    <div className={clsx(styles.desc)}>{story.description}</div>
                 </div>
             </div>
             <div className={clsx(styles.commentsSection)}>

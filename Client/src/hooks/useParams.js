@@ -5,7 +5,7 @@ const useParams = (...arr) => {
     const [searchParams] = useSearchParams();
     const [params, setParams] = useState({page:1})
     useEffect(()=>{
-
+        
         for(let val of arr){
             if(searchParams.get(val)){
                 setParams(param => {

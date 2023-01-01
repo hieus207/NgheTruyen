@@ -30,9 +30,12 @@ export default function CategoryItem({data}){
                 <Image src={data.img} alt={"Img for "+data.name} thumb/>
                 <div className={clsx(styles.metadata,"m-left-20")}>
                     <div>{data.name}</div>
-                    <button onClick={toggle}>Sửa</button>
+                    <div>
+                    <button onClick={toggle} className="edit_btn">Sửa</button>
+                    &nbsp;
+                    <button onClick={toggle2} className="delete_btn">Xoá</button>
+                    </div>
 
-                    <button onClick={toggle2}>Xoá</button>
                 </div>
             </div>
             <Modal isShowing={isShowing} hide={toggle}>
