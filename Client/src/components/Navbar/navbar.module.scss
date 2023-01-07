@@ -1,0 +1,136 @@
+.wrapper {
+    // position: relative;
+    background-color: #ebebeb;
+    // width: 170px;
+    flex-grow: 25;
+    // transform: translateX(-20%);
+    transition: all 2s ease-in-out;
+
+}
+
+.collapseWrapper {
+    // transform: translateX(-70%);
+    // transition: all 1s ease-in-out;
+    flex-grow: 0.75;
+    // transform: translateX(-70%);
+    transition: all 2s ease-in-out;
+
+}
+
+
+
+.nav{
+    box-sizing: border-box;
+    position: fixed;
+    width: inherit;
+    min-height: 80vh;
+    top: 10vh;
+    // right: 0;
+    background: #ffffff;
+    border-radius: 0 20px 20px 0;
+    padding: 20px;
+    text-align: left;
+    box-shadow: rgb(0 0 0 / 10%) 10px 10px 10px;
+    transition: all 2s ease-in-out;
+    // display: flex;
+    // flex-direction: ;
+}
+
+.collapseNav {
+    // transform: translateX(1%);
+    transition: all 2s ease-in-out;
+    
+    padding: 5px;
+    padding-top: 20px;
+}
+
+.navBody {
+    padding-top: 5vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navItem {
+    padding: 10px;
+    // border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.navItemActive {
+    background: #ff9055;
+}
+
+.navItemCollapse {
+    width: fit-content;
+    float: right;
+}
+
+.collapseLeft {
+    font-size: 20px;
+    position: absolute;
+    top: 45%;
+    right: -11px;
+    box-sizing: border-box;
+    // border: 1px solid black;
+    padding: 5px;
+    cursor: pointer;
+    &:hover{
+        font-size: 30px;
+        right: -14px;
+    }
+    transition: all 0.5s ease-in-out;
+}
+
+.collapseRight {
+    font-size: 20px;
+    position: absolute;
+    top: 45%;
+    right: -20px;
+    box-sizing: border-box;
+    // border: 1px solid black;
+    padding: 5px;
+    cursor: pointer;
+    &:hover{
+        font-size: 30px;
+        right: -26px;
+    }
+    transition: all 0.5s ease-in-out;
+}
+
+.logoCollapse {
+    width: 30px;
+}
+
+.left_navbar{
+    text-align: center;
+    img {
+        animation: rotate 8s linear  infinite;
+        &:hover{
+            animation: rotate2 6s linear infinite;
+            
+        }
+        
+    }
+
+    @keyframes rotate {
+        0% { 
+          transform: rotate(0); 
+        }
+        30% { 
+            transform: rotate(360deg);
+        }
+        100% { 
+          transform: rotate(360deg);
+        }
+    }
+
+    @keyframes rotate2 {
+        0% { 
+          transform: rotate(0); 
+        }
+        100% { 
+          transform: rotate(360deg);
+        }
+    }
+}

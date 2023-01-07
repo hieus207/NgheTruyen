@@ -1,25 +1,24 @@
 import styles from './home.module.scss'
 import clsx from 'clsx'
-import CategorySection from "./CategorySection"
 import SlideSection from "./SlideSection"
-import fakeStories from "../../../mocks/story.json"
 import DefaultSection from '../../helpers/DefaultSection'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { storySlice } from '../../../redux/reducers/storySlice'
 import {  storiesRandomState, storiesMostViewState, storiesRecentState, categoriesState, allCategoriesState } from '../../../redux/selectors'
-import { categorySlice } from '../../../redux/reducers/categorySlice'
+import {AiOutlineLoading3Quarters} from "react-icons/ai"
+import { HOME_TITLE, STORY_MOSTVIEW, STORY_RANDOM, STORY_RECENT } from '../../../constants'
 export default function Home(){
 
     const dispatch = useDispatch()
     const storiesRandom = useSelector(storiesRandomState)
     const storiesMostView = useSelector(storiesMostViewState)
     const storiesRecent = useSelector(storiesRecentState)
-    const categories = useSelector(allCategoriesState)
+
     useEffect(()=>{
-        dispatch(storySlice.actions.getStoriesMostViewRequest({page:1, limit: 5}))
-        dispatch(storySlice.actions.getStoriesRandomRequest())
-        dispatch(storySlice.actions.getStoriesRecentRequest({page:1, limit: 5}))
+        dispatch(storySlice.actions.getStoriesMostViewRequest({page:1, limit: 6}))
+        dispatch(storySlice.actions.getStoriesRandomRequest({limit: 12}))
+        dispatch(storySlice.actions.getStoriesRecentRequest({page:1, limit: 6}))
         // dispatch(categorySlice.actions.getCategoriesRequest({page:1, limit: 5})) //fetch in header
     },[dispatch])
 
@@ -27,18 +26,24 @@ export default function Home(){
         return a.slice(0,3).concat(b.slice(0,3).concat(c.slice(0,3)))
     }
 
-    function getCategoryShow(){
-        return categories.slice(0,5)
-    }
     
     return(
         <div className={clsx(styles.wrapper)}>
-            <h1>Nghe Đọc Truyện</h1>
-            {categories && <CategorySection data={getCategoryShow()}/>}
-            {storiesMostView.data && storiesRecent.data && storiesRandom && <SlideSection data={exportSlideStory(storiesMostView.data, storiesRecent.data, storiesRandom)}/>}
-            {storiesRecent && storiesRecent.data && <DefaultSection name={"Truyện mới cập nhật"} data={storiesRecent.data} path={"/recent"}/>}
-            {storiesMostView && storiesMostView.data && <DefaultSection name={"Truyện nhiều lượt nghe"} data={storiesMostView.data} path={"/mostview"}/>}
-            <DefaultSection name={"Truyện ngẫu nhiên"} data={storiesRandom} querry={false}/>
+            <h2>{HOME_TITLE}</h2>
+            <div hidden={storiesMostView.data && storiesRecent.data && storiesRandom}>
+                <AiOutlineLoading3Quarters className='rotate loading'/>
+            </div>
+            
+            
+            {storiesMostView.data && storiesRecent.data && storiesRandom && 
+            <>
+            <SlideSection data={exportSlideStory(storiesMostView.data, storiesRecent.data, storiesRandom)}/>
+            <DefaultSection name={STORY_RECENT} data={storiesRecent.data} path={"/recent"}/>
+            <DefaultSection name={STORY_MOSTVIEW} data={storiesMostView.data} path={"/mostview"}/>
+            </>
+            }
+
+            {/* <DefaultSection name={STORY_RANDOM} data={storiesRandom} querry={false}/> */}
         </div>
     )
 }

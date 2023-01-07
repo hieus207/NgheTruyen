@@ -1,13 +1,14 @@
+import { CONFIRM_DELETE, CONFIRM_DELETE_NO, CONFIRM_DELETE_YES } from "../../../constants";
 
 export default function ConfirmDelete({onConfirm = null, onCancel = null}){
     return(
         <div className="d-flex f-column j-center">
-            Bạn có chắc muốn xoá?
+            {CONFIRM_DELETE}
             <div className="d-flex f-row j-center m-top-20">
-                <button onClick={()=>onCancel()}>Không</button>
+                <button onClick={()=>onCancel()}>{CONFIRM_DELETE_NO}</button>
                 &nbsp;
                 &nbsp;
-                <button onClick={onConfirm} className="delete_btn">Có</button>
+                <button onClick={onConfirm} className="delete_btn">{CONFIRM_DELETE_YES}</button>
             </div>
         </div>
     )

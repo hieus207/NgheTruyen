@@ -25,4 +25,5 @@ export const commentsState = (state) => state.comment.data;
 export const commentSuccessState = (state) => state.comment.isSuccess;
 
 export const userState = (state) => state.user
-// export const someSelector = createSelector(otherSelector,(state,abc)=>{return state})
+
+export const audioState = (state) => state.audio

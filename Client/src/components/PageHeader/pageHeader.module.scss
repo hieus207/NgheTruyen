@@ -1,0 +1,47 @@
+.wrapper {
+    position: relative;
+    margin-right: 60px;
+}
+
+.searchInput{
+    // height: 30px;
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 10px;
+    border: unset;
+    box-shadow: rgb(0 0 0 / 10%) 10px 10px 10px;
+    @media screen and (max-width: 500px) {
+        width: 150px
+    }
+    // border: unset !important;
+    // &:hover{
+    //     width: 30%;
+    //     min-width: 250px;
+    // }
+
+}
+
+.searchBtn {
+    font-size: 1.2rem;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
+
+}
+
+.backBtn {
+    font-size: 1.5rem;
+    position: absolute;
+    top: 25px;
+    left: 10%;
+    cursor: pointer;
+}
+
+.loginBtn {
+    font-size: 30px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+}

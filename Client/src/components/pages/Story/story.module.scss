@@ -2,38 +2,129 @@
     margin-left: 15%;
     margin-right: 15%;
     padding: 10px;
+   
+    @media screen and (max-width: 850px) {
+        margin: 0;
+    }
+
 }
 
 .body {
     display: flex;
     justify-content: space-between;
+    background: #ffffff;
+    box-shadow: rgb(0 0 0 / 10%) 10px 10px 10px;
+    border-radius: 20px;
+    @media screen and (max-width: 700px) {
+        flex-direction: column-reverse;
+        .left_content{
+            width: auto;
+            padding: 10px;
+            // border-right: 1px solid #907c74;
+
+        }
+
+        .right_content{
+            width: auto;
+            padding: 10px;
+            // border-left: 1px solid #907c74;
+
+        }
+        .ChapterImg{
+            display: none;
+        }
+    }
 }
 
 .left_content {
-    border: 1px solid black;
+    border-radius: 20px 0 0 20px;
+    // border-top: 1px solid #907c74;
+    // border-left: 1px solid #907c74;
+    // border-bottom: 1px solid #907c74;
+    // border-right: 1px solid #907c74;
+
     text-align: left;
     padding: 20px;
-    width: 50%;
+    width: fit-content;
     
     img{
-       
-        aspect-ratio: 3/4;
         width: 100%;
-        min-width: 200px;
+        max-width: 350px;
+        aspect-ratio: 3/4;
+ 
+        
     }
 }
 
 .right_content {
-    border: 1px solid black;
-    width: 60%;
+    border-radius: 0 20px 20px 0;
+
+    // border-top: 1px solid #907c74;
+    // border-right: 1px solid #907c74;
+    // border-bottom: 1px solid #907c74;
+
+    // border: 1px solid #907c74;
+    width: calc(100% - 350px);
     padding: 20px;
 }
 
 .desc {
+    padding-top: 30px;
     overflow-wrap: break-word;
+    text-align: left;
+    padding-left: 10%;
 }
 .commentsSection {
     margin-top: 50px;
     padding-bottom: 20px;
 }
 
+.listWrapper{
+    max-height: 350px;
+    overflow: auto;
+    padding-top: 30px;
+}
+
+.chapterWrap{
+    position: relative;
+    background: #ffffff;
+    border-radius: 10px;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
+    width: 80%;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.chapterActive {
+    background: #ee732f;
+}
+
+.chapterName {
+    font-weight: bold;
+}
+
+.playButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #ee732f;
+    cursor: pointer;
+}
+
+.playButtonActive {
+    color: #000;
+    background: #ffffff;
+
+}

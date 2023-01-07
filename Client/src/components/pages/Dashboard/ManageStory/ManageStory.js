@@ -8,6 +8,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { storiesState, storiesSuccessState } from '../../../../redux/selectors'
 import PaginationBar from '../../../helpers/PaginationBar'
 import { useSearchParams } from 'react-router-dom'
+import { CREATE_BTN, STORY } from '../../../../constants'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 export default function ManageStory(){
 
     const [searchParams] = useSearchParams();
@@ -17,39 +19,43 @@ export default function ManageStory(){
     const _stories = stories.data
     const [refresh,setRefresh] = useState(false)
     const isSuccess = useSelector(storiesSuccessState)
-    const RefreshData = ()=>{
+
+    const RefreshData = useCallback(()=>{
         setRefresh(!refresh)
-    }
+    },[refresh])
 
     useEffect(()=>{
-        if(isSuccess.deleteStory==1){
+        if(isSuccess.deleteStory===1){
             dispatch(storySlice.actions.resetIsSuccess())
             RefreshData()
         }
-        // if ==2 return error
-    },[isSuccess.deleteStory])
+    },[dispatch, RefreshData, isSuccess.deleteStory])
 
     useEffect(()=>{
         if(searchParams.get("page")){
             setPage(searchParams.get("page"))
         }
-    },[searchParams.get("page")])
+    },[searchParams])
 
     useEffect(()=>{
         dispatch(storySlice.actions.getStoriesRequest({ page }))
     },[dispatch, page, refresh])
+
     return(
         <div className={clsx(styles.wrapper)}>
             <div className='m-10'>
-                <Link to={'/dashboard/story/create'} btn> Thêm truyện</Link>
+                <Link to={'/dashboard/story/create'} btn>{`${CREATE_BTN} ${STORY}`}</Link>
             </div>
             <div className={clsx(styles.listWrapper)}>
+                <div hidden={isSuccess.getStories>0}>
+                    <AiOutlineLoading3Quarters className='rotate loading-relative'/>
+                </div>
                 <div className={clsx(styles.listStory)}>
-                    {_stories && _stories.length>0 && _stories.map(story => <StoryItem data={story} dispatch={dispatch}/>)}
+                    {_stories && _stories.length>0 && _stories.map(story => <StoryItem key={story._id} data={story} dispatch={dispatch}/>)}
                 </div>
                 
             </div>
-            {stories.lastestPage && <PaginationBar currentPage={page} lastestPage = {stories.lastestPage}/>}
+            {stories.lastestPage>0 && <PaginationBar currentPage={page} lastestPage = {stories.lastestPage}/>}
         </div>
     )
 }

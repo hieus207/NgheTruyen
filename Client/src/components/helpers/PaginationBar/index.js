@@ -31,7 +31,7 @@ const PaginationBar = ({currentPage, lastestPage}) => {
 
     return(
     <>
-    <div style={{height:"50px"}}></div>
+    <div className="d-flex j-center" style={{height:"50px",position:"relative"}}>
     <div className={clsx("d-flex j-center",styles.wrapper)}>
         {currentPage-1> 1 && <Link className={clsx(styles.linkPage,'link')} to={generLink(1)}>1</Link>}
         {currentPage-1> 2 && <Link className={clsx(styles.linkPage,'link')} to={generLink(2)}>2</Link>}
@@ -41,7 +41,12 @@ const PaginationBar = ({currentPage, lastestPage}) => {
         {lastestPage>currentPage+1 && <Link className={clsx(styles.linkPage,'link')} to={generLink(currentPage+1)}>{currentPage+1}</Link>}
         {lastestPage > currentPage+2 && <Link className={clsx(styles.linkPage,'link')}>...</Link>}
         {lastestPage>currentPage && <Link className={clsx(styles.linkPage,'link')} to={generLink(lastestPage)}>{lastestPage}</Link>}
+  
     </div>
+    </div>
+ 
+
+
     </>
    
        

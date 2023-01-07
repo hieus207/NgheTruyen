@@ -1,0 +1,134 @@
+.wrapper{
+    max-width: 800px;
+    width: 100%;
+    min-height: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: #ffffff;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: all 2s ease-in-out;
+    z-index: 500;
+    &:active{
+        cursor: pointer;
+    }
+
+}
+
+.aniPlaying {
+    animation: mymove 2s linear infinite;
+    box-shadow: 5px 15px 10px 0px #ee732f;
+    transition: 2s;
+}
+@keyframes mymove {
+    0% {box-shadow: 5px 15px 10px 0px #ee732f}
+    50% {box-shadow: 0px 15px 20px 20px #ee732f}
+}
+
+
+.aniPause {
+    animation: onpause 2s;
+    transition: all 2s ease-in-out;
+}
+
+@keyframes onpause {
+    0% {box-shadow: 0px 15px 20px 20px #ee732f}
+    50% {box-shadow: 5px 15px 10px 0px #ee732f}
+}
+
+.btn {
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.playButton {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #ee732f;
+    cursor: pointer;
+}
+
+.btnDisabled {
+    color: #b3b3b3;
+    pointer-events: none
+}
+
+.controller {
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div{
+        margin: 5px;
+    }
+}
+
+.timeAudioLeft {
+    position: absolute;
+    left: 10px;
+    pointer-events: none;
+    user-select: none;
+
+}
+
+.timeAudioRight {
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.Collapse {
+    position: absolute;
+    right: 10px;
+    top: 25px;
+}
+
+
+
+.chapterItem {
+    position: relative;
+    background: #ffffff;
+    border-radius: 10px;
+    text-align: left;
+    padding: 5px;
+    width: 95%;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    text-align: center;
+    z-index: 999;
+}
+
+.chapterActive {
+    background: #ee732f;
+}
+.chapterWrapper {
+    max-height: 210px;
+    overflow: auto;
+    z-index: 999;
+
+}
+
+.collapseIn {
+    transform: translate(-50%, calc(100% - 50px));
+    transition: 1s all ease-in-out;
+}
+
+.collapseOut {
+    transform: translate(-50%, 0);
+    transition: 1s all ease-in-out;
+}
+
+.close {
+    transform: translate(-50%, 100%);
+}

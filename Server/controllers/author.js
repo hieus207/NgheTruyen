@@ -12,7 +12,7 @@ export const getAuthorStories = async (req,res) => {
         }
         const stories = await StoryModel.find({authorId: req.params.id}).skip((page-1)*process.env.AUTHOR_STORIES_PER_PAGE).limit(process.env.AUTHOR_STORIES_PER_PAGE)
         const docCount = await StoryModel.countDocuments({authorId: req.params.id}).exec();
-        const lastestPage = docCount % process.env.AUTHOR_STORIES_PER_PAGE == 0 ? docCount / process.env.AUTHOR_STORIES_PER_PAGE : Math.floor(docCount / process.env.AUTHOR_STORIES_PER_PAGE) + 1
+        const lastestPage = docCount % process.env.AUTHOR_STORIES_PER_PAGE === 0 ? docCount / process.env.AUTHOR_STORIES_PER_PAGE : Math.floor(docCount / process.env.AUTHOR_STORIES_PER_PAGE) + 1
 
         res.status(200).json({data: stories, lastestPage})
     } catch (err) {
@@ -33,7 +33,7 @@ export const getAuthors = async (req,res) => {
 
         const authors = await AuthorModel.find().skip((page-1)*process.env.AUTHORS_PER_PAGE).limit(process.env.AUTHORS_PER_PAGE)
         const docCount = await AuthorModel.countDocuments({}).exec();
-        const lastestPage = docCount % process.env.AUTHORS_PER_PAGE == 0 ? docCount / process.env.AUTHORS_PER_PAGE : Math.floor(docCount / process.env.AUTHORS_PER_PAGE) + 1
+        const lastestPage = docCount % process.env.AUTHORS_PER_PAGE === 0 ? docCount / process.env.AUTHORS_PER_PAGE : Math.floor(docCount / process.env.AUTHORS_PER_PAGE) + 1
 
         res.status(200).json({data: authors, lastestPage})
         
@@ -54,10 +54,11 @@ export const createAuthor = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name
+            uploadImgPath = __dirname + '/public/img/' + prefix + img.name
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
         // The name of the input field (i.e. "img") is used to retrieve the uploaded file
@@ -81,10 +82,11 @@ export const updateAuthor = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name;
+            uploadImgPath = __dirname + '/public/img/'+ prefix + img.name;
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
 

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useAudio from '../../../hooks/useAudio'
 import delay from '../../utils/delay'
 import ProgressBar from '../ProgressBar'
@@ -16,7 +16,7 @@ const AudioPlayer = (({ urls, manager = false, onDelete = null, onUpdate = null 
     setCurrentVal(100)
     await delay(500)
     setCurrentVal(0)
-    let indexChap = _urls.findIndex(_url => _url.id == player.id)
+    let indexChap = _urls.findIndex(_url => _url.id === player.id)
     if(indexChap < _urls.length-1){
       controller.changeAudio(_urls[indexChap+1])
     }else{
@@ -29,12 +29,12 @@ const AudioPlayer = (({ urls, manager = false, onDelete = null, onUpdate = null 
   const [player, controller, loadedMetaData] = useAudio(_urls[0].url, audioEndCall) //useState
 
   
-  const handleAudioChange = (e) => {
+  const handleAudioChange = useCallback((e) => {
     if(e.target.attributes._id && (player.id !== e.target.attributes._id.value)){
       setCurrentVal(0)
       controller.changeAudio({url: e.target.attributes.url.value, id: e.target.attributes._id.value})
     }
-  }
+  },[player.id, controller])
 
   const setTimePercentAudio = (currentTimePercent) => {
     let currentTime = controller.getDurationAudio() * currentTimePercent/100
@@ -65,13 +65,13 @@ const AudioPlayer = (({ urls, manager = false, onDelete = null, onUpdate = null 
     return (
       ()=>clearInterval(loop)
     )
-  },[player])
+  },[player, controller])
 
   const renderItem = useCallback(()=>{
     return _urls.map((_url,index)=>{
-      return <ItemAudioPlayer key={index} isActive={player.id == _url.id} onClick={handleAudioChange} url={_url.url} id={_url.id} index={index} manager={manager} onUpdate={onUpdate} onDelete={onDelete}/>
+      return <ItemAudioPlayer key={index} isActive={player.id.toString() === _url.id.toString()} onClick={handleAudioChange} url={_url.url} id={_url.id} index={index} manager={manager} onUpdate={onUpdate} onDelete={onDelete}/>
     })
-  },[player.id])
+  },[handleAudioChange, manager, onDelete, onUpdate, player.id, _urls])
   
 
   return (

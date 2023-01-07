@@ -1,13 +1,37 @@
-.card{
+.wrapper{
+    text-align: left;
+    background-color: #ffffff;
+    box-shadow: rgb(0 0 0 / 10%) 10px 10px 10px;
 
+    &:hover{
+        // box-shadow: rgb(0 0 0 / 50%) 0px 10px 20px;
+        box-shadow: 5px 15px 10px 0px #ee732f;
+        transform: translateY(-10px);
+        transition: 0.3s;
+    }
+    transition: 1s;
+}
+
+.body {
+    padding: 0 10px 5px 10px;
+}
+
+.card{
     .card_name{
         font-size: 20px;
     }
-    padding: 20px;
+    
+    @media screen and (max-width:400px) {
+        padding: 5px;
+    }
+}
+
+.card_regular {
+    width: 180px;
 }
 
 .card_small{
-
+    width: 120px;
     .card_name{
         font-size: 15px;
     }

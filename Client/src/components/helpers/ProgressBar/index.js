@@ -1,12 +1,14 @@
 import clsx from "clsx"
 import { useRef } from "react"
 import styles from "./progressBar.module.scss"
-// import React from 'react'
 const ProgressBar = ({ currentVal = 0, onClickBar = null }) => {
     const barRef = useRef()
+    // ***
+    // Return percent of val
+    // ***
     const handleClickBar = (e) => {
         const coor = barRef.current.getBoundingClientRect()  
-        onClickBar(coor.width==0?0:(e.clientX-coor.x)*100/coor.width)
+        onClickBar(coor.width===0?0:(e.clientX-coor.x)*100/coor.width)
     }
 
     return(

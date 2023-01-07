@@ -5,9 +5,10 @@ import useModal from '../../../../hooks/useModal'
 import Modal from '../../../helpers/Modal'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import EditAuthorForm from '../../../helpers/EditAuthorForm'
+import EditAuthorForm from './EditAuthorForm'
 import { authorSlice } from '../../../../redux/reducers/authorSlice'
 import ConfirmDelete from '../../../helpers/ConfirmDelete'
+import { DELETE_BTN, EDIT_BTN } from '../../../../constants'
 
 export default function AuthorItem({data}){
     const {isShowing, toggle} = useModal()
@@ -31,9 +32,9 @@ export default function AuthorItem({data}){
                     <div>{data.birthDay}</div>
                     <div>{data.username}</div>
                     <div>
-                    <button onClick={toggle} className="edit_btn">Sửa</button>
+                    <button onClick={toggle} className="edit_btn">{EDIT_BTN}</button>
                     &nbsp;
-                    <button onClick={toggle2} className="delete_btn">Xoá</button>
+                    <button onClick={toggle2} className="delete_btn">{DELETE_BTN}</button>
                     </div>
                     
                 </div>

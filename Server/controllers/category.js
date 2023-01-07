@@ -12,7 +12,7 @@ export const getCategoryStories = async (req,res) => {
         }
         const stories = await StoryModel.find({categoryId: req.params.id}).skip((page-1)*process.env.CATEGORY_STORIES_PER_PAGE).limit(process.env.CATEGORY_STORIES_PER_PAGE)
         const docCount = await StoryModel.countDocuments({categoryId: req.params.id}).exec();
-        const lastestPage = docCount % process.env.CATEGORY_STORIES_PER_PAGE == 0 ? docCount / process.env.CATEGORY_STORIES_PER_PAGE : Math.floor(docCount / process.env.CATEGORY_STORIES_PER_PAGE) + 1
+        const lastestPage = docCount % process.env.CATEGORY_STORIES_PER_PAGE === 0 ? docCount / process.env.CATEGORY_STORIES_PER_PAGE : Math.floor(docCount / process.env.CATEGORY_STORIES_PER_PAGE) + 1
 
         res.status(200).json({data: stories, lastestPage})
     } catch (err) {
@@ -38,7 +38,7 @@ export const getCategories = async (req,res) => {
 
         const categories = await CategoryModel.find().skip((page-1)*limit).limit(limit)
         const docCount = await CategoryModel.countDocuments({}).exec();
-        const lastestPage = docCount % limit == 0 ? docCount / limit : Math.floor(docCount / limit) + 1
+        const lastestPage = docCount % limit === 0 ? docCount / limit : Math.floor(docCount / limit) + 1
 
         res.status(200).json({data: categories, lastestPage})
     } catch (err) {
@@ -57,10 +57,11 @@ export const createCategory = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name
+            uploadImgPath = __dirname + '/public/img/' + prefix + img.name
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
         // The name of the input field (i.e. "img") is used to retrieve the uploaded file
@@ -84,10 +85,11 @@ export const updateCategory = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name;
+            uploadImgPath = __dirname + '/public/img/' + prefix + img.name;
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
 

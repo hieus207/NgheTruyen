@@ -2,6 +2,11 @@ import {UserModel} from "../models/UserModel.js"
 import jwt from 'jsonwebtoken'
 import { RefreshTokenModel } from "../models/RefreshTokenModel.js";
 
+export const register = async (req,res,next) => {
+    const user = await UserModel.create(req.body)
+    return res.status(200).json(user)
+}
+
 export const login = async (req,res,next) => {
     const user = await UserModel.findOne(req.body)
     if(!user){

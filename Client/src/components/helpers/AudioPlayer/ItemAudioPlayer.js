@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styles from "./audioPlayer.module.scss"
 
 const ItemAudioPlayer = React.memo(({isActive, onClick, url, id, index, manager=false, onUpdate=null, onDelete=null}) => {
@@ -7,7 +7,7 @@ const ItemAudioPlayer = React.memo(({isActive, onClick, url, id, index, manager=
     return(
         <div 
         className={clsx(styles.chapterItem,"j-between","d-flex",{
-        //   [styles.activeItem]:player.id == _url.id
+        //   [styles.activeItem]:player.id === _url.id
           [styles.activeItem]:isActive
         })} 
         
@@ -22,6 +22,7 @@ const ItemAudioPlayer = React.memo(({isActive, onClick, url, id, index, manager=
         {manager&&
         <span>
         <button onClick={()=>onUpdate(index)}>Sửa</button>
+        &nbsp;
         <button onClick={()=>onDelete(index)}>Xoá</button>
         </span>
         }

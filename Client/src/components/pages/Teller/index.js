@@ -1,27 +1,31 @@
 import clsx from 'clsx'
-import DefaultSection from '../../helpers/DefaultSection'
-import fakeStories from "../../../mocks/story.json"
-import useParams from "../../../hooks/useParams"
 import { useDispatch, useSelector } from 'react-redux';
 import { tellerSlice } from '../../../redux/reducers/tellerSlice';
-import { tellerStoriesState } from '../../../redux/selectors';
+import { tellersState, tellerSuccessState } from '../../../redux/selectors';
 import { useEffect } from 'react';
-import { useParams as useParam } from 'react-router-dom';
+import { TELLER } from '../../../constants';
+import TellerList from '../../helpers/TellerList';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 export default function Teller(){
-    const { tellerId } = useParam();
     const dispatch = useDispatch()
-    const stories = useSelector(tellerStoriesState)
-    const params = useParams("page","name")
+    const tellers = useSelector(tellersState)
+    const isSuccess = useSelector(tellerSuccessState)
     useEffect(()=>{
-        dispatch(tellerSlice.actions.getTellersStoriesRequest({id: tellerId, page: params.page}))
-    },[dispatch, tellerId, params.page])
+        dispatch(tellerSlice.actions.getTellersRequest({all:true}))
+    },[dispatch])
 
     return(
-        <div className={clsx("")}>
-            {stories && stories.data && <DefaultSection name={`Người đọc  ${params.name?params.name:""}`} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
-            {stories && stories.data && stories.data.length==0 && <>Không có kết quả</>}
-
+        <div className={clsx("mh-i")}>
+                <div className={clsx("section")}>
+                    <div className='title'>{TELLER}</div>
+                    <div hidden={isSuccess.getTellers>0}>
+                        <AiOutlineLoading3Quarters className='rotate loading'/>
+                    </div>
+                    {isSuccess.getTellers === 1 && tellers.length > 0 &&
+                    <TellerList data={tellers}/>
+                     }
+                </div>
         </div>
     )
 }

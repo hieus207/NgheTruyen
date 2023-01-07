@@ -1,0 +1,41 @@
+.subMenu {
+    font-size: 1rem;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    display: none;
+    min-width: 120px;
+    text-align: left;
+    z-index: 900;
+    padding: 10px;
+
+    background-color: #ffffff;
+    border-radius: 20px 10px 20px 20px;
+
+    &:hover {
+        
+        display: block;
+    }
+
+    
+}
+
+.avatar{
+    z-index: 900;
+    height: 60px;
+    border-radius: 10px 0 10px 0;
+    aspect-ratio: 3/4;
+    box-shadow: rgb(0 0 0 / 10%) 10px 10px 10px;
+
+
+}
+
+
+.subMenu:hover ~ .avatar {
+    border:  2px solid black;
+}
+
+.avatar:hover ~ .subMenu {
+    display: block;
+
+}

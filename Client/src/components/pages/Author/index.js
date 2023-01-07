@@ -1,29 +1,34 @@
 import clsx from 'clsx'
-import DefaultSection from '../../helpers/DefaultSection'
-import fakeStories from "../../../mocks/story.json"
-import { useParams as useParam } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { authorSlice } from '../../../redux/reducers/authorSlice';
-import { authorStoriesState } from '../../../redux/selectors';
-import useParams from '../../../hooks/useParams';
+import { authorsState, authorSuccessState } from '../../../redux/selectors';
+import { AUTHOR } from '../../../constants';
+import AuthorList from '../../helpers/AuthorList';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 export default function Author(){
-    const { authorId } = useParam();
     const dispatch = useDispatch()
-    const stories = useSelector(authorStoriesState)
-    const params = useParams("page","name")
-
+    const authors = useSelector(authorsState)
+    const isSuccess = useSelector(authorSuccessState)
 
     useEffect(()=>{
-        dispatch(authorSlice.actions.getAuthorStoriesRequest({id: authorId,page: params.page}))
-    },[dispatch,authorId, params.page])
-
+        dispatch(authorSlice.actions.getAuthorsRequest({all:true}))
+    },[dispatch])
+   
     return(
-        <div>
-            {stories && stories.data && <DefaultSection name={`Tác giả  ${params.name?params.name:""}`} data={stories.data} querry={false} currentPage={params.page} lastestPage={stories.lastestPage}/>}
-            {stories && stories.data && stories.data.length==0 && <>Không có kết quả</>}
+        <div className={clsx("mh-i")}>
 
+            
+                <div className={clsx("section")}>
+                    <div className='title'>{AUTHOR}</div>
+                    <div hidden={isSuccess.getAuthors > 0}>
+                        <AiOutlineLoading3Quarters className='rotate loading'/>
+                    </div>
+                    {isSuccess.getAuthors === 1 && authors.length > 0 &&
+                    <AuthorList data={authors}/>
+                    }
+                </div>
         </div>
     )
 }

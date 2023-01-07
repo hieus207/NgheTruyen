@@ -6,7 +6,7 @@ export default function StoryList({data,small=false}){
     return(
         <div className={clsx(styles.wrapper)}>
             {data && data.map(elm=>(
-                    <StoryCard key={elm.id} data={elm} small={small}/>
+                    <StoryCard key={elm._id} data={elm} small={small}/>
             ))}
         </div>
     )

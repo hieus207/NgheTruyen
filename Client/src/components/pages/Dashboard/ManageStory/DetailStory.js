@@ -3,14 +3,16 @@ import styles from "../dashboard.module.scss"
 import Image from "../../../helpers/Image"
 import AudioPlayer from '../../../helpers/AudioPlayer'
 import ConfirmDelete from '../../../helpers/ConfirmDelete'
-import EditChapterForm from '../../../helpers/EditChapterForm'
+import EditChapterForm from './EditChapterForm'
 import useModal from "../../../../hooks/useModal"
 import Modal from "../../../helpers/Modal"
-import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { storySlice } from '../../../../redux/reducers/storySlice'
 import { storiesState, storiesSuccessState } from '../../../../redux/selectors'
+import { AUTHOR, CHAPTER, CREATE_BTN, TELLER } from '../../../../constants'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 export default function DetailStory(){
     const {isShowing, toggle} = useModal();
     const { storyId } = useParams();
@@ -23,9 +25,9 @@ export default function DetailStory(){
     const story = useSelector(storiesState)
     const isSuccesss = useSelector(storiesSuccessState)
 
-    function RefreshData(){
+    const RefreshData = useCallback(()=>{
         setRefresh(!refresh)
-    }
+    },[refresh])
 
     function toggle2(){
         setIsShowing2(!isShowing2)
@@ -33,21 +35,20 @@ export default function DetailStory(){
 
     useEffect(()=>{
         dispatch(storySlice.actions.getStoryRequest(storyId))
-    },[dispatch,refresh])
+    },[dispatch, refresh, storyId])
 
     useEffect(()=>{
-        // if(isSuccess.deleteChapter + isSuccesss.addChapter + isSuccesss.editChapter>0)
-        if(isSuccesss.deleteChapter==1||isSuccesss.addChapter==1||isSuccesss.editChapter==1){
+        if(isSuccesss.deleteChapter ===1 ||isSuccesss.addChapter ===1 ||isSuccesss.editChapter === 1){
             RefreshData()
             dispatch(storySlice.actions.resetIsSuccess())
-            if(isSuccesss.deleteChapter==0)
+            if(isSuccesss.deleteChapter===0)
                 toggle()
         }
-    },[isSuccesss.deleteChapter,isSuccesss.addChapter,isSuccesss.editChapter])
+    },[dispatch, RefreshData, toggle, isSuccesss.deleteChapter, isSuccesss.addChapter, isSuccesss.editChapter])
 
 
     const onDeleteChapter = ()=>{
-        dispatch(storySlice.actions.deleteChapterRequest({id:storyId, chapterIndex:chapterIndex}))
+        dispatch(storySlice.actions.deleteChapterRequest({id:storyId, chapterIndex: chapterIndex}))
         toggle2()
     }
 
@@ -68,15 +69,24 @@ export default function DetailStory(){
 
     return(
         <>
+        <div hidden={story&&story.name}>
+            <AiOutlineLoading3Quarters className='rotate loading'/>
+        </div>
         {
         story&&
             <div className={clsx(" ",styles.dtWrapper)}>
-                <Image src={story.img} alt={'img for ' + story.name} normal/>
+                {story.name &&
+                <>
+                <div className="d-flex a-center">
+                <Image src={story.img} alt={'img for ' + story.name} normal className={["round"]}/>
+                </div>
+                
                 <div className={clsx(styles.rightContent)}>
                     <div><h3>{story.name}</h3></div>
-                    <div>Tác giả: {story.author}</div>
-                    <div>Giọng đọc: {story.teller}</div>
-                    {story.chapter&&
+                    <div>{AUTHOR}: {story.author}</div>
+                    <div>{TELLER}: {story.teller}</div>
+                    <div>&nbsp;</div>
+                    {isSuccesss.getStory===1 && story.chapter&&
                     <AudioPlayer urls={story.chapter} manager onUpdate={handleUpdate} onDelete={handleDelete}/>
                     }
                                         
@@ -84,8 +94,10 @@ export default function DetailStory(){
                     <Modal isShowing={isShowing2} hide={toggle2}>
                         <ConfirmDelete onCancel={toggle2} onConfirm={onDeleteChapter}/>
                     </Modal>
-                    <button onClick={handleAddChapter}>Thêm tập</button>
+                    <button onClick={handleAddChapter}>{`${CREATE_BTN} ${CHAPTER}`}</button>
                 </div>
+                </>
+                }
             </div>
         }
         </>

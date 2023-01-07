@@ -29,7 +29,7 @@ export const getStories = async (req,res) => {
         const docCount = await StoryModel.countDocuments(req.query.name===undefined?{}:{$text: {$search:req.query.name}}).exec();
  
 
-        const lastestPage = docCount % process.env.STORIES_PER_PAGE == 0 ? docCount / process.env.STORIES_PER_PAGE : Math.floor(docCount / process.env.STORIES_PER_PAGE) + 1
+        const lastestPage = docCount % process.env.STORIES_PER_PAGE === 0 ? docCount / process.env.STORIES_PER_PAGE : Math.floor(docCount / process.env.STORIES_PER_PAGE) + 1
 
         let rs = await Promise.all(stories.map(async (story) => {
             let author = await AuthorModel.findById(story.authorId)     
@@ -51,9 +51,24 @@ export const getStories = async (req,res) => {
 
 export const getStoriesRandom = async (req,res) => {
     try {
-        const stories = await StoryModel.aggregate([{ $sample: { size: parseInt(process.env.STORIES_PER_PAGE) } }])
-
-        res.status(200).json(stories)
+        let limit = process.env.STORIES_PER_PAGE
+        if(parseInt(req.query.limit)){
+            limit = parseInt(req.query.limit)
+        }
+        
+        const stories = await StoryModel.aggregate([{ $sample: { size: parseInt(limit)} }])
+        let rs = await Promise.all(stories.map(async (story) => {
+            let author = await AuthorModel.findById(story.authorId)     
+            let teller = await TellerModel.findById(story.tellerId)
+            let category = await CategoryModel.findById(story.categoryId)
+            return {
+                ...story,
+                author: author.name,
+                teller: teller.name,
+                category: category.name
+            }
+        }))
+        res.status(200).json(rs)
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -70,11 +85,22 @@ export const getStoriesMostView = async (req,res) => {
             limit = parseInt(req.query.limit)
         }
         const stories = await StoryModel.find().sort({"view":-1}).skip((page-1)*limit).limit(limit);
+        let rs = await Promise.all(stories.map(async (story) => {
+            let author = await AuthorModel.findById(story.authorId)     
+            let teller = await TellerModel.findById(story.tellerId)
+            let category = await CategoryModel.findById(story.categoryId)
+            return {
+                ...story._doc,
+                author: author.name,
+                teller: teller.name,
+                category: category.name
+            }
+        }))
         const docCount = await StoryModel.countDocuments().exec();
 
-        const lastestPage = docCount % limit == 0 ? docCount / limit : Math.floor(docCount / limit) + 1
+        const lastestPage = docCount % limit === 0 ? docCount / limit : Math.floor(docCount / limit) + 1
 
-        res.status(200).json({data: stories, lastestPage})
+        res.status(200).json({data: rs, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -91,10 +117,21 @@ export const getStoriesRecent = async (req,res) => {
             limit = parseInt(req.query.limit)
         }
         const stories = await StoryModel.find().sort({"createdAt":-1}).skip((page-1)*limit).limit(limit);
+        let rs = await Promise.all(stories.map(async (story) => {
+            let author = await AuthorModel.findById(story.authorId)     
+            let teller = await TellerModel.findById(story.tellerId)
+            let category = await CategoryModel.findById(story.categoryId)
+            return {
+                ...story._doc,
+                author: author.name,
+                teller: teller.name,
+                category: category.name
+            }
+        }))
         const docCount = await StoryModel.countDocuments().exec();
 
-        const lastestPage = docCount % limit == 0 ? docCount / limit : Math.floor(docCount / limit) + 1
-        res.status(200).json({data: stories, lastestPage})
+        const lastestPage = docCount % limit === 0 ? docCount / limit : Math.floor(docCount / limit) + 1
+        res.status(200).json({data: rs, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
     }
@@ -118,10 +155,11 @@ export const createStory = async (req,res) => {
         else{
       
             if(req.files.img){
+                let prefix = Date.now().toString().slice(-6)
                 img = req.files.img;
-                uploadImgPath = __dirname + '/img/' + img.name;
+                uploadImgPath = __dirname + '/public/img/' + prefix + img.name;
                 img.mv(uploadImgPath)
-                imgPath = "http://localhost:5000/img/"+img.name
+                imgPath = process.env.PATH_SAVE_IMG + "/" + prefix + img.name||"http://localhost:5000/img/"+img.name
                 
             }else{
                 imgPath = "https://secure.gravatar.com/avatar/36a7abced5c929ba7572c5ad29a6eff7?s=128&d=mm&r=g"
@@ -131,9 +169,10 @@ export const createStory = async (req,res) => {
             if(req.files.chapter){
                 chapter = [].concat(req.files.chapter);
                 chapter.forEach(chap => {
-                    uploadAudioPath = __dirname + '/audio/' + chap.name;
+                    let prefix = Date.now().toString().slice(-6)
+                    uploadAudioPath = __dirname + '/public/audio/' + prefix + chap.name;
                     chap.mv(uploadAudioPath)
-                    audioPath.push("http://localhost:5000/audio/"+chap.name);
+                    audioPath.push(process.env.PATH_SAVE_AUDIO+"/"+prefix + chap.name||"http://localhost:5000/audio/"+chap.name);
                 })
             }
         
@@ -163,10 +202,11 @@ export const updateStory = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name;
+            uploadImgPath = __dirname + '/public/img/' + prefix + img.name;
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
 
@@ -201,9 +241,10 @@ export const addChapter = async (req, res) => {
             if(req.files.chapter){
                 chapter = [].concat(req.files.chapter);
                 chapter.forEach(chap => {
-                    uploadAudioPath = __dirname + '/audio/' + chap.name;
+                    let prefix = Date.now().toString().slice(-6)
+                    uploadAudioPath = __dirname + '/public/audio/'+ prefix + chap.name;
                     chap.mv(uploadAudioPath)
-                    audioPath.push("http://localhost:5000/audio/"+chap.name);
+                    audioPath.push(process.env.PATH_SAVE_AUDIO+"/"+ prefix + chap.name||"http://localhost:5000/audio/"+chap.name);
                 })
             }
         }
@@ -230,10 +271,11 @@ export const editChapter = async (req, res) => {
             if(req.files.chapter){
                 chapter = [].concat(req.files.chapter);
                 chapter.forEach(chap => {
-                    uploadAudioPath = __dirname + '/audio/' + chap.name;
+                    let prefix = Date.now().toString().slice(-6)
+                    uploadAudioPath = __dirname + '/public/audio/' + prefix + chap.name;
                     chap.mv(uploadAudioPath)
                     
-                    audioPath.push("http://localhost:5000/audio/"+chap.name);
+                    audioPath.push(process.env.PATH_SAVE_AUDIO+"/"+ prefix + chap.name||"http://localhost:5000/audio/"+chap.name);
                 })
             }
         }
@@ -250,7 +292,7 @@ export const editChapter = async (req, res) => {
 export const deleteChapter = async (req, res) => {
     try {
         const story = await StoryModel.findById(req.params.id);
-        if(story.chap==1){
+        if(story.chap===1){
             return res.status(500).json({error: 'Minium chapter reached'})
         }
  

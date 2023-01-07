@@ -2,6 +2,8 @@
   text-align: center;
   box-sizing: border-box;
   background-color: #f0f2f5;
+  font-family: 'Nunito';
+  font-weight: 500;
 }
 
 .App-logo {
@@ -32,19 +34,27 @@ button {
 }
 
 .container {
-  margin-left: 10%;
-  margin-right: 10%;
-  min-height: calc(100vh - 260px) !important;  
-  background-color: #ffffff;
+  width: calc(100% - 170px);
+  min-height: calc(100vh - 115px) !important;  
+  height: auto;
+  background-color: #ebebeb;
+  padding-top: 15px;
+  flex-grow: 2;
+  transition: 1s;
 }
 
+
+
 .round_img{
-  border-radius: 20%;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  aspect-ratio: 1/1;
 }
 
 .left {
   float: left;
 }
+
 
 .clearfix::after {
   content: "";
@@ -77,8 +87,21 @@ button {
 }
 
 
+.m-20 {
+  margin: 20px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+
 .d-flex {
   display: flex;
+}
+
+.d-block {
+  display: block;
 }
 
 .flex-wrap {
@@ -104,6 +127,44 @@ button {
 .f-column {
   flex-direction: column;
 }
+
+.mh-i {
+  min-height: inherit
+}
+
+.v-m {
+  vertical-align: middle;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+/* ROUND */
+.round {
+  border-radius: 10px
+}
+.round_top {
+  border-radius: 10px 10px 0 0;
+}
+
+.round_bottom {
+  border-radius: 0 0 10px 10px;
+}
+
+.round_left {
+  border-radius: 10px 0 0 10px;
+}
+
+.round_right {
+  border-radius: 0 10px 10px 0;
+}
+
 
 /* MODAL */
 .modal-overlay {
@@ -168,9 +229,7 @@ button {
 }
 
 .section_name{
-  font-size: 1.2em;
-  border: 3px solid #C7BCA1;
-  font-weight: bold;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -179,15 +238,19 @@ button {
 .section_name_left{
   display: flex;
   align-items: center;
-  
+  font-family: 'NunitoBold';
+  font-weight: bolder;
+  font-size: 1.5rem;
 }
 
 .section_content {
   margin-top: 30px;
+  min-height: 80px;
+  position: relative;
 }
 
 .link {
-  font-weight: 500;
+  font-weight: bold;
   cursor: pointer;
   text-decoration: none;
   color: black;
@@ -196,11 +259,16 @@ button {
 .link_padding {
   padding: 20px;
 }
-/* ------------------- END SECTION -------------------------- */
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.absolute-middle {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+}
+
+.App-link {
+  color: #61dafb;
 }
 
 .App-header {
@@ -214,9 +282,73 @@ button {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* ------------------- END SECTION -------------------------- */
+
+.loading {
+  font-size: 30px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
 }
+
+.loading-relative {
+  font-size: 25px;
+  display: block;
+  margin: auto;
+}
+
+.helperText {
+  color: rgb(228, 35, 35);
+  font-size: 0.7em;
+  font-weight: 500;
+}
+.rotate{
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% { 
+    transform: rotate(0); 
+  }
+  100% { 
+    transform: rotate(360deg);
+  }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@media screen and (max-width:850px) {
+  .section_name_left{
+    font-size: 1.2em;
+  }
+  .link_padding {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width:550px) {
+  
+  .container{
+    margin: 0
+  }
+  .section_name_left{
+    font-size: 1.1em;
+  }
+  .title {
+    font-size: 0.9rem;
+  }
+  .link_padding{
+    padding: 5px;
+  }
+  
+}
+
+
 
 @keyframes App-logo-spin {
   from {
@@ -225,4 +357,14 @@ button {
   to {
     transform: rotate(360deg);
   }
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url("../assets/fonts/Nunito-Regular.ttf");
+}
+
+@font-face {
+  font-family: NunitoBold;
+  src: url("../assets/fonts/Nunito-Bold.ttf");
 }

@@ -11,7 +11,7 @@ export const getTellerStories = async (req,res) => {
         }
         const stories = await StoryModel.find({tellerId: req.params.id}).skip((page-1)*process.env.TELLER_STORIES_PER_PAGE).limit(process.env.TELLER_STORIES_PER_PAGE)
         const docCount = await StoryModel.countDocuments({tellerId: req.params.id}).exec();
-        const lastestPage = docCount % process.env.TELLER_STORIES_PER_PAGE == 0 ? docCount / process.env.TELLER_STORIES_PER_PAGE : Math.floor(docCount / process.env.TELLER_STORIES_PER_PAGE) + 1
+        const lastestPage = docCount % process.env.TELLER_STORIES_PER_PAGE === 0 ? docCount / process.env.TELLER_STORIES_PER_PAGE : Math.floor(docCount / process.env.TELLER_STORIES_PER_PAGE) + 1
 
         res.status(200).json({data: stories, lastestPage})
     } catch (err) {
@@ -27,12 +27,14 @@ export const getTellers = async (req,res) => {
         }
 
         if(req.query.all){
-            const tellers = await TellerModel.find({})
-            return  res.status(200).json(tellers)
+            if(Boolean(req.query.all)===true){
+                const tellers = await TellerModel.find({})
+                return  res.status(200).json(tellers)
+            }
         }
         const tellers = await TellerModel.find({}).skip((page-1)*process.env.TELLERS_PER_PAGE).limit(process.env.TELLERS_PER_PAGE)
         const docCount = await TellerModel.countDocuments({}).exec();
-        const lastestPage = docCount % process.env.TELLERS_PER_PAGE == 0 ? docCount / process.env.TELLERS_PER_PAGE : Math.floor(docCount / process.env.TELLERS_PER_PAGE) + 1
+        const lastestPage = docCount % process.env.TELLERS_PER_PAGE === 0 ? docCount / process.env.TELLERS_PER_PAGE : Math.floor(docCount / process.env.TELLERS_PER_PAGE) + 1
         res.status(200).json({data: tellers, lastestPage})
     } catch (err) {
         res.status(500).json({error: err})
@@ -51,10 +53,11 @@ export const createTeller = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name
+            uploadImgPath = __dirname + '/public/img/' + prefix + img.name
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
         // The name of the input field (i.e. "img") is used to retrieve the uploaded file
@@ -78,10 +81,11 @@ export const updateTeller = async (req,res) => {
             // console.log("K co file")
         }
         else{
+            let prefix = Date.now().toString().slice(-6)
             img = req.files.img;
-            uploadImgPath = __dirname + '/img/' + img.name;
+            uploadImgPath = __dirname + '/public/img/' + prefix + img.name;
             img.mv(uploadImgPath)
-            imgPath = "http://localhost:5000/img/"+img.name
+            imgPath = process.env.PATH_SAVE_IMG+"/" + prefix + img.name||"http://localhost:5000/img/"+img.name
             req.body.img = imgPath
         }
 
@@ -96,13 +100,9 @@ export const updateTeller = async (req,res) => {
 export const deleteTeller = async (req, res) => {
     try {
         const teller = await TellerModel.findById(req.params.id);
-        console.log("K LOI")
         const stories = await StoryModel.find({tellerId:teller._id})
-        console.log("K LOI 2")
         stories.forEach(story=>story.delete())
-        console.log("LOI")
         teller.delete()
-        
         res.status(200).json()
     } catch (error) {
         res.status(500).json({error})

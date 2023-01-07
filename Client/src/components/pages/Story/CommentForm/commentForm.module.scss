@@ -1,0 +1,47 @@
+.createComment {
+    display: flex;
+    // justify-content: center;
+    padding: 20px;
+    width: inherit;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 10%) 10px 10px 10px;
+    // width: 100% auto;
+}
+
+.leftCreateComment {
+    height: 100px;
+    width: auto;
+    @media screen and (max-width: 500px) {
+        height: 35px;
+    }
+}
+
+.rightCreateComment {
+    height: 145px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;    
+    width: 100%
+    
+}
+
+.senderName {
+    width: 200px;
+    padding-bottom: 10px;
+    font-size: 10;
+}
+
+.postButton {
+    position: relative;
+    float: right;    
+    bottom: 10px;
+}
+
+.textArea {
+    resize: none;
+}
+
+.helperText {
+    color: red !important;
+}
