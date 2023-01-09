@@ -3,6 +3,7 @@ import {createSlice} from "@reduxjs/toolkit"
 export const audioSlice = createSlice({
     name: 'audio',
     initialState: {
+        name: "",
         played: true,
         playing: false,
         id: "",
@@ -13,6 +14,7 @@ export const audioSlice = createSlice({
     reducers: {
         play: (state, action) =>{   
             state.close = false
+            state.name = action.payload.name
             if(state.id !== action.payload.id){
                 state.id = action.payload.id
                 state.chapter = action.payload.chapter

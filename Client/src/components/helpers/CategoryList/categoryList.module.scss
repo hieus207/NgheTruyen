@@ -21,9 +21,6 @@
     }
     transition: all 1s ease-in-out;
     @media screen and (max-width: 780px){
-        img{
-            display: none;
-        }
         margin-bottom: 10px;
     }
 }

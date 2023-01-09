@@ -5,9 +5,9 @@ import DefaultSection from '../../helpers/DefaultSection'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { storySlice } from '../../../redux/reducers/storySlice'
-import {  storiesRandomState, storiesMostViewState, storiesRecentState, categoriesState, allCategoriesState } from '../../../redux/selectors'
+import {  storiesRandomState, storiesMostViewState, storiesRecentState } from '../../../redux/selectors'
 import {AiOutlineLoading3Quarters} from "react-icons/ai"
-import { HOME_TITLE, STORY_MOSTVIEW, STORY_RANDOM, STORY_RECENT } from '../../../constants'
+import { HOME_TITLE, STORY_MOSTVIEW, STORY_RECENT } from '../../../constants'
 export default function Home(){
 
     const dispatch = useDispatch()
@@ -19,11 +19,16 @@ export default function Home(){
         dispatch(storySlice.actions.getStoriesMostViewRequest({page:1, limit: 6}))
         dispatch(storySlice.actions.getStoriesRandomRequest({limit: 12}))
         dispatch(storySlice.actions.getStoriesRecentRequest({page:1, limit: 6}))
-        // dispatch(categorySlice.actions.getCategoriesRequest({page:1, limit: 5})) //fetch in header
     },[dispatch])
 
     function exportSlideStory(a,b,c){
-        return a.slice(0,3).concat(b.slice(0,3).concat(c.slice(0,3)))
+        let result = a.slice(0,3).concat(b.slice(0,3).concat(c.slice(0,3)))
+        result = result.filter((value, index, self) =>
+            index === self.findIndex((t) => (
+                t.place === value.place && t.name === value.name
+            ))
+        )
+        return result
     }
 
     

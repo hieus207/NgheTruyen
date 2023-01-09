@@ -1,7 +1,3 @@
-import { createSelector } from "@reduxjs/toolkit"
-
-
-
 export const storiesState = (state) => state.story.data;
 export const storiesSuccessState = (state) => state.story.isSuccess;
 export const storiesRandomState = (state) => state.story.random;

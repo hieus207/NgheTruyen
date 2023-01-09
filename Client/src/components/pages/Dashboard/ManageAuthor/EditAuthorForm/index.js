@@ -8,7 +8,7 @@ import useInputObject from "../../../../../hooks/useInputObject"
 
 
 export default function EditAuthorForm({isEdit=false, _data=null, onSubmit}){
-    const [data, setData, setDataObj] = useInputObject(_data||{
+    const [data, setData] = useInputObject(_data||{
         name: "",
         username: "",
         birthDay: ""

@@ -17,7 +17,7 @@ const useParams = (...arr) => {
             }
         }
         
-    },[searchParams])
+    },[searchParams, arr])
 
     return params
 };

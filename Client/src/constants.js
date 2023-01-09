@@ -1,5 +1,5 @@
 //APP
-export const URL = "https://66.42.49.206:5000"
+export const URL = "http://66.42.49.206:5000"
 
 // COMMENT
 export const MIN_LENGTH_COMMENT_SENDER = 6
@@ -25,7 +25,7 @@ export const DASHBOARD = "Bảng Điều Khiển"
 
 
 // STORY
-export const MIN_LENGTH_STORY_NAME = 10
+export const MIN_LENGTH_STORY_NAME = 5
 export const MAX_LENGTH_STORY_NAME = 50
 export const MIN_LENGTH_STORY_DESC = 10
 export const STORY_RECENT = "Truyện mới cập nhật"

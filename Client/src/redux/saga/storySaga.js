@@ -71,7 +71,7 @@ function* updateStorySaga(action){
 
 function* deleteStorySaga(action){
     try {
-        const story = yield call(api.deleteStory, action.payload)
+        yield call(api.deleteStory, action.payload)
         yield put(storySlice.actions.deleteStorySuccess())
     } catch (error) {
         yield put(storySlice.actions.deleteStoryFailure(error))
@@ -100,7 +100,7 @@ function* editChapterSaga(action){
 
 function* deleteChapterSaga(action){
     try {
-        const story = yield call(api.deleteChapter, action.payload)
+        yield call(api.deleteChapter, action.payload)
         yield put(storySlice.actions.deleteChapterSuccess())
     } catch (error) {
         yield put(storySlice.actions.deleteChapterFailure(error))

@@ -28,12 +28,16 @@ const useAudio = (url, callbackEnd) => {
         // Destroyplayer
         player.source.pause();
     }
-  },[player])
+  },[player, callbackEnd])
 
   const controller = {
     setCurrentTimeAudio(currentTime){
       player.source.currentTime = currentTime
     },
+    setVolumeAudio(volume){
+      player.source.volume = volume
+    }
+    ,
     getCurrentTimeAudio(){
       return player.source.currentTime
     },

@@ -28,7 +28,7 @@ export default function Story() {
     },[refresh])
 
     const handlePlay = (chapterId) => {
-        dispatch(audioSlice.actions.play({ id: storyId, chapter: story.chapter, chapterId }))
+        dispatch(audioSlice.actions.play({ name:story.name, id: storyId, chapter: story.chapter, chapterId }))
     }
 
     const handlePause = () => {

@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import { useRef } from "react"
 import styles from "./profileCard.module.scss"
 import Image from "../../helpers/Image"
 import { logout } from "../../../api"
@@ -8,7 +7,7 @@ import Link from "../../helpers/Link"
 import axios from "axios"
 import { userSlice } from "../../../redux/reducers/userSlice"
 import { DASHBOARD, LOGOUT } from "../../../constants"
-// import React from 'react'
+
 const ProfileCard = ({ data }) => {
     
     const dispatch = useDispatch()

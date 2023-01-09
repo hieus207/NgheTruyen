@@ -1,5 +1,4 @@
-import clsx from "clsx"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { login } from "../../../api"
 import {Md5} from 'ts-md5';
 import {useDispatch} from "react-redux"

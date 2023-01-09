@@ -1,5 +1,3 @@
-
-import clsx from "clsx"
 import { useState } from "react"
 import {useDispatch} from "react-redux"
 import { TextField } from "@mui/material"
@@ -10,7 +8,7 @@ import useInputObject from "../../../../../hooks/useInputObject"
 
 
 export default function EditCategoryForm({isEdit=false, _data=null, onSubmit}){
-    const [data, setData, setDataObj] = useInputObject(_data||{
+    const [data, setData] = useInputObject(_data||{
         name: ""
     })
 

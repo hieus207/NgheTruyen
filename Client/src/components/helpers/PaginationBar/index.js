@@ -9,9 +9,9 @@ const PaginationBar = ({currentPage, lastestPage}) => {
     function generLink(pageNumber){
         let params = location.search
         const pagePosition = params.indexOf("page")
-        if(pagePosition!=-1){
+        if(pagePosition !== -1){
             const endPagePosition = params.indexOf("&",pagePosition+1)//-1 //!=-1
-            if(endPagePosition!=-1){
+            if(endPagePosition !== -1){
                 params = (params.slice(0, pagePosition)+"page="+pageNumber+params.slice(endPagePosition))
             }
             else{

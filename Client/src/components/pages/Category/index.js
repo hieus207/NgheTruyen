@@ -12,7 +12,7 @@ export default function Category(){
     const categories = useSelector(categoriesState)
     useEffect(()=>{
         dispatch(categorySlice.actions.getCategoriesRequest({all:true}))
-    },[])
+    },[dispatch])
 
     return(
         <div className={clsx("mh-i")}>

@@ -13,7 +13,7 @@ export default function Comment({data}){
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.body)}>
                 <div className={clsx(styles.leftComment)}>
-                    <img className={clsx(styles.avt,"round")} src={data.avatar}/>
+                    <img className={clsx(styles.avt,"round")} alt={"img for"+data.senderName} src={data.avatar}/>
                 </div>
                 
                 <div className={clsx(styles.rightComment)}>
@@ -42,7 +42,7 @@ export default function Comment({data}){
                 return(
                     <div key={"scmt"+index} className={clsx(styles.subWrapper)}>
                         <div className={clsx(styles.leftComment)}>
-                            <img className={clsx(styles.avt,"round")} src={scmt.avatar}/>
+                            <img className={clsx(styles.avt,"round")} alt={"img for"+scmt.senderName} src={scmt.avatar}/>
                         </div>
                         
                         <div className={clsx(styles.rightComment)}>

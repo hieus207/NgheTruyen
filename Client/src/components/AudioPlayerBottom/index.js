@@ -2,7 +2,7 @@ import clsx from "clsx"
 import {  useEffect, useState } from "react"
 import ProgressBar from "../helpers/ProgressBar"
 import styles from "./audio.module.scss"
-import {IoPlay, IoPause, IoPlayBack, IoPlayForward, IoPlaySkipBack, IoPlaySkipForwardSharp, IoCaretDownOutline} from "react-icons/io5"
+import {IoPlay, IoPause, IoPlayBack, IoPlayForward, IoPlaySkipBack, IoPlaySkipForwardSharp, IoCaretDownOutline, IoVolumeMedium} from "react-icons/io5"
 import {BsFillCaretUpFill} from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
 import { audioState } from "../../redux/selectors"
@@ -11,9 +11,12 @@ import delay from "../utils/delay"
 import { audioSlice } from "../../redux/reducers/audioSlice"
 import secondsToTimeData from "../utils/secondsToTimeData"
 import { CHAPTER } from "../../constants"
+import Link from "../helpers/Link"
 
 export default function AudioPlayerBottom(){
     const [currentVal,setCurrentVal] = useState(0)
+    const [currentVolume,setCurrentVolume] = useState(50)
+
     const [collapse, setCollapse] = useState(true)
 
     const audioEndCall = async()=>{
@@ -84,6 +87,12 @@ export default function AudioPlayerBottom(){
         let currentTime = controller.getDurationAudio() * currentTimePercent/100
         controller.setCurrentTimeAudio(currentTime)
         setCurrentVal(currentTimePercent)
+    }
+
+    const setVolumePercentAudio = (currentVolumePercent) => {
+        controller.setVolumeAudio(currentVolumePercent/100)
+        setCurrentVolume(currentVolumePercent)
+
     }
 
     const handleMouseUp = (e) => {
@@ -160,35 +169,43 @@ export default function AudioPlayerBottom(){
             [styles.close]: audio.close
         })} onMouseDown={handleMouseUp} onMouseUp={handleMouseOut} onMouseLeave={handleMouseOut}>
             <ProgressBar currentVal={currentVal} onClickBar={setTimePercentAudio} />
-       
             <div className={clsx(styles.timeAudioLeft)}>{loadedMetaData?secondsToTimeData(Math.ceil(controller.getCurrentTimeAudio())):"00:00"}</div>
             <div className={clsx(styles.timeAudioRight)}>{loadedMetaData?secondsToTimeData(Math.ceil(controller.getDurationAudio())):"00:00"}</div>
-           
-            <div className={clsx(styles.controller)}>
-                <div className={clsx(styles.btn,{
-                        [styles.btnDisabled] : audio.chapterId===0
-                    })} onClick={skipBackAudio}>
-                    <IoPlaySkipBack className={clsx("v-m")} />
+                <div className={clsx(styles.audioName,"link")}>
+                    <Link to={`/story/${audio.id}`}>{audio.name}</Link>
                 </div>
-                <div className={clsx(styles.btn)} onClick={playBackAudio}>
-                    <IoPlayBack className="v-m"/>
+                <div className={clsx(styles.controller)}>
+                    <div className={clsx(styles.btn,{
+                            [styles.btnDisabled] : audio.chapterId===0
+                        })} onClick={skipBackAudio}>
+                        <IoPlaySkipBack className={clsx("v-m")} />
+                    </div>
+                    <div className={clsx(styles.btn)} onClick={playBackAudio}>
+                        <IoPlayBack className="v-m"/>
+                    </div>
+                    <div className={clsx(styles.playButton)} onClick={audio.playing?handlePause:handlePlay}>
+                        {audio.playing?<IoPause/>:<IoPlay/>}
+                    </div>
+                    <div className={clsx(styles.btn)} onClick={playForwadAudio}>
+                        <IoPlayForward className="v-m" />
+                    </div>
+                    <div className={clsx(styles.btn,{
+                            [styles.btnDisabled] : audio.chapterId === audio.chapter.length-1
+                        })} onClick={skipFowardAudio}>
+                        <IoPlaySkipForwardSharp className={clsx("v-m")}/>
+                    </div>
                 </div>
-                <div className={clsx(styles.playButton)} onClick={audio.playing?handlePause:handlePlay}>
-                    {audio.playing?<IoPause/>:<IoPlay/>}
+            <div className={clsx(styles.volumeWrapper,"d-flex","a-center")}>
+                <div className={clsx(styles.btn,styles.iconVolume)} onClick={playForwadAudio}>
+                    <IoVolumeMedium className="v-m" />
                 </div>
-                <div className={clsx(styles.btn)} onClick={playForwadAudio}>
-                    <IoPlayForward className="v-m" />
-                </div>
-                <div className={clsx(styles.btn,{
-                        [styles.btnDisabled] : audio.chapterId === audio.chapter.length-1
-                    })} onClick={skipFowardAudio}>
-                    <IoPlaySkipForwardSharp className={clsx("v-m")}/>
+                <div className={clsx(styles.volumeBar)}>
+                    <ProgressBar currentVal={currentVolume} onClickBar={setVolumePercentAudio} />
                 </div>
             </div>
             <div className={clsx(styles.Collapse)}>
                     {collapse?<BsFillCaretUpFill className="v-m" onClick={()=>setCollapse(!collapse)}/>:<IoCaretDownOutline className="v-m" onClick={()=>setCollapse(!collapse)}/>}
             </div>
-            
             <div className={clsx(styles.chapterWrapper)}>
                 {audio.chapter.length > 0 && audio.chapter.map((data,index) => 
                     <div key={"tap"+index} className={clsx(styles.chapterItem,{
@@ -198,8 +215,6 @@ export default function AudioPlayerBottom(){
                     </div>
                 )}
             </div>
-            
-            
         </div>
     )
 }
