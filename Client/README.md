@@ -1,7 +1,7 @@
 My first Audio Stories site using Reactjs and Expressjs
 
 Nghe Doc Truyen App live demo: 
-https://nghedoctruyen.netlify.app/
+http://nghetruyen.000webhostapp.com/
 
 ###
 Installation
